@@ -1,4 +1,4 @@
-# IoT-Data-Collection
+# IoT Data Collection
 This is an IoT Data Collection project using LoRa, NodeJS and Firebase
 
 ## How to use repository
@@ -12,3 +12,4 @@ This is an IoT Data Collection project using LoRa, NodeJS and Firebase
 4. `npm i express-handlebars`
 5. `npm i method-override`
 6. `npm i firebase@8.10.0`
+7. `npm i node-sass`

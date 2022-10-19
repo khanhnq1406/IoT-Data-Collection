@@ -15,3 +15,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
 ```
 ## Solution 2
 Remove ng.ps1(respective ps1 file) from the directory C:\Users< username >\AppData\Roaming\npm\ then try clearing the npm cache at C:\Users< username >\AppData\Roaming\npm-cache..
+
+# "Error: listen EADDRINUSE: address already in use :::3000"
+## Solution
+`taskkill /f /im node.exe` and restart node server

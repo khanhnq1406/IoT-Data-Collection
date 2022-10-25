@@ -1,6 +1,6 @@
 const fb = require("firebase");
 const notifier = require('node-notifier');
-
+const url = require('url');
 class MonitorController 
 {
     // [GET] /
@@ -19,11 +19,12 @@ class MonitorController
             });
         }
         else {
-            notifier.notify({
-                message: 'Hello!',
-                wait: true
-            });
-            res.redirect('/');
+            res.redirect(url.format({
+                pathname: "/",
+                query: {
+                    "notYetLogin": true,
+                }
+            }));
         }
     }
     // [GET] /addTemp

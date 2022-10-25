@@ -3,13 +3,18 @@
     <h1>Login</h1>
     <form method="POST" action="/login">
       {{#if isLoginFail}}
-      <div class="alert alert-danger" role="alert">
-        Invalid username or password
-      </div>
+        <div class="alert alert-danger" role="alert">
+          Invalid username or password
+        </div>
       {{/if}}
       {{#if justSignup}}
         <div class="alert alert-success" role="alert">
           Your account has been created
+        </div>
+      {{/if}}
+      {{#if notYetLogin}}
+        <div class="alert alert-warning" role="alert" >
+          Please login first
         </div>
       {{/if}}
       <div class="txt_field">

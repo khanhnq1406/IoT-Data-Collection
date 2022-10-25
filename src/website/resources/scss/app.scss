@@ -153,16 +153,27 @@ input[type="submit"]:hover{
 }
 
 // chart
-.chart_body {
-  margin: 50;
-  padding: 0;
-  background: linear-gradient(120deg,#2980b9, #8e44ad);
-  height: 100vh;
-  overflow: hidden;
-}
+// .chart_body {
+//   margin: 50;
+//   padding: 0;
+//   background: linear-gradient(120deg,#2980b9, #8e44ad);
+//   height: 100vh;
+//   overflow: hidden;
+// }
 .chart {
   position: absolute;
   left: 10%;
-  top: 40%;
+  top: 9%;
   width: 1200px;
 }
+
+// button close
+.buttonClose {
+  position: absolute;
+  border: none;
+  font-size: 18px;
+  background-color: #fff3cd; 
+  color: #664d03;
+  left: 89%;
+}
+

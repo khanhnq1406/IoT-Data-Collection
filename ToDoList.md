@@ -5,8 +5,8 @@
 - [ ] Hashing password
 # Doing
 - [ ] Draw real-time chart
-- [ ] Pop-up "Please login first" message
 # Done
+- [x] Pop-up "Please login first" message
 - [x] Connect to database (Firestore)
 - [x] Design login page form
 - [x] Design signup page form

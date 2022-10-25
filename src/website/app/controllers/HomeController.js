@@ -1,5 +1,6 @@
 const fb = require("firebase");
-const generateString = require("../../utils/GenerateString")
+const generateString = require("../../utils/GenerateString");
+const url = require('url');
 require("firebase/firestore");
 class HomeController 
 {
@@ -10,7 +11,14 @@ class HomeController
         if (req.session.loggedin)
             res.render('home');
         else
-            res.render('login');
+            if (req.query.notYetLogin) {
+                res.render('login', {
+                    notYetLogin: true,
+                });
+            }
+            else {
+                res.render('login');
+            }
     }
 
     // [POST] /login
@@ -63,9 +71,12 @@ class HomeController
                     }
                 });
                 if (isInvalid) {
-                    res.render('signup', {
-                        isInvalid: true,
-                    });
+                    res.redirect(url.format({
+                        pathname: "/signup",
+                        query: {
+                            "isInvalid": true,
+                        }
+                    }));
                 }
                 else
                 {
@@ -90,7 +101,21 @@ class HomeController
     // [GET] /signup
     signup(req, res, next) 
     {
-        res.render('signup');
+        const username = req.query.username;
+        if (req.query.isDiffPassword){
+            res.render('signup', {
+                isDiffPassword: true,
+                username: username
+            });
+        }
+        else if (req.query.isInvalid) {
+            res.render('signup', {
+                isInvalid: true,
+            });
+        }
+        else {
+            res.render('signup');
+        }
     }
 
     logout(req, res, next)

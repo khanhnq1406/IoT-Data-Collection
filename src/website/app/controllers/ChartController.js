@@ -1,5 +1,5 @@
 const fb = require("firebase");
-
+const url = require('url');
 class ChartController 
 {
     // [GET] /
@@ -9,7 +9,12 @@ class ChartController
            res.render("chart");
         }
         else {
-            res.redirect('/');
+            res.redirect(url.format({
+                pathname: "/",
+                query: {
+                    "notYetLogin": true,
+                }
+            }));
         }
     }
 }

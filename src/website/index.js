@@ -3,15 +3,12 @@ const express = require('express');
 // const morgan = require('morgan');
 const methodOverride = require('method-override');
 const { engine } = require('express-handlebars');
+const session = require('express-session');
 const app = express();
 const port = 3000;
 
 const route = require('./routes');
 const db = require('./config/db/configDB');
-
-
-//Connect to db
-// db.connect();
 
 //Process static file (add image)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -27,6 +24,11 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
 //Template engine
 app.engine('hbs', engine({
   extname: '.hbs', //config name of file .handlebars

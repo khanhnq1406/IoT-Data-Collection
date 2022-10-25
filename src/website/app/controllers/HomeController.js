@@ -1,34 +1,103 @@
 const fb = require("firebase");
-
+const generateString = require("../../utils/GenerateString")
+require("firebase/firestore");
 class HomeController 
 {
     // [GET] /
     index(req, res, next) 
     {
-        const firebaseDB = fb.database();
-        const firebaseRef = firebaseDB.ref("Temperature");
-        const data = [];
-        firebaseRef.on("value", function(snapshot) {
-            snapshot.forEach(function(element){
-                data.push({dateTime: element.key, temperature: element.val()});
-            });
-            res.render('home', {
-                pageData: data
-            });
-            // res.send(data);
-        })
+        console.log(req.session.loggedin);
+        if (req.session.loggedin)
+            res.render('home');
+        else
+            res.render('login');
     }
-    // [GET] /add
-    addTemperature(req, res) {
-        const today = new Date();   
-        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        const dateTime = date+' '+time;
-        const firebaseDB = fb.database();
-        const temperature = (Math.random() * (99 - 10) ) + 10;
-        firebaseDB.ref("Temperature").child(dateTime).set(Number(temperature.toFixed(2)));
-        res.send('Add successfully');
-    }
-}
 
-module.exports = new HomeController;
+    // [POST] /login
+    login(req, res, next)
+    {
+        const formData = req.body;
+        const username = formData.username;
+        const password = formData.password;
+        console.log(formData)
+        const db = fb.firestore();
+        db.collection("users").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                if (username === doc.data().username && password === doc.data().password)
+                {
+                    req.session.loggedin = true;
+                    req.session.username = username;
+                }
+            });
+            if (req.session.loggedin)
+                res.render('home');
+            else
+                res.render('login', {
+                    isLoginFail: true,
+                });
+        });
+        // res.send(data)
+    }
+
+    // [POST] /addUsers
+    addUsers(req, res, next) {
+        const username = req.body.username;
+        const password = req.body.password;
+        const retypePassword = req.body.retypePassword;
+        if (password !== retypePassword)
+        {
+            res.render('signup', {
+                isDiffPassword: true,
+                username: username
+            });
+        }
+        else {
+            // Add data
+            const firestoreDB = fb.firestore();
+            let isInvalid = false;
+            firestoreDB.collection("users").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    if (username === doc.data().username)
+                    {
+                        isInvalid = true;
+                    }
+                });
+                if (isInvalid) {
+                    res.render('signup', {
+                        isInvalid: true,
+                    });
+                }
+                else
+                {
+                    firestoreDB.collection("users").add({
+                        username: username,
+                        password: password,
+                    })
+                    .then((docRef) => {
+                        console.log("Document written with ID: ", docRef.id);
+                    })
+                    .catch((error) => {
+                        console.error("Error adding document: ", error);
+                    });
+                    res.render('login',{
+                        justSignup: true
+                    });
+                }
+            });     
+        }
+    }
+
+    // [GET] /signup
+    signup(req, res, next) 
+    {
+        res.render('signup');
+    }
+
+    logout(req, res, next)
+    {
+        req.session.loggedin = false;
+        res.redirect('/');
+    }
+    
+}
+module.exports = new HomeController();

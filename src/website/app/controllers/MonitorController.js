@@ -8,8 +8,9 @@ class MonitorController
     {
         if (req.session.loggedin) {
             const db = fb.firestore();
-            const data = []
-            db.collection("temperature").get().then((querySnapshot) => {
+            const data = [];
+            const firestoreRef = db.collection("temperature").orderBy("dateTime", 'desc');
+            firestoreRef.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     data.push({dateTime: doc.data().dateTime, temperature: doc.data().temperature});
                 });

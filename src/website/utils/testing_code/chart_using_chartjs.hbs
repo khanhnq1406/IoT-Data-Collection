@@ -27,7 +27,7 @@
       const data = {
           labels: labels,
           datasets: [{
-            label: 'Temperature',
+            label: 'My First dataset',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: [],
@@ -60,6 +60,7 @@
           data: data,
           options:options,
       });
+
       function addData(chart, label, data) {
           chart.data.labels.push(label);
           chart.data.datasets.forEach((dataset) => {
@@ -67,29 +68,23 @@
           });
           chart.update();
       }
-      const firestoreRef = db.collection("temperature").orderBy("dateTime", 'asc');
-
-      firestoreRef.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-                addData(myChart ,doc.data().dateTime, doc.data().temperature);
-              })
-      }); 
-
       let dataFirestore = [];
       let currentDataLength = 0;
       let pastDataLength = 0;
+      currentDataLength = 0;
+     
       setInterval(function() {
-        firestoreRef.get().then((querySnapshot) => {
+        db.collection("temperature").get().then((querySnapshot) => {
           if (currentDataLength < querySnapshot.size) {
           currentDataLength = 0;
           querySnapshot.forEach((doc) => {
               currentDataLength++;
-              if (currentDataLength === querySnapshot.size - 1) {
-                addData(myChart ,doc.data().dateTime, doc.data().temperature);
-              }
+              addData(myChart ,doc.data().dateTime, doc.data().temperature);
+              dataFirestore.push({dateTime: doc.data().dateTime, temperature: doc.data().temperature});
             });
+            console.log(dataFirestore);
           }
-        }) 
-      }, 1000);
+        }); 
+      }, 2000);
     </script>
   </div>

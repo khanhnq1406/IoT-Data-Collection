@@ -13,7 +13,17 @@ const appInit = {
   measurementId: "G-J4TKHJE6KV"
 };
 
-fb.initializeApp(appInit);
+const appInit2 = {
+  apiKey: "AIzaSyCCMle_JkmnDA6A0aKU_7cZt5zZE905ggI",
+  authDomain: "iot-data-collection-5d7a4.firebaseapp.com",
+  databaseURL: "https://iot-data-collection-5d7a4-default-rtdb.firebaseio.com",
+  projectId: "iot-data-collection-5d7a4",
+  storageBucket: "iot-data-collection-5d7a4.appspot.com",
+  messagingSenderId: "362954911615",
+  appId: "1:362954911615:web:79fd295a9168908112f44a",
+  measurementId: "G-F2GDXMVXLY"
+}
+fb.initializeApp(appInit2);
 
 const firebaseDB = fb.database();
 // firebaseDB.ref("theText").set("hello");

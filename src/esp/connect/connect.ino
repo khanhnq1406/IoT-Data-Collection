@@ -1,17 +1,32 @@
 #include <WiFi.h>
 #include <WebSocketClient.h>
- 
-const char* ssid     = "#######";
-const char* password = "####";
- 
+#include <string.h>
+#define LED  23
+struct wifiStruct {
+// Home
+const char* homeSsid = "Moc My";
+const char* homePassword = "123456789";
+char *homeHost = "192.168.1.112";
+// Boarding House
+const char* boardingSsid = "TP-LINK_D7E0";
+const char* boardingPassword = "79377393";
+char *boardingHost = "192.168.1.100";
+};
+
+struct wifiStruct wifiConfig;
+const char* ssid     = wifiConfig.boardingSsid;
+const char* password = wifiConfig.boardingPassword;
+
+
 char path[] = "/";
-char host[] = "192.168.#.##";
- 
+char *host = wifiConfig.boardingHost;
+
+const int PORT = 1406;
 WebSocketClient webSocketClient;
 WiFiClient client;
 
 void connnect(){
-   if (client.connect(host, 5000)) {
+   if (client.connect(host, PORT)) {
     Serial.println("Connected");
   } else {
     Serial.println("Connection failed.");
@@ -48,22 +63,31 @@ void setup() {
  
 void loop() {
   String data;
- 
+  const String ON = "ON";
+  const String OFF = "OFF"; 
   if (client.connected()) {
- 
-    webSocketClient.sendData("Info to be echoed back");
- 
+    Serial.println("Server connected");
+    
+    webSocketClient.sendData("Waiting get data...");
     webSocketClient.getData(data);
     if (data.length() > 0) {
       Serial.print("Received data: ");
       Serial.println(data);
+      if (data == ON) {
+        webSocketClient.sendData("#TurnedOn");
+        digitalWrite(LED,HIGH);
+      }
+      if (data == OFF) {
+        webSocketClient.sendData("#TurnedOff");
+        digitalWrite(LED,LOW);
+      }
     }
  
   } else {
     Serial.println("Client disconnected.");
     connnect();
   }
+  delay(1000);
  
-  delay(3000);
  
 }

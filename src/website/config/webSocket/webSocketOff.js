@@ -1,5 +1,5 @@
-var WebSocketServer = require("websocket").server;
-var http = require("http");
+const WebSocketServer = require("websocket").server;
+const http = require("http");
 
 var server = http.createServer(function (request, response) {
   console.log(new Date() + " Received request for " + request.url);
@@ -10,7 +10,7 @@ server.listen(1406, function () {
   console.log(new Date() + " Server is listening on port 3000");
 });
 
-wsServer = new WebSocketServer({
+const wsServer = new WebSocketServer({
   httpServer: server,
   // You should not use autoAcceptConnections for production
   // applications, as it defeats all standard cross-origin protection
@@ -36,14 +36,17 @@ wsServer.on("request", function (request) {
     return;
   }
 
-  var connection = request.accept(null, request.origin);
+  let connection = request.accept(null, request.origin);
   console.log(new Date() + " Connection accepted.");
-
   connection.on("message", function (message) {
     if (message.type === "utf8") {
       console.log("Received Message: " + message.utf8Data);
       //connection.sendUTF(message.utf8Data); this resend the reseived message, instead of it i will send a custom message. hello from nodejs
-      connection.sendUTF("Hello from node.js");
+      connection.sendUTF("OFF");
+      if (String(message.utf8Data) === "#TurnedOff") {
+        connection.close();
+        server.close();
+      }
     } else if (message.type === "binary") {
       console.log(
         "Received Binary Message of " + message.binaryData.length + " bytes"
@@ -51,7 +54,6 @@ wsServer.on("request", function (request) {
       connection.sendBytes(message.binaryData);
     }
   });
-
   connection.on("close", function (reasonCode, description) {
     console.log(
       new Date() + " Peer " + connection.remoteAddress + " disconnected."

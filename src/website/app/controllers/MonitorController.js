@@ -6,7 +6,7 @@ class MonitorController {
   index(req, res, next) {
     if (req.session.loggedin) {
       const firebaseDB = fb.database();
-      const firebaseRef = firebaseDB.ref("Temperature").orderByChild("down");
+      const firebaseRef = firebaseDB.ref("Temperature");
       const data = [];
       firebaseRef.on("value", function (snapshot) {
         snapshot.forEach(function (element) {
@@ -29,7 +29,7 @@ class MonitorController {
     }
   }
   // [GET] /addTemp
-  addTemperature(req, res) {
+  addTemperature(req, res, next) {
     const today = new Date();
     const date =
       today.getFullYear() +
@@ -46,7 +46,7 @@ class MonitorController {
       .ref("Temperature")
       .child(dateTime)
       .set(Number(temperature.toFixed(2)));
-    res.send("Add successfully");
+    res.send("");
   }
 }
 

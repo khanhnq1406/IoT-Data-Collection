@@ -138,6 +138,21 @@ input[type="submit"]:hover {
   color: #e9f4fb;
   font-weight: bold; }
 
+.display-2 {
+  position: absolute;
+  left: 42.5%;
+  top: 40%;
+  transform: translate(-50%, 0);
+  color: #e9f4fb;
+  animation: ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both; }
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none; }
+  50% {
+    transform: none; } }
+
 .fw-normal {
   position: absolute;
   left: 50%;
@@ -164,3 +179,57 @@ input[type="submit"]:hover {
   position: absolute;
   left: 10%;
   top: 10%; }
+
+.turned * {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 48.5%;
+  top: 30%; }
+
+.turned .checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+
+.turned .checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both; }
+
+.turned .checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0; } }
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none; }
+  50% {
+    transform: scale3d(1.1, 1.1, 1); } }
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142; } }
+
+.go-to-control {
+  position: absolute;
+  left: 47%;
+  top: 53%; }

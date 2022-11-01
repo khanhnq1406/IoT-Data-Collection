@@ -1,7 +1,5 @@
 # To-Do
 
-- [ ] Design monitor page form
-- [ ] Design control page form
 - [ ] Hashing password
 - [ ] Limit value of table
 - [ ] Find by date of table
@@ -10,10 +8,11 @@
 
 # Doing
 
-- [ ] Connect to ESP using WebSocket
-
 # Done
 
+- [x] Design monitor page form
+- [x] Design control page form
+- [x] Connect to ESP using MQTT
 - [x] Draw real-time chart
 - [x] Pop-up "Please login first" message
 - [x] Connect to database (Firestore)

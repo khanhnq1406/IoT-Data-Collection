@@ -1,7 +1,29 @@
 <body class="home">
   <div class="control">
-    <a class="btn btn-primary" href="/control/turnOn" role="button">Turn On</a>
-    <a class="btn btn-primary" href="/control/turnOff" role="button">Turn Off</a>
-
+    {{#if hasturnedOn}}
+      <div class="card" style="width: 18rem;">
+        <img
+          src="https://img.freepik.com/free-vector/realistic-light-bulb-with-electricity_23-2149129410.jpg?w=2000"
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h5 class="card-title">lightbulb</h5>
+          <p class="card-text">Click to change status of lightbulb</p>
+          <a class="btn btn-primary" href="/control/turning">Turn Off</a>
+        </div>
+      </div>
+    {{else}}
+      <div class="card" style="width: 18rem;">
+        <img
+          src="https://images.fineartamerica.com/images-medium-large-5/lightbulb-science-photo-library.jpg"
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h5 class="card-title">lightbulb</h5>
+          <p class="card-text">Click to change status of lightbulb</p>
+          <a class="btn btn-primary" href="/control/turning">Turn On</a>
+        </div>
+      </div>
+    {{/if}}
   </div>
 </body>

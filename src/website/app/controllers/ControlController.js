@@ -3,11 +3,41 @@ const url = require("url");
 const WebSocketServer = require("websocket").server;
 const http = require("http");
 const { response } = require("express");
+const mqtt = require("mqtt");
 class ControlController {
   // [GET] /
   index(req, res, next) {
     if (req.session.loggedin) {
-      res.render("control");
+      var mqtt = require("mqtt");
+      var client = mqtt.connect("mqtt://io.adafruit.com", {
+        username: "khanhnq1406",
+        password: "aio_SLVp61QtyK1ZmJJuDUM7Cn8SB2cb",
+      });
+      var mqtttopic = `${client.options.username}/f/mqtt-server`;
+      client.on("connect", function () {
+        console.log("connected");
+        client.subscribe(mqtttopic, function (err) {
+          if (!err) {
+            console.log("subscribed");
+            client.publish(mqtttopic, "#checkStatus");
+          }
+        });
+      });
+
+      client.on("message", function (topic, message) {
+        console.log(message.toString());
+        if (message.toString() === "#hasturnedOn") {
+          client.end();
+          res.render("control", {
+            hasturnedOn: true,
+          });
+        } else if (message.toString() === "#hasturnedOff") {
+          client.end();
+          res.render("control", {
+            hasturnedOn: false,
+          });
+        }
+      });
     } else {
       res.redirect(
         url.format({
@@ -20,66 +50,59 @@ class ControlController {
     }
   }
 
-  turnOn(req, res, next) {
-    const WebSocketServer = require("websocket").server;
-    const http = require("http");
-
-    var server = http.createServer(function (request, response) {
-      console.log(new Date() + " Received request for " + request.url);
-      response.writeHead(404);
-      response.end();
+  turning(req, res, next) {
+    var mqtt = require("mqtt");
+    var client = mqtt.connect("mqtt://io.adafruit.com", {
+      username: "khanhnq1406",
+      password: "aio_SLVp61QtyK1ZmJJuDUM7Cn8SB2cb",
     });
-    server.listen(1406, function () {
-      console.log(new Date() + " Server is listening on port 3000");
-    });
-
-    const wsServer = new WebSocketServer({
-      httpServer: server,
-      // You should not use autoAcceptConnections for production
-      // applications, as it defeats all standard cross-origin protection
-      // facilities built into the protocol and the browser.  You should
-      // *always* verify the connection's origin and decide whether or not
-      // to accept it.
-      autoAcceptConnections: false,
-    });
-
-    function originIsAllowed(origin) {
-      // put logic here to detect whether the specified origin is allowed.
-      return true;
-    }
-
-    wsServer.on("request", function (request) {
-      console.log(request);
-      if (!originIsAllowed(request.origin)) {
-        // Make sure we only accept requests from an allowed origin
-        request.reject();
-        console.log(
-          new Date() +
-            " Connection from origin " +
-            request.origin +
-            " rejected."
-        );
-        return;
-      }
-
-      let connection = request.accept(null, request.origin);
-      console.log(new Date() + " Connection accepted.");
-      connection.on("message", function (message) {
-        if (message.type === "utf8") {
-          console.log("Received Message: " + message.utf8Data);
-          connection.sendUTF("ON");
-          if (String(message.utf8Data) === "#TurnedOn") {
-            connection.close();
-            server.close();
-            res.redirect("turnedOn");
-          }
-        } else if (message.type === "binary") {
-          console.log(
-            "Received Binary Message of " + message.binaryData.length + " bytes"
-          );
-          connection.sendBytes(message.binaryData);
+    var mqtttopic = `${client.options.username}/f/mqtt-server`;
+    client.on("connect", function () {
+      console.log("connected");
+      client.subscribe(mqtttopic, function (err) {
+        if (!err) {
+          console.log("subscribed");
+          client.publish(mqtttopic, "#checkStatus");
         }
       });
+    });
+
+    client.on("message", function (topic, message) {
+      console.log(message.toString());
+      if (message.toString() === "#hasturnedOn") {
+        client.end();
+        res.redirect("turnOff");
+      } else if (message.toString() === "#hasturnedOff") {
+        client.end();
+        res.redirect("turnOn");
+      }
+    });
+  }
+  turnOn(req, res, next) {
+    // Setup MQTT Client
+    // mqtt[s]://[username][:password]@host.domain[:port]
+    var mqtt = require("mqtt");
+    var client = mqtt.connect("mqtt://io.adafruit.com", {
+      username: "khanhnq1406",
+      password: "aio_SLVp61QtyK1ZmJJuDUM7Cn8SB2cb",
+    });
+    var mqtttopic = `${client.options.username}/f/mqtt-server`;
+    client.on("connect", function () {
+      console.log("connected");
+      client.subscribe(mqtttopic, function (err) {
+        if (!err) {
+          console.log("subscribed");
+          client.publish(mqtttopic, "#turnOn");
+        }
+      });
+    });
+
+    client.on("message", function (topic, message) {
+      console.log(message.toString());
+      if (message.toString() === "#turnedOn") {
+        client.end();
+        res.redirect("/control");
+      }
     });
   }
 
@@ -87,8 +110,31 @@ class ControlController {
     res.render("turned");
   }
   turnOff(req, res, next) {
-    require("../../config/webSocket/webSocketOff");
-    res.render("turned");
+    // Setup MQTT Client
+    // mqtt[s]://[username][:password]@host.domain[:port]
+    var mqtt = require("mqtt");
+    var client = mqtt.connect("mqtt://io.adafruit.com", {
+      username: "khanhnq1406",
+      password: "aio_SLVp61QtyK1ZmJJuDUM7Cn8SB2cb",
+    });
+    var mqtttopic = `${client.options.username}/f/mqtt-server`;
+    client.on("connect", function () {
+      console.log("connected");
+      client.subscribe(mqtttopic, function (err) {
+        if (!err) {
+          console.log("subscribed");
+          client.publish(mqtttopic, "#turnOff");
+        }
+      });
+    });
+
+    client.on("message", function (topic, message) {
+      console.log(message.toString());
+      if (message.toString() === "#turnedOff") {
+        client.end();
+        res.redirect("/control");
+      }
+    });
   }
 }
 

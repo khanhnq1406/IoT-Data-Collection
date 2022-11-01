@@ -2,7 +2,9 @@
   <div class = "chart">
     {{!-- <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script> --}}
     <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    {{!-- <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script> --}}
+    <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,7 +24,9 @@
       const firebaseConfig2 = {
         apiKey: "AIzaSyCCMle_JkmnDA6A0aKU_7cZt5zZE905ggI",
         authDomain: "iot-data-collection-5d7a4.firebaseapp.com",
-        databaseURL: "https://iot-data-collection-5d7a4-default-rtdb.firebaseio.com",
+         //databaseURL: "https://iot-data-collection-5d7a4-default-rtdb.firebaseio.com",
+  databaseURL:
+    "https://iot-data-collection-5d7a4-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "iot-data-collection-5d7a4",
         storageBucket: "iot-data-collection-5d7a4.appspot.com",
         messagingSenderId: "362954911615",
@@ -31,7 +35,7 @@
       };
       // Initialize Firebase
       const defaultProject = firebase.initializeApp(firebaseConfig2);
-      const db = firebase.firestore();
+      const db = firebase.database();
       const labels = [];
       const data = {
           labels: labels,
@@ -75,32 +79,19 @@
       function addData(chart, label, data) {
           chart.data.labels.push(label);
           chart.data.datasets.forEach((dataset) => {
+            console.log(dataset.data);
               dataset.data.push(data);
           });
           chart.update();
       }
-      const firestoreRef = db.collection("temperature").orderBy("dateTime", 'asc');
-      firestoreRef.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-                addData(myChart ,doc.data().dateTime, doc.data().temperature);
-              })
-      }); 
-
+      const firebaseRef = db.ref("Temperature");
       let dataFirestore = [];
       let currentDataLength = 0;
       let pastDataLength = 0;
-      setInterval(function() {
-        firestoreRef.get().then((querySnapshot) => {
-          if (currentDataLength < querySnapshot.size) {
-          currentDataLength = 0;
-          querySnapshot.forEach((doc) => {
-              currentDataLength++;
-              if (currentDataLength === querySnapshot.size - 1) {
-                addData(myChart ,doc.data().dateTime, doc.data().temperature);
-              }
-            });
-          }
-        }) 
-      }, 1000);
+      firebaseRef.on('child_added', (snapshot) => {
+          var temperature = snapshot.val();
+          var time = snapshot.key;
+          addData(myChart, time, temperature);
+      });
     </script>
   </div>

@@ -2,6 +2,7 @@ const fb = require("firebase");
 const url = require("url");
 const WebSocketServer = require("websocket").server;
 const http = require("http");
+const { response } = require("express");
 class ControlController {
   // [GET] /
   index(req, res, next) {
@@ -20,9 +21,6 @@ class ControlController {
   }
 
   turnOn(req, res, next) {
-    // require("../../config/webSocket/webSocketOn");
-    res.render("turning");
-    let hasDone = false;
     const WebSocketServer = require("websocket").server;
     const http = require("http");
 
@@ -73,18 +71,7 @@ class ControlController {
           if (String(message.utf8Data) === "#TurnedOn") {
             connection.close();
             server.close();
-            const request = require("request");
-            request(
-              "http://localhost:3000/control",
-              { json: true },
-              (err, res, body) => {
-                if (err) {
-                  return console.log(err);
-                }
-                console.log(body.url);
-                console.log(body.explanation);
-              }
-            );
+            res.redirect("turnedOn");
           }
         } else if (message.type === "binary") {
           console.log(
@@ -93,16 +80,15 @@ class ControlController {
           connection.sendBytes(message.binaryData);
         }
       });
-      // connection.on("close", function (reasonCode, description) {
-      //   console.log(
-      //     new Date() + " Peer " + connection.remoteAddress + " disconnected."
-      //   );
-      // });
     });
+  }
+
+  turnedOn(req, res, next) {
+    res.render("turned");
   }
   turnOff(req, res, next) {
     require("../../config/webSocket/webSocketOff");
-    res.render("turning");
+    res.render("turned");
   }
 }
 

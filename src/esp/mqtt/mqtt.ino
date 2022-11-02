@@ -10,7 +10,7 @@
 #include "config.h"
 
 // this int will hold the current count for our sketch
-bool hasturnedOn;
+bool hasTurnedOnLight1, hasTurnedOnLight2;
 #define IO_LOOP_DELAY 5000
 unsigned long lastUpdate = 0;
 
@@ -68,19 +68,53 @@ void handleMessage(AdafruitIO_Data *data) {
   if (strcmp(data->value(),"#turnOn") == 0) {
     Serial.println("Turned ON");
     mqttServer->save("#turnedOn");
-    hasturnedOn = true;
+    hasTurnedOnLight1 = true;
   }
   if (strcmp(data->value(),"#turnOff") == 0) {
     Serial.println("Turned OFF");
     mqttServer->save("#turnedOff");
-    hasturnedOn = false;
+    hasTurnedOnLight1 = false;
   }
-  if (strcmp(data->value(),"#checkStatus") == 0) {
-    Serial.println("Check status");
-    if (hasturnedOn)
+   if (strcmp(data->value(),"#turnOnLight2") == 0) {
+    Serial.println("Turned ON Light 2");
+    mqttServer->save("#turnedOnLight2");
+    hasTurnedOnLight2 = true;
+  }
+  if (strcmp(data->value(),"#turnOffLight2") == 0) {
+    Serial.println("Turned OFF Light2");
+    mqttServer->save("#turnedOffLight2");
+    hasTurnedOnLight2 = false;
+  }
+  if (strcmp(data->value(),"#checkStatusLight1") == 0) {
+    Serial.println("Check status light 1");
+    if (hasTurnedOnLight1)
       mqttServer->save("#hasturnedOn");
     else
       mqttServer->save("#hasturnedOff");
-
+  }
+  if (strcmp(data->value(),"#checkStatusLight2") == 0) {
+    Serial.println("Check status light 2");
+    if (hasTurnedOnLight2)
+      mqttServer->save("#hasturnedOn");
+    else
+      mqttServer->save("#hasturnedOff");
+  }
+  if (strcmp(data->value(),"#checkStatus") == 0) {
+    Serial.println("Check status");
+    String statusLight1, statusLight2;
+    if (hasTurnedOnLight1) {
+      statusLight1 = "true";
+    }
+    else {
+      statusLight1 = "false";
+    }
+    if (hasTurnedOnLight2) {
+      statusLight2 = "true";
+    }
+    else {
+      statusLight2 = "false";
+    }
+    String status = statusLight1 + "~" + statusLight2;
+    mqttServer->save(status);
   }
 }

@@ -1,4 +1,16 @@
 <body class = "chart_body"> 
+  <form method="GET" action="" class="chart_range" id="chart_range" name="chart_range">  
+    <div name = "chart_range" id="chart_range" style=" height: 6px; " ></div> 
+    <label id="rangeValue"></label>
+    <input 
+    type="range" 
+    name="range" 
+    id="range" 
+    class="slider" 
+    min="5" max="100"  
+    oninput="rangeValue.innerText = this.value" 
+    onchange="window.location.href = '/chart/?range=' + this.value;">
+  </form>
   <div class = "chart">
     {{!-- <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script> --}}
     <script defer  src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -50,14 +62,14 @@
           //parsing: false,
           animation: false,
           //Boolean - If we want to override with a hard coded scale
-          scaleOverride: true,
+          //scaleOverride: true,
           //** Required if scaleOverride is true **
           //Number - The number of steps in a hard coded scale
-          scaleSteps: 10,
+          //scaleSteps: 10,
           //Number - The value jump in the hard coded scale
-          scaleStepWidth: 10,
+          //scaleStepWidth: 10,
           //Number - The scale starting value
-          scaleStartValue: 0,
+         // scaleStartValue: 0, 
           scales : {
             xAxis: {
                 ticks: {
@@ -76,11 +88,21 @@
           data: data,
           options:options,
         });
+      const queryString = window.location.search;
+      console.log(queryString.length);
+      let range = 10;
+      if (queryString.length !== 0) {
+        const urlParams = new URLSearchParams(queryString);
+        range = Number(urlParams.get('range'));
+      }
+      document.getElementById("rangeValue").innerHTML = String(range);
+      document.getElementById("range").value = Number(range);
       function addData(chart, label, data) {
           chart.data.labels.push(label);
+          label = chart.data.labels.splice(0, chart.data.labels.length - range);
           chart.data.datasets.forEach((dataset) => {
-            console.log(dataset.data);
-              dataset.data.push(data);
+            dataset.data.push(data);
+            console.log(dataset.data.splice(0, dataset.data.length - range));
           });
           chart.update();
       }

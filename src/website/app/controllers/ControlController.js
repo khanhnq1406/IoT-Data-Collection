@@ -4,7 +4,7 @@ const WebSocketServer = require("websocket").server;
 const http = require("http");
 const { response } = require("express");
 const mqtt = require("mqtt");
-const mqttPassword = "aio_LcXp81U1xxd7OzrvVz3OWykzLRfC";
+const mqttPassword = "aio_dWKV34J5rrTzKDEVdcB6bHl6egyY";
 class ControlController {
   // [GET] /
   index(req, res, next) {

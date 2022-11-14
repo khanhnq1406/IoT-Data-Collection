@@ -4,6 +4,7 @@ const WebSocketServer = require("websocket").server;
 const http = require("http");
 const { response } = require("express");
 const mqtt = require("mqtt");
+const mqttPassword = "aio_LcXp81U1xxd7OzrvVz3OWykzLRfC";
 class ControlController {
   // [GET] /
   index(req, res, next) {
@@ -11,7 +12,7 @@ class ControlController {
       var mqtt = require("mqtt");
       var client = mqtt.connect("mqtt://io.adafruit.com", {
         username: "khanhnq1406",
-        password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+        password: mqttPassword,
       });
       var mqtttopic = `${client.options.username}/f/mqtt-server`;
       client.on("connect", function () {
@@ -58,7 +59,7 @@ class ControlController {
     var mqtt = require("mqtt");
     var client = mqtt.connect("mqtt://io.adafruit.com", {
       username: "khanhnq1406",
-      password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+      password: mqttPassword,
     });
     var mqtttopic = `${client.options.username}/f/mqtt-server`;
     client.on("connect", function () {
@@ -88,7 +89,7 @@ class ControlController {
     var mqtt = require("mqtt");
     var client = mqtt.connect("mqtt://io.adafruit.com", {
       username: "khanhnq1406",
-      password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+      password: mqttPassword,
     });
     var mqtttopic = `${client.options.username}/f/mqtt-server`;
     client.on("connect", function () {
@@ -116,7 +117,7 @@ class ControlController {
     var mqtt = require("mqtt");
     var client = mqtt.connect("mqtt://io.adafruit.com", {
       username: "khanhnq1406",
-      password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+      password: mqttPassword,
     });
     var mqtttopic = `${client.options.username}/f/mqtt-server`;
     client.on("connect", function () {
@@ -142,7 +143,7 @@ class ControlController {
     var mqtt = require("mqtt");
     var client = mqtt.connect("mqtt://io.adafruit.com", {
       username: "khanhnq1406",
-      password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+      password: mqttPassword,
     });
     var mqtttopic = `${client.options.username}/f/mqtt-server`;
     client.on("connect", function () {
@@ -172,7 +173,7 @@ class ControlController {
     var mqtt = require("mqtt");
     var client = mqtt.connect("mqtt://io.adafruit.com", {
       username: "khanhnq1406",
-      password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+      password: mqttPassword,
     });
     var mqtttopic = `${client.options.username}/f/mqtt-server`;
     client.on("connect", function () {
@@ -199,7 +200,7 @@ class ControlController {
     var mqtt = require("mqtt");
     var client = mqtt.connect("mqtt://io.adafruit.com", {
       username: "khanhnq1406",
-      password: "aio_ynaD84myST9AfApqdQOZeqCdqqwc",
+      password: mqttPassword,
     });
     var mqtttopic = `${client.options.username}/f/mqtt-server`;
     client.on("connect", function () {

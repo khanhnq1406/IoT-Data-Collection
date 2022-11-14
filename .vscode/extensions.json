@@ -1,5 +1,6 @@
 {
-    "recommendations": [
-        "vsciot-vscode.vscode-arduino"
-    ]
+  "recommendations": [
+    "vsciot-vscode.vscode-arduino",
+    "platformio.platformio-ide"
+  ]
 }

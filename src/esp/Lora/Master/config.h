@@ -11,9 +11,7 @@
   Written by Tony DiCola for Adafruit Industries.
   MIT license, all text above must be included in any redistribution
  ****************************************************/
-#include <ESP8266WiFi.h>
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
+
 
 /************************* WiFi Access Point *********************************/
 
@@ -27,10 +25,13 @@ struct WifiConfig {
   // Yana Coffee
   const char* yanaSsid = "Yana Coffee Tang1";
   const char* yanaPassword = "184hoangdieu2";
+  // an
+  const char* AnSsid = "an123";
+  const char* AnPassword = "1237894567";
 };
 struct WifiConfig wifiConfig;
-#define WLAN_SSID       wifiConfig.yanaSsid
-#define WLAN_PASS       wifiConfig.yanaPassword
+#define WLAN_SSID       wifiConfig.AnSsid
+#define WLAN_PASS       wifiConfig.AnPassword
 
 /************************* Adafruit.io Setup *********************************/
 
@@ -41,6 +42,11 @@ struct WifiConfig wifiConfig;
 
 /************ Global State (you don't need to change this!) ******************/
 
+/************************* Firebase ******************************************/
+
+#define FIREBASE_HOST "https://iot-data-collection-5d7a4-default-rtdb.asia-southeast1.firebasedatabase.app"
+#define FIREBASE_AUTH "AIzaSyCCMle_JkmnDA6A0aKU_7cZt5zZE905ggI"
+/************************* Firebase ******************************************/
 // Create an ESP8266 WiFiClient class to connect to the MQTT server.
 WiFiClient client;
 // or... use WiFiClientSecure for SSL

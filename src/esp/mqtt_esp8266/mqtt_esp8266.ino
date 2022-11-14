@@ -43,7 +43,7 @@ void loop() {
   // try to spend your time here
 
   Adafruit_MQTT_Subscribe *subscription;
-  while ((subscription = mqtt.readSubscription(5000))) {
+  while ((subscription = mqtt.readSubscription(100))) {
     if (subscription == &sub) {
       Serial.print(F("Got: "));
       Serial.println((char *)sub.lastread);

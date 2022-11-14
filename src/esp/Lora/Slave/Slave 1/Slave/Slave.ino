@@ -23,9 +23,14 @@ LoRa_E32 e32ttl(&mySerial, D5, D7, D6);
 // -------------------------------------
 
 // ---------- data--------------
-int Button_1=1,Button_2=0,Button_3=1,Button_4=0;
-int data_B1,data_B2,data_B3,data_B4;
+unsigned int Status_Led;
+int data_L1,data_L2,data_L3,data_L4;
 int Temp=0;
+int StatusLed_1,StatusLed_2,StatusLed_3,StatusLed_4;
+int Status_Led_SV;
+int Code_Data=0;
+unsigned long Time_=0,Time2_=0;
+int flag1=0,flag2=0,flag3=0;
 // -------------------------------------
 
 void printParameters(struct Configuration configuration);
@@ -62,93 +67,221 @@ void setup()
     // ---------------------------
 }
  struct Message {
-    char type[5];
-    char message[8];
-    byte temperature[4];
-    byte Status_Button[4];
+//    char type[5];
+//    char message[8];
+    byte Temperature_R[4];
+    byte Status_Led_R[4];
+    byte Status_Led_SV[4];
+    byte Mode_R[4];
 } message;
 
 // The loop function is called in an endless loop
 void loop()
 {
   
-    delay(5000);
-     ScanData();
+    ScanData();
+    
+    Serial.print("Code_Data  = "); Serial.println(Code_Data );
+    if( Code_Data == 100 || Code_Data == 103)
+    {
+      if(flag1 == 0)
+      {
+        flag1=1;
+        Time_ = millis();
+      }
+      if ( (unsigned long) (millis() - Time_) > 300)
+      {
+        flag2=1;
+      }
+      if(flag2 == 1)
+      {
+        if(flag3 == 0)
+        {
+          Time2_ = millis();
+        }
+        if ( (unsigned long) (millis() - Time_) > 400)
+        {
+          Code_Data =0;
+        }
+        else
+        {
+          Serial.println("            send data ");
+          SendData_Master(0, 3 ,0x08 );  
+        }
+        flag3=1;
+      }
+    }
+    else
+    {
+      Serial.println("              read data ");
+      ReadData_Master();
+      flag1=0;
+      flag2=0;
+      flag3=0;
+    }
+
+
+}
+void ReadData_Master()
+{
+  if (e32ttl.available()  > 1){
+    
+    ResponseStructContainer rsc = e32ttl.receiveMessage(sizeof(Message));
+    struct Message message = *(Message*) rsc.data;
+    Code_Data = *(int*)(message.Mode_R);
+    if(Code_Data == 103)
+    {
+      Status_Led_SV = *(int*)(message.Status_Led_SV);
+      Decode();
+      Serial.print("Status_Led_SV  = ");
+      Serial.println(Status_Led_SV );
+    }
+    rsc.close();
+  } 
+}
+void SendData_Master(int ADDL, int ADDH ,int CHAN )
+{
     struct Message {
-        char type[5] = "TEMP";
-        char message[8] = "Kitchen";
-        byte temperature[4];
-        byte Status_Button_S[4];
-    } message;
+//      char type[5] = "TEMP";
+//      char message[8] = "Kitchen";
+    byte Temperature_R[4];
+    byte Status_Led_R[4];
+    byte Status_Led_SV[4];
+    byte Mode_R[4];// khi gui du lieu can gui ma 101 cho master|| khi nhan 100 tuc phai gui du lieu cho master
+  } message;
   
-    *(int*)(message.temperature) = Temp;
-    *(int*)(message.Status_Button_S)= Merge_DataButton();
-//    Serial.println("Send message to 00 03 04");
-    ResponseStatus rs = e32ttl.sendFixedMessage(0,03, 0x08,&message, sizeof(Message));
-//    ResponseStatus rs = e32ttl.sendFixedMessage(0,03, 0x08, "Message to 00 03 04 device");
-  Merge_DataButton();
-    //Serial.println(rs.getResponseDescription());
+  *(int*)(message.Temperature_R) = Temp;
+  *(int*)(message.Status_Led_R)= Merge_DataLed();
+  *(int*)(message.Mode_R)= 101;
+  ResponseStatus rs = e32ttl.sendFixedMessage(ADDL, ADDH, CHAN,&message, sizeof(Message));
 }
 void ScanData()
 {
-  Button_1 = random(0,2);
-  Button_2 = random(0,2);
-  Button_3 = random(0,2);
-  Button_4 = random(0,2);
+//  Led_1 = random(0,2);
+//  Led_2 = random(0,2);
+//  Led_3 = random(0,2);
+//  Led_4 = random(0,2);
+String data_ ,mode_,val;
+int moc;
+int data;
+  if(Serial.available() > 0)
+  {
+    val = Serial.readStringUntil('\n');
+    for (int i = 0; i < val.length(); i++) {
+    if (val.charAt(i) == ' ') {
+        moc = i; //Tìm vị trí của dấu ""
+      }
+    }
+   mode_=val;
+   data_=val;
+   mode_.remove(moc);
+   data_.remove(0,moc+1);
+   data=data_.toInt();
+  }
+   if(mode_ == "led1")
+   {
+    StatusLed_1 = data;
+   }
+   if(mode_ == "led2")
+   {
+    StatusLed_2 = data;
+   }
+   if(mode_ == "led3")
+   {
+    StatusLed_3 = data;
+   }
+//   Serial.print("Led_1 = ");
+//  Serial.println(StatusLed_1);
+//  Serial.print("Led_2 = ");
+//  Serial.println(StatusLed_2);
+//  Serial.print("Led_3 = ");
+//  Serial.println(StatusLed_3);
+//  Serial.print("Led_4 = ");
+//  Serial.println(StatusLed_4);
   Temp= random(37,100);
-  Serial.print("Button_1 = ");
-  Serial.println(Button_1);
-  Serial.print("Button_2 = ");
-  Serial.println(Button_2);
-  Serial.print("Button_3 = ");
-  Serial.println(Button_3);
-  Serial.print("Button_4 = ");
-  Serial.println(Button_4);
+  Serial.print("Led_1 = ");
+  Serial.println(StatusLed_1);
+  Serial.print("Led_2 = ");
+  Serial.println(StatusLed_2);
+  Serial.print("Led_3 = ");
+  Serial.println(StatusLed_3);
+  Serial.print("Led_4 = ");
+  Serial.println(StatusLed_4);
   Serial.print("TEMP = ");
   Serial.println(Temp);
 }
-void data()
+void Decode()
 {
-  if(Button_1)
+  if( (Status_Led_SV & 0b01)  == 0b01)
   {
-    data_B1=0x01;
+    StatusLed_1 = HIGH;
   }
-  else
-  {
-    data_B1=0x00;
+  else {
+    StatusLed_1 = LOW;
   }
-  if(Button_2)
+  if( (Status_Led_SV & 0b10)  == 0b10)
   {
-    data_B2=0b10;
+    StatusLed_2 = HIGH;
   }
-  else
-  {
-    data_B2=0x00;
+  else {
+    StatusLed_2 = LOW;
   }
-  if(Button_3)
+  if((Status_Led_SV & 0b100)  == 0b100  )
   {
-    data_B3=0b100;
+    StatusLed_3 = HIGH;
   }
-  else
-  {
-    data_B3=0x00;
+  else {
+    StatusLed_3 = LOW;
   }
-  if(Button_4)
+  if((Status_Led_SV & 0b1000 ) == 0b1000)
   {
-    data_B4=0b1000;
+    StatusLed_4 = HIGH;
   }
-  else
-  {
-    data_B4=0x00;
+  else {
+    StatusLed_4 = LOW;
   }
 }
-int Merge_DataButton()
+void data_Led()
 {
-   data();
-   unsigned int Status_Button;
-   Status_Button = data_B1 | data_B2 | data_B3 | data_B4;
-//   Serial.println(Status_Button);
-   return Status_Button;
+  if(StatusLed_1)
+  {
+    data_L1=0x01;
+  }
+  else
+  {
+    data_L1=0x00;
+  }
+  if(StatusLed_2)
+  {
+    data_L2=0b10;
+  }
+  else
+  {
+    data_L2=0x00;
+  }
+  if(StatusLed_3)
+  {
+    data_L3=0b100;
+  }
+  else
+  {
+    data_L3=0x00;
+  }
+  if(StatusLed_4)
+  {
+    data_L4=0b1000;
+  }
+  else
+  {
+    data_L4=0x00;
+  }
+}
+int Merge_DataLed()
+{
+   data_Led();
+   Status_Led_SV = data_L1 | data_L2 | data_L3 | data_L4;
+//   Serial.println(Status_Led_SV);
+   return Status_Led_SV;
 }
 void printParameters(struct Configuration configuration) {
     Serial.println("----------------------------------------");

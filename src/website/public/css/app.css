@@ -238,3 +238,11 @@ input[type="submit"]:hover {
   position: absolute;
   left: 47%;
   top: 53%; }
+
+.chart_range {
+  position: absolute;
+  left: 13%;
+  top: 94%; }
+
+.slider {
+  width: 1100px; }

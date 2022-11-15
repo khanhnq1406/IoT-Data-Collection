@@ -130,6 +130,7 @@ void setup()
 } 
 void loop()
 {
+  MQTT_connect();
   if(Status_Sv == 1)
   {
     Code_Data_S=103;
@@ -145,7 +146,7 @@ void loop()
       flag1=1;
       Time_ = millis();
     }
-    if ( (unsigned long) (millis() - Time_) > 500)// gui du lieu x ms
+    if ( (unsigned long) (millis() - Time_) > 500)
     {
       Status_Send =1;
       flag1=0;
@@ -164,7 +165,7 @@ void loop()
       Status_Sv=0;
       Time2_=millis();
     }
-    if ( (unsigned long) (millis() - Time2_) > 400)// doc du lieu x ms
+    if ( (unsigned long) (millis() - Time2_) > 400)
     {
       Status_Send =0;
       flag2=0;
@@ -235,9 +236,8 @@ void ReadData_Slave()
 }
 void MQTT()
 {
-  MQTT_connect();
   Adafruit_MQTT_Subscribe *subscription;
-  while ((subscription = mqtt.readSubscription(100))) {
+    while ((subscription = mqtt.readSubscription(100))) {
     if (subscription == &sub) {
 //      Serial.print(F("Got: "));
 //      Serial.println((char *)sub.lastread);
@@ -298,6 +298,8 @@ void MQTT()
         char* status_char;
         // strcpy(status_char, status);
         pub.publish(status.c_str());
+        Serial.println("            send data MQTT");
+        
       }
     }
   }

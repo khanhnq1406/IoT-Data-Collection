@@ -15,7 +15,12 @@
  */
 #include "Arduino.h"
 #include "LoRa_E32.h"
- 
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
+#define DHTPIN 14
+#define DHTTYPE DHT11   // DHT 11
+DHT dht(DHTPIN, DHTTYPE);
 // ---------- esp8266 pins --------------
 #include <SoftwareSerial.h>
 SoftwareSerial mySerial(D2, D3); // e32 TX e32 RX
@@ -25,7 +30,7 @@ LoRa_E32 e32ttl(&mySerial, D5, D7, D6);
 // ---------- data--------------
 unsigned int Status_Led;
 int data_L1,data_L2,data_L3,data_L4;
-int Temp=0;
+float Temp=0;
 int StatusLed_1,StatusLed_2,StatusLed_3,StatusLed_4;
 int Status_Led_SV;
 int Code_Data=0;
@@ -43,12 +48,13 @@ void setup()
 //        ; // wait for serial port to connect. Needed for native USB
 //    }
     delay(100);
- 
     e32ttl.begin();
  
     // After set configuration comment set M0 and M1 to low
     // and reboot if you directly set HIGH M0 and M1 to program
     ResponseStructContainer c;
+    pinMode(12,OUTPUT);
+    pinMode(13,OUTPUT);
     c = e32ttl.getConfiguration();
     Configuration configuration = *(Configuration*) c.data;
     configuration.ADDL = 1;
@@ -65,6 +71,7 @@ void setup()
     e32ttl.setConfiguration(configuration, WRITE_CFG_PWR_DWN_SAVE);
     printParameters(configuration);
     // ---------------------------
+    dht.begin();
 }
  struct Message {
 //    char type[5];
@@ -80,7 +87,7 @@ void loop()
 {
   
     ScanData();
-    
+    dkhienLed();
     Serial.print("Code_Data  = "); Serial.println(Code_Data );
     if( Code_Data == 100 || Code_Data == 103)
     {
@@ -150,7 +157,7 @@ void SendData_Master(int ADDL, int ADDH ,int CHAN )
     byte Mode_R[4];// khi gui du lieu can gui ma 101 cho master|| khi nhan 100 tuc phai gui du lieu cho master
   } message;
   
-  *(int*)(message.Temperature_R) = Temp;
+  *(float*)(message.Temperature_R) = Temp;
   *(int*)(message.Status_Led_R)= Merge_DataLed();
   *(int*)(message.Mode_R)= 101;
   ResponseStatus rs = e32ttl.sendFixedMessage(ADDL, ADDH, CHAN,&message, sizeof(Message));
@@ -164,7 +171,7 @@ void ScanData()
 String data_ ,mode_,val;
 int moc;
 int data;
-  if(Serial.available() > 0)
+    if(Serial.available() > 0)
   {
     val = Serial.readStringUntil('\n');
     for (int i = 0; i < val.length(); i++) {
@@ -198,7 +205,9 @@ int data;
 //  Serial.println(StatusLed_3);
 //  Serial.print("Led_4 = ");
 //  Serial.println(StatusLed_4);
-  Temp= random(37,100);
+//  Temp= random(37,100);
+//   =  dht.readHumidity();
+  Temp = dht.readTemperature();
   Serial.print("Led_1 = ");
   Serial.println(StatusLed_1);
   Serial.print("Led_2 = ");
@@ -303,7 +312,6 @@ void printParameters(struct Configuration configuration) {
     Serial.print(F("OptionPower        : "));  Serial.print(configuration.OPTION.transmissionPower, BIN);Serial.print(" -> "); Serial.println(configuration.OPTION.getTransmissionPowerDescription());
  
     Serial.println("----------------------------------------");
- 
 }
 void printModuleInformation(struct ModuleInformation moduleInformation) {
     Serial.println("----------------------------------------");
@@ -313,5 +321,8 @@ void printModuleInformation(struct ModuleInformation moduleInformation) {
     Serial.print(F("Version  : "));  Serial.println(moduleInformation.version, HEX);
     Serial.print(F("Features : "));  Serial.println(moduleInformation.features, HEX);
     Serial.println("----------------------------------------");
- 
 }
+void dkhienLed() {
+  digitalWrite(12,StatusLed_1);
+  digitalWrite(13,StatusLed_2);
+  }

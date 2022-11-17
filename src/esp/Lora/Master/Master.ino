@@ -38,7 +38,7 @@ unsigned int Status_Led;
 //bool Led_1,Led_2,Led_3,Led_4;
 int data_L1,data_L2,data_L3,data_L4;
 int StatusLed_1,StatusLed_2,StatusLed_3,StatusLed_4;
-int Temp;
+float Temp;
 int Code_Data=0;
 int Code_Data_S=0;
 int Status_Sv=0;
@@ -216,7 +216,7 @@ void ReadData_Slave()
     struct Message message = *(Message*) rsc.data;
     
     Status_Led= *(int*)(message.Status_Led_R);
-    Temp=*(int*)(message.Temperature_R);
+    Temp=*(float*)(message.Temperature_R);
     Code_Data=*(int*)(message.Mode_R);
     rsc.close();
     Decode(); 
@@ -242,13 +242,13 @@ void MQTT()
 //      Serial.print(F("Got: "));
 //      Serial.println((char *)sub.lastread);
       if (strcmp((char *)sub.lastread,"#turnOn") == 0) {
-//        Serial.println("Turned ON 1");
+      Serial.println("Turned ON 1");
         pub.publish("#turnedOn");
         StatusLed_1 = 1;
         Status_Sv=1;
       }
       if (strcmp((char *)sub.lastread,"#turnOff") == 0) {
-//        Serial.println("Turned OFF 1");
+       Serial.println("Turned OFF 1");
         pub.publish("#turnedOff");
         StatusLed_1 = 0;
         Status_Sv=1;
@@ -266,7 +266,7 @@ void MQTT()
         Status_Sv=1;
       }
       if (strcmp((char *)sub.lastread,"#checkStatusLight1") == 0) {
-//        Serial.println("Check status light 1");
+        Serial.println("Check status light 1");
         if (StatusLed_1)
           pub.publish("#hasturnedOn");
         else
@@ -313,7 +313,7 @@ void FireBase()
   Firebase.setFloat ( fbdo,"Led 2", StatusLed_2);
   Firebase.setFloat ( fbdo,"Led 1", StatusLed_1);
   strcat(ref, dateTime.c_str());
-  Firebase.setFloat( fbdo,ref, random(0,230));
+  Firebase.setFloat( fbdo,ref, Temp);
 
   delay(1);
 }

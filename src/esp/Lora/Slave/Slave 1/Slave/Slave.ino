@@ -25,6 +25,7 @@ DHT dht(DHTPIN, DHTTYPE);
 #include <SoftwareSerial.h>
 SoftwareSerial mySerial(D2, D3); // e32 TX e32 RX
 LoRa_E32 e32ttl(&mySerial, D5, D7, D6);
+//LoRa_E32 e32ttl(&Serial1);
 // -------------------------------------
 
 // ---------- data--------------
@@ -321,6 +322,7 @@ void printModuleInformation(struct ModuleInformation moduleInformation) {
     Serial.print(F("Version  : "));  Serial.println(moduleInformation.version, HEX);
     Serial.print(F("Features : "));  Serial.println(moduleInformation.features, HEX);
     Serial.println("----------------------------------------");
+ 
 }
 void dkhienLed() {
   digitalWrite(12,StatusLed_1);

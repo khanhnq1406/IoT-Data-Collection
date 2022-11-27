@@ -27,7 +27,9 @@ SoftwareSerial mySerial(D2, D3); // e32 TX e32 RX
 LoRa_E32 e32ttl(&mySerial, D5, D7, D6);
 //LoRa_E32 e32ttl(&Serial1);
 // -------------------------------------
-
+  int delay_number[200]={0};
+  unsigned long t_[200]={0};
+  int first_state[200]={0};
 // ---------- data--------------
 unsigned int Status_Led;
 int data_L1,data_L2,data_L3,data_L4;
@@ -37,6 +39,8 @@ int Status_Led_SV;
 int Code_Data=0;
 unsigned long Time_=0,Time2_=0;
 int flag1=0,flag2=0,flag3=0;
+int Send_number =0;
+int Code_send=0;
 // -------------------------------------
 
 void printParameters(struct Configuration configuration);
@@ -47,6 +51,7 @@ void dkhienLed();
 void SendData_Master(int ADDL, int ADDH ,int CHAN );
 void ReadData_Master();
 void Decode();
+int managedDelay(unsigned int delay_, unsigned int TimeOut_);
 //The setup function is called once at startup of the sketch
 void setup()
 {
@@ -98,32 +103,16 @@ void loop()
     Serial.print("Code_Data  = "); Serial.println(Code_Data );
     if( Code_Data == 100 || Code_Data == 103)
     {
-      if(flag1 == 0)
+      Serial.println("                  send data ");
+      if(Code_Data == 103) Code_send= 111;
+      else Code_send =101;
+      SendData_Master(0, 3 ,0x08 );
+      if(managedDelay(1,200))
       {
-        flag1=1;
-        Time_ = millis();
+        Send_number ++;
       }
-      if ( (unsigned long) (millis() - Time_) > 300)
-      {
-        flag2=1;
-      }
-      if(flag2 == 1)
-      {
-        if(flag3 == 0)
-        {
-          Time2_ = millis();
-        }
-        if ( (unsigned long) (millis() - Time_) > 400)
-        {
-          Code_Data =0;
-        }
-        else
-        {
-          Serial.println("            send data ");
-          SendData_Master(0, 3 ,0x08 );  
-        }
-        flag3=1;
-      }
+      if(Send_number >=4 )
+        Code_Data =0;
     }
     else
     {
@@ -133,8 +122,29 @@ void loop()
       flag2=0;
       flag3=0;
     }
-
-
+}
+int managedDelay(unsigned int delay_, unsigned int TimeOut_) {
+  // Serial.print("t  = "); Serial.println(t_[delay_] );
+  // Serial.print("first_state "); Serial.println(first_state[delay_]);
+  // Serial.print("Status "); Serial.println(status);
+  if(first_state[delay_] <3)
+  {
+    first_state[delay_]++;
+  }
+  if(first_state[delay_] <= 1)
+  {
+    t_[delay_]=millis();
+  }
+  if((unsigned long) (millis() - t_[delay_]) > TimeOut_)
+  {
+    t_[delay_]=0;
+    first_state[delay_] =0;
+    return 1;
+  }
+  else 
+  {
+    return 0;
+  }
 }
 void ReadData_Master()
 {
@@ -165,8 +175,11 @@ void SendData_Master(int ADDL, int ADDH ,int CHAN )
   } message;
   
   *(float*)(message.Temperature_R) = Temp;
+  if(Code_Data != 103){
   *(int*)(message.Status_Led_R)= Merge_DataLed();
-  *(int*)(message.Mode_R)= 101;
+  }
+
+  *(int*)(message.Mode_R)= Code_send;
   ResponseStatus rs = e32ttl.sendFixedMessage(ADDL, ADDH, CHAN,&message, sizeof(Message));
 }
 void ScanData()

@@ -18,6 +18,9 @@ SoftwareSerial mySerial(D2, D3); // e32 TX e32 RX
 LoRa_E32 e32ttl(&mySerial, D5, D7, D6);
 
 /************ Esp8266 PIN ******************/
+  int delay_number[200]={0};
+  unsigned long t_[200]={0};
+  int first_state[200]={0};
 
 /************ Data ******************/
 unsigned int Status_Led;
@@ -25,6 +28,7 @@ unsigned int Status_Led;
 int data_L1,data_L2,data_L3,data_L4;
 int StatusLed_1,StatusLed_2,StatusLed_3,StatusLed_4;
 float Temp;
+int Send_number=0;
 int Code_Data=0;
 int Code_Data_S=0;
 int Status_Sv=0;
@@ -64,7 +68,7 @@ void Decode();
 void Data_Led();
 int Merge_DataLed();
 void printLocalTime();
-
+int managedDelay(unsigned int delay_, unsigned int TimeOut_);
 void setup()
 {
   Serial.begin(9600);
@@ -135,53 +139,85 @@ void loop()
   }
   if(Status_Send == 0)
   {
-    if(flag1 == 0) // first state
+    Send_number++;
+    if(Send_number < 3)
     {
-      flag1=1;
-      Time_ = millis();
-    }
-    if ( (unsigned long) (millis() - Time_) > 500)
-    {
-      Status_Send =1;
-      flag1=0;
+      SendData_Slave(0,1,0x04);
+      digitalWrite(2,HIGH);
+      Serial.println("          Write");
     }
     else
     {
-      SendData_Slave(0,1,0x04);
-      Serial.println("            send data ");
+        Serial.println("  Read");
+        ReadData_Slave();
+        digitalWrite(2,LOW);
+        if(Code_Data == 101 )
+        {
+          Code_Data=0;
+          Status_Send=0;
+          Send_number =0;
+          Serial.println("  Reset ");
+        }
+        if(Code_Data == 111)
+        {
+          Code_Data=0;
+          Status_Sv=0;
+          Status_Send=0;
+          Send_number =0;
+          Serial.println("  Reset ");
+        }
+        if(managedDelay(1,6000))// delay 1s
+        {
+            Send_number = 0;
+            Serial.println("    TimeOut");
+        }
     }
+    Serial.print("Led_1 = ");
+    Serial.println(StatusLed_1);
+    Serial.print("Led_2 = ");
+    Serial.println(StatusLed_2);
+    Serial.print("Led_3 = ");
+    Serial.println(StatusLed_3);
+    Serial.print("Led_4 = ");
+    Serial.println(StatusLed_4);
+    Serial.print("CodeData = ");
+    Serial.println(Code_Data);
   }
-  else
-  {
-    if(flag2  == 0) // first state
-    {
-      flag2=1;
-      Status_Sv=0;
-      Time2_=millis();
-    }
-    if ( (unsigned long) (millis() - Time2_) > 400)
-    {
-      Status_Send =0;
-      flag2=0;
-    }
-    else 
-    {
-      ReadData_Slave();
-      Serial.println("              read data ");
-    }
-  }
-  if(Code_Data == 101)
-  {
-    Code_Data=0;
-    Status_Sv=0;
-    Status_Send=0;
-    Serial.println("reset ");
-  }
+
   printLocalTime();
   FireBase();
   MQTT();
-  Serial.print("Status_Sv  = "); Serial.println(Status_Sv );
-  Serial.print("Status_Send  = "); Serial.println(Status_Send );
+  // Serial.print("Status_Sv  = "); Serial.println(Status_Sv );
+  // Serial.print("Status_Send  = "); Serial.println(Status_Send );
+    // if(managedDelay(1,1000))
+    // {
+    //   Serial.println("                   Status_Send  = ");
+    // }
+    
+
+}
+int managedDelay(unsigned int delay_, unsigned int TimeOut_) {
+  // Serial.print("t  = "); Serial.println(t_[delay_] );
+  // Serial.print("first_state "); Serial.println(first_state[delay_]);
+  // Serial.print("Status "); Serial.println(status);
+  if(first_state[delay_] <3)
+  {
+    first_state[delay_]++;
+  }
+  if(first_state[delay_] <= 1)
+  {
+    t_[delay_]=millis();
+  }
+  if((unsigned long) (millis() - t_[delay_]) > TimeOut_)
+  {
+    t_[delay_]=0;
+    first_state[delay_] =0;
+    return 1;
+  }
+  else 
+  {
+    return 0;
+  }
 }
 void SendData_Slave(int ADDL, int ADDH ,int CHAN )
 {
@@ -198,8 +234,8 @@ void SendData_Slave(int ADDL, int ADDH ,int CHAN )
 //  *(int*)(message.Temperature_R) = Temp;
   *(int*)(message.Status_Led_SV)= Merge_DataLed();
   *(int*)(message.Mode_R)= Code_Data_S;
-    Serial.print("Merge_DataLed = ");
-    Serial.println(Merge_DataLed());
+    // Serial.print("Merge_DataLed = ");
+    // Serial.println(Merge_DataLed());
   ResponseStatus rs = e32ttl.sendFixedMessage(ADDL, ADDH, CHAN,&message, sizeof(Message));
 }
 void ReadData_Slave()
@@ -208,28 +244,30 @@ void ReadData_Slave()
   
     ResponseStructContainer rsc = e32ttl.receiveMessage(sizeof(Message));
     struct Message message = *(Message*) rsc.data;
-    
-    Status_Led= *(int*)(message.Status_Led_R);
+    if(Status_Sv == 0) 
+    {
+      Status_Led= *(int*)(message.Status_Led_R);
+    }
     Temp=*(float*)(message.Temperature_R);
     Code_Data=*(int*)(message.Mode_R);
     rsc.close();
     Decode(); 
-    Serial.print("Led_1 = ");
-    Serial.println(StatusLed_1);
-    Serial.print("Led_2 = ");
-    Serial.println(StatusLed_2);
-    Serial.print("Led_3 = ");
-    Serial.println(StatusLed_3);
-    Serial.print("Led_4 = ");
-    Serial.println(StatusLed_4);
-    Serial.print("TEMP = ");
-    Serial.println(Temp);
-    Serial.print("CodeData = ");
-    Serial.println(Code_Data);
+    // Serial.print("Led_1 = ");
+    // Serial.println(StatusLed_1);
+    // Serial.print("Led_2 = ");
+    // Serial.println(StatusLed_2);
+    // Serial.print("Led_3 = ");
+    // Serial.println(StatusLed_3);
+    // Serial.print("Led_4 = ");
+    // Serial.println(StatusLed_4);
+    // Serial.print("TEMP = ");
+    // Serial.println(Temp);
   }
 }
 void MQTT()
 {
+
+
   Adafruit_MQTT_Subscribe *subscription;
     while ((subscription = mqtt.readSubscription(100))) {
     if (subscription == &sub) {
@@ -295,8 +333,10 @@ void MQTT()
         Serial.println("            send data MQTT");
         
       }
+          
     }
   }
+  if(Status_Sv==1)  Merge_DataLed();
 }
 void FireBase()
 {
@@ -307,7 +347,7 @@ void FireBase()
   Firebase.setFloat ( fbdo,"Led 2", StatusLed_2);
   Firebase.setFloat ( fbdo,"Led 1", StatusLed_1);
   strcat(ref, dateTime.c_str());
-  Firebase.setFloat( fbdo,ref, Temp);
+  Firebase.setFloat( fbdo,ref, random(0,225));
 
   delay(1);
 }

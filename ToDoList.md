@@ -1,15 +1,15 @@
 # To-Do
 
 - [ ] Hashing password
-- [ ] Limit value of table
-- [ ] Find by date of table
-- [ ] Sort table
-- [ ] Limit value of x-axis in chart
 
 # Doing
 
 # Done
 
+- [x] Limit value of table
+- [x] Find by date of table
+- [x] Sort table
+- [x] Limit value of x-axis in chart
 - [x] Design monitor page form
 - [x] Design control page form
 - [x] Connect to ESP using MQTT

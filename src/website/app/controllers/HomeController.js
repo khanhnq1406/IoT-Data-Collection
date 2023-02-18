@@ -7,6 +7,7 @@ class HomeController {
   // [GET] /
   index(req, res, next) {
     console.log(req.session.loggedin);
+    // req.session.loggedin = true;
     if (req.session.loggedin) res.render("home");
     else if (req.query.notYetLogin) {
       res.render("login", {
@@ -84,6 +85,19 @@ class HomeController {
     }
   }
 
+  // [POST] /sendToFirebase
+  sendToFirebase(req, res, next) {
+    const number1 = req.body.number1;
+    const number2 = req.body.number2;
+    const firestoreDB = fb.database();
+    if (number1 !== "") {
+      firestoreDB.ref("Number 1").set(Number(number1));
+    }
+    if (number2 !== "") {
+      firestoreDB.ref("Number 2").set(Number(number2));
+    }
+    res.redirect("/");
+  }
   // [GET] /signup
   signup(req, res, next) {
     const username = req.query.username;

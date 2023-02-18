@@ -1,5 +1,4 @@
 const fb = require("firebase");
-const notifier = require("node-notifier");
 const url = require("url");
 class MonitorController {
   // [GET] /
@@ -7,15 +6,34 @@ class MonitorController {
     if (req.session.loggedin) {
       const firebaseDB = fb.database();
       const firebaseRef = firebaseDB.ref("Temperature");
-      const data = [];
-      firebaseRef.on("value", function (snapshot) {
+      let data = [];
+      let dateSort = req.query.dateSort;
+      let tempSort = req.query.tempSort;
+      let dateSortSelect = req.query.dateSortSelect;
+
+      firebaseRef.once("value", function (snapshot) {
         snapshot.forEach(function (element) {
-          data.push({ dateTime: element.key, temperature: element.val() });
+          if (dateSort !== undefined) {
+            if (element.key.includes(dateSort))
+              data.push({ dateTime: element.key, temperature: element.val() });
+          } else data.push({ dateTime: element.key, temperature: element.val() });
         });
+
+        if (tempSort === "ascending") {
+          data.sort((a, b) => {
+            return Number(a.temperature) - Number(b.temperature);
+          });
+        } else if (tempSort === "descending") {
+          data.sort((a, b) => {
+            return Number(b.temperature) - Number(a.temperature);
+          });
+        } else if (dateSortSelect === "ascending") {
+          data.reverse();
+        }
         res.render("monitor", {
-          pageData: data.reverse(),
+          pageData: data,
         });
-        // res.send(data);
+        // res.send("ok");
       });
     } else {
       res.redirect(

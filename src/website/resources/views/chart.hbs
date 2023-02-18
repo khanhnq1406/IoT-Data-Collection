@@ -53,8 +53,8 @@
           labels: labels,
           datasets: [{
             label: 'Temperature',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#f56d6d',
+            borderColor: '#f56d6d',
             data: [],
           }]
         };
@@ -77,7 +77,26 @@
                     autoSkip: true,
                     maxTicksLimit: 10,
                     maxRotation: 0,
-                }
+                    color: "#ffffff",
+                },
+                grid: { 
+                  color: "#5e5e6a",
+                },
+            },
+            yAxis: {
+              grid: {
+                color: "#5e5e6a",
+              },
+              ticks: {
+                color:"#ffffff",
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+              color: '#ffffff'
+                  }
             },
           }
         };
@@ -107,6 +126,15 @@
           chart.update();
       }
       const firebaseRef = db.ref("Temperature");
+      firebaseRef.once('value').then((snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+          let key = childSnapshot.key; 
+          let value = childSnapshot.val();
+          addData(myChart, key, value);
+          })
+        }).catch((error) => {
+          console.error(error);
+      });
       let dataFirestore = [];
       let currentDataLength = 0;
       let pastDataLength = 0;

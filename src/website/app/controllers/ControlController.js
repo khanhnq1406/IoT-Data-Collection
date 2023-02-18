@@ -1,14 +1,10 @@
-const fb = require("firebase");
 const url = require("url");
-const WebSocketServer = require("websocket").server;
-const http = require("http");
-const { response } = require("express");
-const mqtt = require("mqtt");
-const mqttPassword = "aio_ENNX943mJB4pEM7CPQPxGfqee0mW";
+const mqttPassword = "aio_SMck69ZMlnswjCRKMKSre221bW0n";
 class ControlController {
   // [GET] /
   index(req, res, next) {
     if (req.session.loggedin) {
+      console.log("In MQTT");
       var mqtt = require("mqtt");
       var client = mqtt.connect("mqtt://io.adafruit.com", {
         username: "khanhnq1406",

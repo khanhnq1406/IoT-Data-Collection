@@ -1,8 +1,29 @@
 .table {
   position: relative;
   top: 80px;
+  color: #fff;
 }
 
+.body-table {
+  background: linear-gradient(120deg, #2980b9, #8e44ad);
+}
+.date-picker {
+  position: relative;
+  top: 80px;
+  width: 100px;
+  white-space: nowrap;
+}
+.date {
+  display: inline-block;
+}
+.submit-date {
+  display: inline-block;
+}
+.form-select {
+  border: none;
+  width: 170px;
+  font-weight: bold;
+}
 .login-form {
   position: relative;
   top: 80px;
@@ -160,6 +181,58 @@ input[type="submit"]:hover {
     }
   }
 }
+.number-home {
+  position: absolute;
+  top: 450px;
+  left: 560px;
+}
+
+.number-input-1 {
+  position: absolute;
+  top: 100px;
+}
+
+.number-input-2 {
+  position: absolute;
+  top: 150px;
+}
+
+.number-input-3 {
+  position: absolute;
+  top: 200px;
+}
+
+.number-input-4 {
+  position: absolute;
+  top: 250px;
+}
+
+.number-input-5 {
+  position: absolute;
+  top: 300px;
+}
+
+.number-input-6 {
+  position: absolute;
+  top: 350px;
+}
+
+.number-input-7 {
+  position: absolute;
+  top: 400px;
+}
+
+.number-input-8 {
+  position: absolute;
+  top: 450px;
+}
+
+.number-label {
+  color: #e9f4fb;
+}
+.btn-home {
+  margin-top: 10px;
+}
 .fw-normal {
   position: absolute;
   left: 50%;
@@ -170,13 +243,13 @@ input[type="submit"]:hover {
 }
 
 // chart
-// .chart_body {
-//   margin: 50;
-//   padding: 0;
-//   background: linear-gradient(120deg,#2980b9, #8e44ad);
-//   height: 100vh;
-//   overflow: hidden;
-// }
+.chart_body {
+  margin: 50;
+  padding: 0;
+  background: #393948;
+  height: 100vh;
+  //overflow: hidden;
+}
 .chart {
   position: absolute;
   left: 10%;
@@ -284,4 +357,8 @@ input[type="submit"]:hover {
 
 .slider {
   width: 1100px;
+}
+
+#rangeValue {
+  color: #fff;
 }

@@ -15,45 +15,6 @@ class TestController {
         .update({ value: data[index] })
         .eq("id", index + 1);
     }
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data1 })
-    //   .eq("id", 1);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data2 })
-    //   .eq("id", 2);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data3 })
-    //   .eq("id", 3);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data4 })
-    //   .eq("id", 4);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data5 })
-    //   .eq("id", 5);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data6 })
-    //   .eq("id", 6);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data7 })
-    //   .eq("id", 7);
-
-    // await supabase
-    //   .from("data_input")
-    //   .update({ value: param.data8 })
-    //   .eq("id", 8);
     res.send(param);
   }
 

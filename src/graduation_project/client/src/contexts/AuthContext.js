@@ -43,7 +43,7 @@ const AuthContextProvider = ({ children }) => {
           LOCAL_STORAGE_TOKEN_NAME,
           response.data.accessToken
         );
-      console.log(response.data);
+      // console.log(response.data);
       await loadUser();
 
       return response.data;
@@ -52,8 +52,17 @@ const AuthContextProvider = ({ children }) => {
       else return { success: false, message: error.message };
     }
   };
+
+  // Logout
+  const logoutUser = async () => {
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+    dispatch({
+      type: "SET_AUTH",
+      payload: { isAuthenticated: false, user: null },
+    });
+  };
   // Context data
-  const authContextData = { loginUser, authState };
+  const authContextData = { loginUser, logoutUser, authState };
 
   // Return provider
   return (

@@ -55,6 +55,7 @@ void loop() {
           c = payload.charAt(i);
           if (c == no) {
             payload.remove(i, 1);
+            break;
           }
         }
         no = ']';
@@ -62,6 +63,7 @@ void loop() {
           c = payload.charAt(i);
           if (c == no) {
             payload.remove(i, 1);
+            break;
           }
         }
 
@@ -81,29 +83,22 @@ void loop() {
             count++;
           }
         }
-        Serial.println(payload);
-        String keyArr[count];
-        String valArr[count];
-        for (int i = 0; i < count; i++) {
+        int valArr[count+1];
+        for (int i = 0; i <= count; i++) {
+          // Serial.println(payload);
           JSONVar myObject = JSON.parse(payload);
           JSONVar keys = myObject.keys();
-          keyArr[i] = keys;
-          JSONVar value = myObject[keys[i]];
-          valArr[i] = value;
-          Serial.print(keysArr[i]);
+          JSONVar id = myObject[keys[0]];
+          // JSONVar value = myObject[keys[1]];
+          // String tempStr = JSON.stringify(value);
+          valArr[i] = int(myObject[keys[1]]);
+          Serial.print("valArr ");
+          Serial.print(id);
           Serial.print(" = ");
           Serial.println(valArr[i]);
+          int firstComma = payload.indexOf(',');
+          payload.remove(0,payload.indexOf(',',firstComma+1)+1);
         }
-        // if (JSON.typeof(myObject) == "undefined") {
-        //   Serial.println("Parsing input failed!");
-        //   return;
-        // }
-        // for (int i = 0; i < keys.length(); i++) {
-        //   JSONVar value = myObject[keys[i]];
-        //   Serial.print(keys[i]);
-        //   Serial.print(" = ");
-        //   Serial.println(value);
-        // }
       } else {
         Serial.print("Error code: ");
         Serial.println(httpResponseCode);

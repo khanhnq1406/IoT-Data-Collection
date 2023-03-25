@@ -10,6 +10,7 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
     user: null,
   });
+
   // Authenticate user
   const loadUser = async () => {
     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
@@ -34,6 +35,7 @@ const AuthContextProvider = ({ children }) => {
     }
   };
   useEffect(() => loadUser, []);
+
   // Login
   const loginUser = async (userForm) => {
     try {
@@ -43,7 +45,6 @@ const AuthContextProvider = ({ children }) => {
           LOCAL_STORAGE_TOKEN_NAME,
           response.data.accessToken
         );
-      // console.log(response.data);
       await loadUser();
 
       return response.data;
@@ -61,6 +62,7 @@ const AuthContextProvider = ({ children }) => {
       payload: { isAuthenticated: false, user: null },
     });
   };
+
   // Context data
   const authContextData = { loginUser, logoutUser, authState };
 

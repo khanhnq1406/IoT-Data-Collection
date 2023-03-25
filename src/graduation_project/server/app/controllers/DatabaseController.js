@@ -13,6 +13,14 @@ class DatabaseController {
       .eq("username", username);
     res.json(Users);
   }
+
+  async getWarning(req, res) {
+    let { data: alarm, error } = await supabase
+      .from("alarm")
+      .select("*")
+      .neq("date", "");
+    return res.json(alarm);
+  }
 }
 
 module.exports = new DatabaseController();

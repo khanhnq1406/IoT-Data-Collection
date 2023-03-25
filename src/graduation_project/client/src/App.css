@@ -166,7 +166,27 @@ input[type="submit"]:hover {
 .navUsername {
   color: #ffffff;
 }
+.data-value {
+  font-size: 40px;
+}
 
-/* .userAvatar {
-  margin-left: -10px;
-} */
+.card-header-text {
+  text-align: center;
+}
+.alight-center {
+  margin-top: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.alarm-button {
+  position: absolute;
+  /* top: 58%;
+  left: 78%; */
+  left: -200px;
+  top: -150px;
+}
+.alarm-button.hide {
+  opacity: 0;
+}

@@ -1,18 +1,24 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../contexts/constants";
 import Table from "react-bootstrap/Table";
 
 const AlarmModal = (props) => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const [alarmInfo, setalarmInfo] = useState();
-  const data = axios.get(`${apiUrl}/database/getWarning`);
-
-  data.then((data) => {
-    const alarmData = data.data;
-    setalarmInfo(alarmData);
-    console.log(alarmInfo);
+  useEffect(() => {
+    async function makeRequest() {
+      await sleep(2000);
+      const data = axios.get(`${apiUrl}/database/getWarning`);
+      data.then((data) => {
+        const alarmData = data.data;
+        setalarmInfo(alarmData);
+        console.log(alarmInfo);
+      });
+    }
+    makeRequest();
   });
 
   return (

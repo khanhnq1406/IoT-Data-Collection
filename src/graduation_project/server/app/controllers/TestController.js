@@ -22,6 +22,7 @@ class TestController {
       .from("data_input")
       .select()
       .order("id", { ascending: true });
+
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
       const id = index + 1;
@@ -32,15 +33,12 @@ class TestController {
       const message = alarm[0].text;
 
       const hasWarning = message != 0;
-      console.log(index);
       if (element.max == null) {
-        console.log("Is null");
         continue;
       } else if (
         Number(element.value) >= Number(element.max) &&
         (!hasWarning || message.includes("Low"))
       ) {
-        console.log("MAX: ", element.max);
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -59,7 +57,6 @@ class TestController {
         Number(element.value) <= Number(element.min) &&
         (!hasWarning || message.includes("High"))
       ) {
-        console.log("MIN: ", element.min);
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -74,8 +71,11 @@ class TestController {
           .from("alarm")
           .update({ date: dateString, time: timeString, text: message })
           .eq("id", id);
-      } else {
-        console.log("Empty");
+      } else if (
+        Number(element.value) < Number(element.max) &&
+        Number(element.value) > Number(element.min) &&
+        hasWarning
+      ) {
         const { data } = await supabase
           .from("alarm")
           .update({ date: "", time: "", text: "" })

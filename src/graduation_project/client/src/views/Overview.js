@@ -36,7 +36,14 @@ const Overview = () => {
         let hasAlarm = false;
         for (let index = 0; index < dataThen.data.length; index++) {
           const element = dataThen.data[index].value;
-          if (element >= 80) {
+          const max = dataThen.data[index].max;
+          const min = dataThen.data[index].min;
+          console.log(max, min, element);
+          if (
+            (element >= max || element <= min) &&
+            max != null &&
+            min != null
+          ) {
             hasAlarm = true;
             break;
           }
@@ -57,7 +64,7 @@ const Overview = () => {
     }
     makeRequest();
   });
-
+  console.log(setAlarm);
   // User interface handles
   const navigate = useNavigate();
   const onClickToNode1 = () => navigate("/node1");

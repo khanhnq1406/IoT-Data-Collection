@@ -21,6 +21,39 @@ class DatabaseController {
       .neq("date", "");
     return res.json(alarm);
   }
+
+  async setAlarmValue(req, res) {
+    const param = req.body;
+    const value = Object.values(param);
+    const key = Object.keys(param);
+
+    for (let index = 0; index < value.length; index++) {
+      console.log(key[index]);
+      console.log(value[index]);
+      console.log((index % 3) + 1);
+      if (key[index].includes("min"))
+        await supabase
+          .from("data_input")
+          .update({ min: value[index] })
+          .eq("id", (index % 3) + 1);
+      if (key[index].includes("max"))
+        await supabase
+          .from("data_input")
+          .update({ max: value[index] })
+          .eq("id", (index % 3) + 1);
+    }
+    res.send(param);
+  }
+
+  async getAlarmRange(req, res) {
+    let { data: alarm, error } = await supabase
+      .from("data_input")
+      .select("min,max")
+      .order("id", { ascending: true })
+      .not("max", "is", null);
+    console.log(alarm);
+    res.json(alarm);
+  }
 }
 
 module.exports = new DatabaseController();

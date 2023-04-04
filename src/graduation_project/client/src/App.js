@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landing from "./components/layout/Landing";
 import Test from "./components/Test";
 import Overview from "./views/Overview";
+import Node1 from "./views/Node1";
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
@@ -19,6 +20,14 @@ function App() {
             element={
               <ProtectedRoute redirectTo="/login">
                 <Overview />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/node1"
+            element={
+              <ProtectedRoute redirectTo="/login">
+                <Node1 />
               </ProtectedRoute>
             }
           />

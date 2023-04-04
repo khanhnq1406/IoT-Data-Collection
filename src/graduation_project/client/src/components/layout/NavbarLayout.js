@@ -56,7 +56,7 @@ const NavbarLayout = (attribute) => {
             <Nav.Link href="/overview">Overview</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="link-1">Node 1</Nav.Link>
+            <Nav.Link href="/node1">Node 1</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="link-2">Node 2</Nav.Link>

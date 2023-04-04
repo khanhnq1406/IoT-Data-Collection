@@ -60,7 +60,7 @@ const Overview = () => {
 
   // User interface handles
   const navigate = useNavigate();
-  const onClickToNode1 = () => navigate("#node1");
+  const onClickToNode1 = () => navigate("/node1");
   const onClickToNode2 = () => navigate("#node2");
   const onClickToNode3 = () => navigate("#node3");
 

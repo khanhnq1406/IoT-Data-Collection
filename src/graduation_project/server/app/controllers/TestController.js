@@ -29,8 +29,18 @@ class TestController {
         .from("alarm")
         .select()
         .eq("id", id);
-      const hasWarning = alarm[0].date != 0;
-      if (Number(element.value) >= 80 && !hasWarning) {
+      const message = alarm[0].text;
+
+      const hasWarning = message != 0;
+      console.log(index);
+      if (element.max == null) {
+        console.log("Is null");
+        continue;
+      } else if (
+        Number(element.value) >= Number(element.max) &&
+        (!hasWarning || message.includes("Low"))
+      ) {
+        console.log("MAX: ", element.max);
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -45,7 +55,27 @@ class TestController {
           .from("alarm")
           .update({ date: dateString, time: timeString, text: message })
           .eq("id", id);
-      } else if (Number(element.value) < 80 && hasWarning) {
+      } else if (
+        Number(element.value) <= Number(element.min) &&
+        (!hasWarning || message.includes("High"))
+      ) {
+        console.log("MIN: ", element.min);
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+        const dateString = day + "/" + Number(month + 1) + "/" + year;
+        const timeString = hour + ":" + minute + ":" + second;
+        const message = `Data ${index + 1} Low Limit`;
+        const { data } = await supabase
+          .from("alarm")
+          .update({ date: dateString, time: timeString, text: message })
+          .eq("id", id);
+      } else {
+        console.log("Empty");
         const { data } = await supabase
           .from("alarm")
           .update({ date: "", time: "", text: "" })

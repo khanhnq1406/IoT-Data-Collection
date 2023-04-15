@@ -7,6 +7,7 @@ const supabase = createClient(
 class AuthController {
   // [GET] /
   async index(req, res, next) {
+    console.log("GET /");
     try {
       const username = req.userId;
       let { data, error } = await supabase.from("Users").select("*");
@@ -24,6 +25,7 @@ class AuthController {
     }
   }
   async login(req, res, next) {
+    console.log("GET /login");
     const { username, password } = req.body;
     let { data, error } = await supabase.from("Users").select("*");
     for (let index = 0; index < data.length; index++) {

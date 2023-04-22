@@ -123,6 +123,23 @@ GenerateClassCluster=0
 DocumentUniqueId=CHAKJXGX
 
 [Document6]
+DocumentPath=LIB_Manual.SchLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=PSIXPCEN
+
+[Document7]
 DocumentPath=D:\Software\Altium-Libraly-main\Project Outputs for Altium_Lib_by_KhueNguyenCreator\Altium_Lib_by_KhueNguyenCreator.IntLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -139,7 +156,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document7]
+[Document8]
 DocumentPath=..\..\..\..\..\..\..\Downloads\thu_vien_Altium\thu_vien_Altium\LIBRARY1.IntLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -156,7 +173,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document8]
+[Document9]
 DocumentPath=..\..\..\..\..\..\..\..\Public\Documents\Altium\Projects\PCB_Project_2\LORA E32.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -171,43 +188,9 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=LEWKGHHR
-
-[Document9]
-DocumentPath=..\..\..\..\..\..\..\..\Public\Documents\Altium\Projects\PCB_Project_2\PvLib1.PvLib
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=
+DocumentUniqueId=VIVKSLPY
 
 [Document10]
-DocumentPath=..\..\..\..\..\..\..\..\Public\Documents\Altium\Projects\PCB_Project_2\PvLib2.PvLib
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=
-
-[Document11]
 DocumentPath=..\..\..\..\..\..\..\..\Public\Documents\Altium\Projects\PCB_Project_2\Ethernet module.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -224,7 +207,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=LHQHIYXM
 
-[Document12]
+[Document11]
 DocumentPath=..\..\..\..\..\..\..\..\Public\Documents\Altium\Projects\PCB_Project_2\Lcd Oled 1306.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1

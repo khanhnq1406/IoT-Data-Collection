@@ -24,11 +24,9 @@ DHT dht(DHTPIN, DHTTYPE);
 // ---------- esp8266 pins --------------
 #include <SoftwareSerial.h>
 SoftwareSerial mySerial(D2, D3); // e32 TX e32 RX
-LoRa_E32 e32ttl(&mySerial, D5, D7, D6);
-//LoRa_E32 e32ttl(&Serial1);
-// -------------------------------------
+LoRa_E32 e32ttl(&mySerial);// -------------------------------------
   int delay_number[200]={0};
-  unsigned long t_[200]={0};
+  unsigned long t_[20 0]={0};
   int first_state[200]={0};
 // ---------- data--------------
 unsigned int Status_Led;
@@ -36,11 +34,11 @@ int data_L1,data_L2,data_L3,data_L4;
 float Temp=0;
 int StatusLed_1,StatusLed_2,StatusLed_3,StatusLed_4;
 int Status_Led_SV;
-int Code_Data=0;
+int CodeDataS=0;
 unsigned long Time_=0,Time2_=0;
 int flag1=0,flag2=0,flag3=0;
 int Send_number =0;
-int Code_send=0;
+int CodeData=0;
 // -------------------------------------
 
 void printParameters(struct Configuration configuration);
@@ -81,7 +79,8 @@ void setup()
     configuration.OPTION.wirelessWakeupTime = WAKE_UP_750;
     configuration.OPTION.ioDriveMode = IO_D_MODE_PUSH_PULLS_PULL_UPS;
     e32ttl.setConfiguration(configuration, WRITE_CFG_PWR_DWN_SAVE);
-    printParameters(configuration);
+   printParameters(configuration);
+    ResponseStatus resetModule();
     // ---------------------------
     dht.begin();
 }
@@ -97,22 +96,26 @@ void setup()
 // The loop function is called in an endless loop
 void loop()
 {
-  
+  // ReadData_Master();
+  // delay(1);
     ScanData();
     dkhienLed();
-    Serial.print("Code_Data  = "); Serial.println(Code_Data );
-    if( Code_Data == 100 || Code_Data == 103)
+    // 103 co dữ liệu từ sv
+    Serial.print("CodeDataS  = "); Serial.println(CodeDataS );
+    if( CodeDataS == 100 || CodeDataS == 103)
     {
       Serial.println("                  send data ");
-      if(Code_Data == 103) Code_send= 111;
-      else Code_send =101;
-      SendData_Master(0, 3 ,0x08 );
-      if(managedDelay(1,200))
+      if(CodeDataS == 103) 
+        CodeData= 111;
+      else 
+        CodeData =101;
+        SendData_Master(0, 3 ,0x08 );
+      if(managedDelay(1,600))
       {
         Send_number ++;
       }
       if(Send_number >=4 )
-        Code_Data =0;
+        CodeDataS =0;
     }
     else
     {
@@ -152,13 +155,13 @@ void ReadData_Master()
     
     ResponseStructContainer rsc = e32ttl.receiveMessage(sizeof(Message));
     struct Message message = *(Message*) rsc.data;
-    Code_Data = *(int*)(message.Mode_R);
-    if(Code_Data == 103)
+    CodeDataS = *(int*)(message.Mode_R);
+    if(CodeDataS == 103)
     {
       Status_Led_SV = *(int*)(message.Status_Led_SV);
       Decode();
-      Serial.print("Status_Led_SV  = ");
-      Serial.println(Status_Led_SV );
+      Serial.print("CodeDataS  = ");
+      Serial.println(CodeDataS);
     }
     rsc.close();
   } 
@@ -175,11 +178,11 @@ void SendData_Master(int ADDL, int ADDH ,int CHAN )
   } message;
   
   *(float*)(message.Temperature_R) = Temp;
-  if(Code_Data != 103){
+  if(CodeDataS != 103){
   *(int*)(message.Status_Led_R)= Merge_DataLed();
   }
 
-  *(int*)(message.Mode_R)= Code_send;
+  *(int*)(message.Mode_R)= CodeData;
   ResponseStatus rs = e32ttl.sendFixedMessage(ADDL, ADDH, CHAN,&message, sizeof(Message));
 }
 void ScanData()
@@ -340,8 +343,8 @@ void printModuleInformation(struct ModuleInformation moduleInformation) {
     Serial.print(F("Freq.: "));  Serial.println(moduleInformation.frequency, HEX);
     Serial.print(F("Version  : "));  Serial.println(moduleInformation.version, HEX);
     Serial.print(F("Features : "));  Serial.println(moduleInformation.features, HEX);
+    Serial.print(F("MODE        : "));Serial.println(e32ttl.getMode());
     Serial.println("----------------------------------------");
- 
 }
 void dkhienLed() {
   digitalWrite(12,StatusLed_1);

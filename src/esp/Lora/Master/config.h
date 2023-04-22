@@ -44,7 +44,7 @@ struct WifiConfig wifiConfig;
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883                   // use 8883 for SSL
 #define AIO_USERNAME    "khanhnq1406"
-#define AIO_KEY         "aio_BwdR264N6kbek9bGjkHLTyeBu9eP"
+#define AIO_KEY         "aio_SMck69ZMlnswjCRKMKSre221bW0n"
 
 
 /************ Global State (you don't need to change this!) ******************/

@@ -26,25 +26,27 @@ struct WifiConfig {
   const char* yanaSsid = "Yana Coffee Tang1";
   const char* yanaPassword = "184hoangdieu2";
   // an
-  const char* AnSsid = "an123";
-  const char* AnPassword = "1237894567";
+  const char* AnSsid = "TOTOLINK_A720R";
+  const char* AnPassword = "";
   //
   const char* ARVRSsid = "ARVR Lab";
   const char* ARVRPassword = "ARVR@123456";
+
   //
   const char* KhanhSsid = "Khanh";
   const char* KhanhPassword = "khanh123456";
 };
 struct WifiConfig wifiConfig;
-#define WLAN_SSID       wifiConfig.boardingSsid
-#define WLAN_PASS       wifiConfig.boardingPassword
+#define WLAN_SSID       wifiConfig.KhanhSsid
+#define WLAN_PASS       wifiConfig.KhanhPassword
 
 /************************* Adafruit.io Setup *********************************/
 
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883                   // use 8883 for SSL
 #define AIO_USERNAME    "khanhnq1406"
-#define AIO_KEY         "aio_BwdR264N6kbek9bGjkHLTyeBu9eP"
+#define AIO_KEY         "aio_SMck69ZMlnswjCRKMKSre221bW0n"
+
 
 
 /************ Global State (you don't need to change this!) ******************/

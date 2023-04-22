@@ -52,6 +52,12 @@ String dateTime;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
 
+
+#include <DHT.h>
+#include <DHT_U.h>
+#define DHTPIN 14
+#define DHTTYPE DHT11   // DHT 11
+DHT dht(DHTPIN, DHTTYPE);
 /****************************************/
 uint32_t x=0;
 bool hasTurnedOnLight1, hasTurnedOnLight2;
@@ -128,7 +134,12 @@ void setup()
 } 
 void loop()
 {
+  //  Code_Data_S=103;
+  //  SendData_Slave(0,1,0x04);
+  // Temp = dht.readTemperature();
+  // Serial.println(Temp);
   MQTT_connect();
+  delay(1);
   if(Status_Sv == 1)
   {
     Code_Data_S=103;
@@ -153,20 +164,20 @@ void loop()
         digitalWrite(2,LOW);
         if(Code_Data == 101 )
         {
-          Code_Data=0;
+          // Code_Data=0;
           Status_Send=0;
           Send_number =0;
           Serial.println("  Reset ");
         }
         if(Code_Data == 111)
         {
-          Code_Data=0;
+          // Code_Data=0;
           Status_Sv=0;
           Status_Send=0;
           Send_number =0;
           Serial.println("  Reset ");
         }
-        if(managedDelay(1,6000))// delay 1s
+        if(managedDelay(1,1000))// delay 1s
         {
             Send_number = 0;
             Serial.println("    TimeOut");
@@ -180,19 +191,21 @@ void loop()
     Serial.println(StatusLed_3);
     Serial.print("Led_4 = ");
     Serial.println(StatusLed_4);
-    Serial.print("CodeData = ");
-    Serial.println(Code_Data);
+    Serial.print("CodeDataS = ");
+    Serial.println(Code_Data_S);
+    Serial.print("CodeDataS = ");
+    Serial.println(Code_Data_S);
   }
 
   printLocalTime();
   FireBase();
   MQTT();
-  // Serial.print("Status_Sv  = "); Serial.println(Status_Sv );
-  // Serial.print("Status_Send  = "); Serial.println(Status_Send );
-    // if(managedDelay(1,1000))
-    // {
-    //   Serial.println("                   Status_Send  = ");
-    // }
+  Serial.print("Status_Sv  = "); Serial.println(Status_Sv );
+  Serial.print("Status_Send  = "); Serial.println(Status_Send );
+    if(managedDelay(1,1000))
+    {
+      Serial.println("                   Status_Send  = ");
+    }
     
 
 }
@@ -260,8 +273,8 @@ void ReadData_Slave()
     // Serial.println(StatusLed_3);
     // Serial.print("Led_4 = ");
     // Serial.println(StatusLed_4);
-    // Serial.print("TEMP = ");
-    // Serial.println(Temp);
+    Serial.print("TEMP = ");
+    Serial.println(Temp);
   }
 }
 void MQTT()
@@ -347,7 +360,7 @@ void FireBase()
   Firebase.setFloat ( fbdo,"Led 2", StatusLed_2);
   Firebase.setFloat ( fbdo,"Led 1", StatusLed_1);
   strcat(ref, dateTime.c_str());
-  Firebase.setFloat( fbdo,ref, random(0,225));
+  Firebase.setFloat( fbdo,ref, Temp);
 
   delay(1);
 }

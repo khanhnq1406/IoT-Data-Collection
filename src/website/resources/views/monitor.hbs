@@ -4,6 +4,16 @@
       <th scope="col">#</th>
       <th scope="col">Date</th>
       <th scope="col">Temperature</th>
+      {{!-- <th scope="col">selc</th> --}}
+      {#if statusLight1}
+      <div class="card" style="width: 18rem;">
+        <img src="/img/light-on.png" class="card-img-top" />
+        <div class="card-body">
+          <h5 class="card-title">Light 1</h5>
+          <p class="card-text">Click to change status of light</p>
+          <a class="btn btn-primary" href="/control/turning">Turn Off</a>
+        </div>
+      </div>
     </tr>
   </thead>
   <tbody>
@@ -12,6 +22,7 @@
       <th scope="row">{{sum @index 1}}</th>
       <td>{{this.dateTime}}</td>
       <td>{{this.temperature}}</td>
+      {{!-- <td>{{this.dataTime}}</td> --}}
     </tr>
     {{/each}}
   </tbody>

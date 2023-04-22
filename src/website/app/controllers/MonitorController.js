@@ -8,7 +8,7 @@ class MonitorController {
       const firebaseDB = fb.database();
       const firebaseRef = firebaseDB.ref("Temperature");
       const data = [];
-      firebaseRef.on("value", function (snapshot) {
+      firebaseRef.on("value", function (snapshot) { 
         snapshot.forEach(function (element) {
           data.push({ dateTime: element.key, temperature: element.val() });
         });

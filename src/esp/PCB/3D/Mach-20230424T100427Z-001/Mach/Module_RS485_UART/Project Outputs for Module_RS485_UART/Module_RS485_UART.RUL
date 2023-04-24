@@ -1,0 +1,6 @@
+DRC Rules Export File for PCB: C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc
+RuleKind=Width|RuleName=Width_signal|Scope=Board|Minimum=7.87
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
+RuleKind=Width|RuleName=Width_power|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=10.00
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0

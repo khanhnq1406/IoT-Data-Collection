@@ -1,0 +1,646 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD21\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">9/17/2021</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">9:44:02 AM</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:02</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc" class="file"><acronym title="C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc">C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">102</td></tr>
+</table>
+</td>
+</table><a name="IDJSG3P2WRDWZDM3V5D0QQPSVYOPX2FER0DLJB4CLFZI05VEMHKVIK"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID0CCQFPZ5F4EBBXLBVGJNUIWJZLL0WZCSFQNRJKIK2SUQI3DQ4TO">Clearance Constraint (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDVM1LGVSOGY41GXGVLNDGT3WXH5BSRL1VEZWG3IE5TLYAKMICLUB">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQUNQXXP1DZNGIKLQNWX2MIDURGFGKNVH2IZFRGPLYRGB5RMAM5DO">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID4REQLEJAUL02IA3S2GYD2TTZAPCG2Y2FQ2QDWYOSBBMNSMXIFIUC">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDU3QTJTHINAFEFB30LSBMQYIQ5FVWWCD5PQQ1C4PBICGWVIV2N2OF">Width Constraint (Min=0.2mm) (Max=2mm) (Preferred=0.5mm) (InNetClass('Power'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDVXTMCO2VCKRTJ4EREKEQF20FLX0GYJWCTGF34KIARWA52KG0XTK">Width Constraint (Min=0.2mm) (Max=0.2mm) (Preferred=0.2mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDYKS2TI1BQFK3OUSRBFFI2H33HDDC2ISNX3ZLOEOCFCJ5ZDH5AIWI">Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDGVN2XUHWRJ0O1NBWPE5ATSXLI2GMCAEB0VE4VCONOFLGZ43YMZH">Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDUWPTW2HCZAV0D2WOFJJIIIVHCOXRGTW1FKYZHTNHBZIFXK04N4PC">Hole To Hole Clearance (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID3JOBQBXLUXJXNSFNV5HI3OFYIEGONI3AI0JHG3CLVORMS45UDLJO">Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">3</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDNTV4RYIJI2G1BGKLWZFDIIHGJEOZWXYLI5FNRSJ1BMGUTOAHLBVK">Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)</a></td>
+<td class="column2">83</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDRAC0HEAZ2UZSNQ4XSBADJRPLXLSRHQJZEGCF5EOZBG1CVP3ACZ5M">Silk to Silk (Clearance=0.254mm) (All),(All)</a></td>
+<td class="column2">16</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQWDPM5ZVVGJY312T52BNMSZ1IB1Y3HB2FCWCUKIY5M1HUJLCCIF">Net Antennae (Tolerance=0mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDCRR0WXL104RFHPT130SAQBIVZKCMDE4KQNADMOF3TXIGMIZ0KLBM">Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">102</td>
+</tr>
+</table><br><a name="ID3JOBQBXLUXJXNSFNV5HI3OFYIEGONI3AI0JHG3CLVORMS45UDLJO"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4294.011mil|Location2.X=4305.261mil|Location1.Y=2456.58mil|Location2.Y=2467.83mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4294.011mil|Location2.X=4305.261mil|Location1.Y=2456.58mil|Location2.Y=2467.83mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.12mm &lt; 0.254mm) Between Pad R1-1(43.4mm,13.01mm) on Top Layer And Pad R5-2(43.4mm,11.74mm) on Top Layer [Top Solder] Mask Sliver [0.12mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3767.436mil|Location2.X=3778.686mil|Location1.Y=2457.564mil|Location2.Y=2468.814mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3767.436mil|Location2.X=3778.686mil|Location1.Y=2457.564mil|Location2.Y=2468.814mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.12mm &lt; 0.254mm) Between Pad R2-1(30.025mm,13.035mm) on Top Layer And Pad R4-1(30.025mm,11.765mm) on Top Layer [Top Solder] Mask Sliver [0.12mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3710.35mil|Location2.X=3721.6mil|Location1.Y=2457.564mil|Location2.Y=2468.814mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3710.35mil|Location2.X=3721.6mil|Location1.Y=2457.564mil|Location2.Y=2468.814mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (0.12mm &lt; 0.254mm) Between Pad R2-2(28.575mm,13.035mm) on Top Layer And Pad R4-2(28.575mm,11.765mm) on Top Layer [Top Solder] Mask Sliver [0.12mm]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDNTV4RYIJI2G1BGKLWZFDIIHGJEOZWXYLI5FNRSJ1BMGUTOAHLBVK"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3147.601mil|Location2.X=3158.851mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3147.601mil|Location2.X=3158.851mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-1(14.45mm,16.8mm) on Top Layer And Track (13.725mm,16.075mm)(13.725mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3185.103mil|Location2.X=3196.353mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3185.103mil|Location2.X=3196.353mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-1(14.45mm,16.8mm) on Top Layer And Track (13.725mm,16.075mm)(16.61mm,16.075mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3151.442mil|Location2.X=3162.692mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3151.442mil|Location2.X=3162.692mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-1(14.45mm,16.8mm) on Top Layer And Track (13.74mm,17.525mm)(16.61mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3188.944mil|Location2.X=3200.194mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3188.944mil|Location2.X=3200.194mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-1(14.45mm,16.8mm) on Top Layer And Track (15.175mm,16.075mm)(15.175mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3242.189mil|Location2.X=3253.439mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3242.189mil|Location2.X=3253.439mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-2(15.9mm,16.8mm) on Top Layer And Track (13.725mm,16.075mm)(16.61mm,16.075mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3208.528mil|Location2.X=3219.778mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3208.528mil|Location2.X=3219.778mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-2(15.9mm,16.8mm) on Top Layer And Track (13.74mm,17.525mm)(16.61mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3204.688mil|Location2.X=3215.938mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3204.688mil|Location2.X=3215.938mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-2(15.9mm,16.8mm) on Top Layer And Track (15.175mm,16.075mm)(15.175mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.03mil|Location2.X=3257.28mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3246.03mil|Location2.X=3257.28mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C1-2(15.9mm,16.8mm) on Top Layer And Track (16.625mm,16.075mm)(16.625mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3573.782mil|Location2.X=3585.032mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3573.782mil|Location2.X=3585.032mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-1(25.275mm,16.8mm) on Top Layer And Track (24.55mm,16.075mm)(24.55mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.285mil|Location2.X=3622.535mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.285mil|Location2.X=3622.535mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-1(25.275mm,16.8mm) on Top Layer And Track (24.55mm,16.075mm)(27.435mm,16.075mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3577.624mil|Location2.X=3588.874mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3577.624mil|Location2.X=3588.874mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-1(25.275mm,16.8mm) on Top Layer And Track (24.565mm,17.525mm)(27.435mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3615.126mil|Location2.X=3626.376mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3615.126mil|Location2.X=3626.376mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-1(25.275mm,16.8mm) on Top Layer And Track (26mm,16.075mm)(26mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3668.371mil|Location2.X=3679.621mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3668.371mil|Location2.X=3679.621mil|Location1.Y=2610.119mil|Location2.Y=2621.369mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-2(26.725mm,16.8mm) on Top Layer And Track (24.55mm,16.075mm)(27.435mm,16.075mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3634.709mil|Location2.X=3645.959mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3634.709mil|Location2.X=3645.959mil|Location1.Y=2651.462mil|Location2.Y=2662.712mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-2(26.725mm,16.8mm) on Top Layer And Track (24.565mm,17.525mm)(27.435mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3630.869mil|Location2.X=3642.119mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3630.869mil|Location2.X=3642.119mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-2(26.725mm,16.8mm) on Top Layer And Track (26mm,16.075mm)(26mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3672.212mil|Location2.X=3683.462mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3672.212mil|Location2.X=3683.462mil|Location1.Y=2613.959mil|Location2.Y=2625.209mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C2-2(26.725mm,16.8mm) on Top Layer And Track (27.45mm,16.075mm)(27.45mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4168.37mil|Location2.X=4179.62mil|Location1.Y=2610.12mil|Location2.Y=2621.37mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4168.37mil|Location2.X=4179.62mil|Location1.Y=2610.12mil|Location2.Y=2621.37mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-1(39.425mm,16.8mm) on Top Layer And Track (37.265mm,16.075mm)(40.135mm,16.075mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4134.709mil|Location2.X=4145.959mil|Location1.Y=2651.463mil|Location2.Y=2662.713mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4134.709mil|Location2.X=4145.959mil|Location1.Y=2651.463mil|Location2.Y=2662.713mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-1(39.425mm,16.8mm) on Top Layer And Track (37.265mm,17.525mm)(40.15mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4130.868mil|Location2.X=4142.118mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4130.868mil|Location2.X=4142.118mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-1(39.425mm,16.8mm) on Top Layer And Track (38.7mm,16.075mm)(38.7mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4172.211mil|Location2.X=4183.461mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4172.211mil|Location2.X=4183.461mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-1(39.425mm,16.8mm) on Top Layer And Track (40.15mm,16.075mm)(40.15mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4073.782mil|Location2.X=4085.032mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4073.782mil|Location2.X=4085.032mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-2(37.975mm,16.8mm) on Top Layer And Track (37.25mm,16.075mm)(37.25mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4111.284mil|Location2.X=4122.534mil|Location1.Y=2610.12mil|Location2.Y=2621.37mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4111.284mil|Location2.X=4122.534mil|Location1.Y=2610.12mil|Location2.Y=2621.37mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-2(37.975mm,16.8mm) on Top Layer And Track (37.265mm,16.075mm)(40.135mm,16.075mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4077.623mil|Location2.X=4088.873mil|Location1.Y=2651.463mil|Location2.Y=2662.713mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4077.623mil|Location2.X=4088.873mil|Location1.Y=2651.463mil|Location2.Y=2662.713mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-2(37.975mm,16.8mm) on Top Layer And Track (37.265mm,17.525mm)(40.15mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4115.124mil|Location2.X=4126.374mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4115.124mil|Location2.X=4126.374mil|Location1.Y=2613.961mil|Location2.Y=2625.211mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad C3-2(37.975mm,16.8mm) on Top Layer And Track (38.7mm,16.075mm)(38.7mm,17.525mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4294.011mil|Location2.X=4305.261mil|Location1.Y=2502.251mil|Location2.Y=2513.501mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4294.011mil|Location2.X=4305.261mil|Location1.Y=2502.251mil|Location2.Y=2513.501mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R1-1(43.4mm,13.01mm) on Top Layer And Track (42.892mm,13.735mm)(43.908mm,13.735mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4322.062mil|Location2.X=4333.312mil|Location1.Y=2517.994mil|Location2.Y=2529.244mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4322.062mil|Location2.X=4333.312mil|Location1.Y=2517.994mil|Location2.Y=2529.244mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R1-2(43.4mm,14.46mm) on Top Layer And Track (42.892mm,13.735mm)(43.908mm,13.735mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3760.79mil|Location2.X=3772.04mil|Location1.Y=2468.538mil|Location2.Y=2479.788mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3760.79mil|Location2.X=3772.04mil|Location1.Y=2468.538mil|Location2.Y=2479.788mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R2-1(30.025mm,13.035mm) on Top Layer And Track (29.3mm,12.527mm)(29.3mm,13.543mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3745.047mil|Location2.X=3756.297mil|Location1.Y=2468.538mil|Location2.Y=2479.788mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3745.047mil|Location2.X=3756.297mil|Location1.Y=2468.538mil|Location2.Y=2479.788mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R2-2(28.575mm,13.035mm) on Top Layer And Track (29.3mm,12.527mm)(29.3mm,13.543mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4585.306mil|Location2.X=4596.556mil|Location1.Y=2536.299mil|Location2.Y=2547.549mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4585.306mil|Location2.X=4596.556mil|Location1.Y=2536.299mil|Location2.Y=2547.549mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad R3-1(49.86mm,14.625mm) on Top Layer And Text "R3" (51.9mm,13mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4576.393mil|Location2.X=4587.643mil|Location1.Y=2524.491mil|Location2.Y=2535.741mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4576.393mil|Location2.X=4587.643mil|Location1.Y=2524.491mil|Location2.Y=2535.741mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R3-1(49.86mm,14.625mm) on Top Layer And Track (49.352mm,13.9mm)(50.368mm,13.9mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4585.306mil|Location2.X=4596.556mil|Location1.Y=2481.199mil|Location2.Y=2492.449mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4585.306mil|Location2.X=4596.556mil|Location1.Y=2481.199mil|Location2.Y=2492.449mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad R3-2(49.86mm,13.175mm) on Top Layer And Text "R3" (51.9mm,13mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4548.342mil|Location2.X=4559.592mil|Location1.Y=2508.747mil|Location2.Y=2519.997mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4548.342mil|Location2.X=4559.592mil|Location1.Y=2508.747mil|Location2.Y=2519.997mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R3-2(49.86mm,13.175mm) on Top Layer And Track (49.352mm,13.9mm)(50.368mm,13.9mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3760.79mil|Location2.X=3772.04mil|Location1.Y=2418.538mil|Location2.Y=2429.788mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3760.79mil|Location2.X=3772.04mil|Location1.Y=2418.538mil|Location2.Y=2429.788mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R4-1(30.025mm,11.765mm) on Top Layer And Track (29.3mm,11.257mm)(29.3mm,12.273mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3745.047mil|Location2.X=3756.297mil|Location1.Y=2418.538mil|Location2.Y=2429.788mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3745.047mil|Location2.X=3756.297mil|Location1.Y=2418.538mil|Location2.Y=2429.788mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R4-2(28.575mm,11.765mm) on Top Layer And Track (29.3mm,11.257mm)(29.3mm,12.273mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4294.011mil|Location2.X=4305.261mil|Location1.Y=2395.165mil|Location2.Y=2406.415mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4294.011mil|Location2.X=4305.261mil|Location1.Y=2395.165mil|Location2.Y=2406.415mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R5-1(43.4mm,10.29mm) on Top Layer And Track (42.892mm,11.015mm)(43.908mm,11.015mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4322.062mil|Location2.X=4333.312mil|Location1.Y=2410.908mil|Location2.Y=2422.158mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4322.062mil|Location2.X=4333.312mil|Location1.Y=2410.908mil|Location2.Y=2422.158mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R5-2(43.4mm,11.74mm) on Top Layer And Track (42.892mm,11.015mm)(43.908mm,11.015mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3648.341mil|Location2.X=3659.591mil|Location1.Y=2189.85mil|Location2.Y=2201.1mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3648.341mil|Location2.X=3659.591mil|Location1.Y=2189.85mil|Location2.Y=2201.1mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R6-1(27mm,5.075mm) on Top Layer And Track (26.492mm,5.8mm)(27.508mm,5.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3676.393mil|Location2.X=3687.643mil|Location1.Y=2205.593mil|Location2.Y=2216.843mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3676.393mil|Location2.X=3687.643mil|Location1.Y=2205.593mil|Location2.Y=2216.843mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R6-2(27mm,6.525mm) on Top Layer And Track (26.492mm,5.8mm)(27.508mm,5.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3091.499mil|Location2.X=3102.749mil|Location1.Y=2132.712mil|Location2.Y=2143.962mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3091.499mil|Location2.X=3102.749mil|Location1.Y=2132.712mil|Location2.Y=2143.962mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R7-1(13.025mm,4.505mm) on Top Layer And Track (12.3mm,3.997mm)(12.3mm,5.013mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3075.755mil|Location2.X=3087.005mil|Location1.Y=2132.712mil|Location2.Y=2143.962mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3075.755mil|Location2.X=3087.005mil|Location1.Y=2132.712mil|Location2.Y=2143.962mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.1mm &lt; 0.254mm) Between Pad R7-2(11.575mm,4.505mm) on Top Layer And Track (12.3mm,3.997mm)(12.3mm,5.013mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.1mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3128.901mil|Location2.X=3140.151mil|Location1.Y=2521.934mil|Location2.Y=2533.184mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3128.901mil|Location2.X=3140.151mil|Location1.Y=2521.934mil|Location2.Y=2533.184mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.2mm &lt; 0.254mm) Between Pad U1-1(14.45mm,14.305mm) on Top Layer And Track (13.2mm,14mm)(13.2mm,15mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3134.021mil|Location2.X=3145.271mil|Location1.Y=2549.2mil|Location2.Y=2560.45mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3134.021mil|Location2.X=3145.271mil|Location1.Y=2549.2mil|Location2.Y=2560.45mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.245mm &lt; 0.254mm) Between Pad U1-1(14.45mm,14.305mm) on Top Layer And Track (13.2mm,15mm)(16.1mm,15mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.245mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.048mil|Location2.X=3245.298mil|Location1.Y=2549.208mil|Location2.Y=2560.458mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.048mil|Location2.X=3245.298mil|Location1.Y=2549.208mil|Location2.Y=2560.458mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.246mm &lt; 0.254mm) Between Pad U1-1(17.168mm,14.305mm) on Top Layer And Track (13.2mm,15mm)(16.1mm,15mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.246mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2523.726mil|Location2.Y=2531.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2523.726mil|Location2.Y=2531.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-1(17.168mm,14.305mm) on Top Layer And Track (16.093mm,14.012mm)(16.093mm,14.604mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2523.726mil|Location2.Y=2531.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2523.726mil|Location2.Y=2531.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-1(17.168mm,14.305mm) on Top Layer And Track (16.1mm,9.425mm)(16.1mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2473.726mil|Location2.Y=2481.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2473.726mil|Location2.Y=2481.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-2(17.168mm,13.035mm) on Top Layer And Track (16.093mm,12.742mm)(16.093mm,13.334mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2473.726mil|Location2.Y=2481.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2473.726mil|Location2.Y=2481.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-2(17.168mm,13.035mm) on Top Layer And Track (16.1mm,9.425mm)(16.1mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2423.726mil|Location2.Y=2431.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2423.726mil|Location2.Y=2431.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-3(17.168mm,11.765mm) on Top Layer And Track (16.093mm,11.472mm)(16.093mm,12.064mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2423.726mil|Location2.Y=2431.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2423.726mil|Location2.Y=2431.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-3(17.168mm,11.765mm) on Top Layer And Track (16.1mm,9.425mm)(16.1mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2373.726mil|Location2.Y=2381.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2373.726mil|Location2.Y=2381.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-4(17.168mm,10.495mm) on Top Layer And Track (16.093mm,10.202mm)(16.093mm,10.794mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2373.726mil|Location2.Y=2381.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3234.753mil|Location2.X=3242.42mil|Location1.Y=2373.726mil|Location2.Y=2381.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-4(17.168mm,10.495mm) on Top Layer And Track (16.093mm,10.202mm)(16.093mm,10.794mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2373.726mil|Location2.Y=2381.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3235.025mil|Location2.X=3242.692mil|Location1.Y=2373.726mil|Location2.Y=2381.392mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-4(17.168mm,10.495mm) on Top Layer And Track (16.1mm,9.425mm)(16.1mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2372.567mil|Location2.Y=2380.233mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2372.567mil|Location2.Y=2380.233mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-5(22.633mm,10.495mm) on Top Layer And Track (23.707mm,10.196mm)(23.707mm,10.788mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2372.541mil|Location2.Y=2380.207mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2372.541mil|Location2.Y=2380.207mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-5(22.633mm,10.495mm) on Top Layer And Track (23.7mm,9.425mm)(23.7mm,12.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2422.567mil|Location2.Y=2430.233mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2422.567mil|Location2.Y=2430.233mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-6(22.633mm,11.765mm) on Top Layer And Track (23.707mm,11.466mm)(23.707mm,12.058mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3531.694mil|Location2.X=3542.944mil|Location1.Y=2448.022mil|Location2.Y=2459.272mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3531.694mil|Location2.X=3542.944mil|Location1.Y=2448.022mil|Location2.Y=2459.272mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.186mm &lt; 0.254mm) Between Pad U1-6(22.633mm,11.765mm) on Top Layer And Track (23.7mm,12.4mm)(23.7mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.186mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2422.541mil|Location2.Y=2430.207mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2422.541mil|Location2.Y=2430.207mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-6(22.633mm,11.765mm) on Top Layer And Track (23.7mm,9.425mm)(23.7mm,12.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2472.567mil|Location2.Y=2480.233mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2472.567mil|Location2.Y=2480.233mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-7(22.633mm,13.035mm) on Top Layer And Track (23.707mm,12.736mm)(23.707mm,13.328mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2472.541mil|Location2.Y=2480.207mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2472.541mil|Location2.Y=2480.207mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-7(22.633mm,13.035mm) on Top Layer And Track (23.7mm,12.4mm)(23.7mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3531.694mil|Location2.X=3542.944mil|Location1.Y=2467.106mil|Location2.Y=2478.356mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3531.694mil|Location2.X=3542.944mil|Location1.Y=2467.106mil|Location2.Y=2478.356mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.186mm &lt; 0.254mm) Between Pad U1-7(22.633mm,13.035mm) on Top Layer And Track (23.7mm,9.425mm)(23.7mm,12.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.186mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2522.567mil|Location2.Y=2530.233mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2522.567mil|Location2.Y=2530.233mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-8(22.633mm,14.305mm) on Top Layer And Track (23.707mm,14.006mm)(23.707mm,14.598mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2522.567mil|Location2.Y=2530.233mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.509mil|Location2.X=3542.176mil|Location1.Y=2522.567mil|Location2.Y=2530.233mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-8(22.633mm,14.305mm) on Top Layer And Track (23.707mm,14.006mm)(23.707mm,14.598mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2522.541mil|Location2.Y=2530.207mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3534.238mil|Location2.X=3541.904mil|Location1.Y=2522.541mil|Location2.Y=2530.207mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 0.254mm) Between Pad U1-8(22.633mm,14.305mm) on Top Layer And Track (23.7mm,12.4mm)(23.7mm,15.375mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3883.822mil|Location2.X=3895.072mil|Location1.Y=2520.95mil|Location2.Y=2532.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3883.822mil|Location2.X=3895.072mil|Location1.Y=2520.95mil|Location2.Y=2532.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.15mm &lt; 0.254mm) Between Pad U2-1(33.768mm,14.28mm) on Top Layer And Track (32.4mm,13.975mm)(32.4mm,14.875mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.15mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3887.958mil|Location2.X=3899.208mil|Location1.Y=2546.247mil|Location2.Y=2557.497mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3887.958mil|Location2.X=3899.208mil|Location1.Y=2546.247mil|Location2.Y=2557.497mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.145mm &lt; 0.254mm) Between Pad U2-1(33.768mm,14.28mm) on Top Layer And Track (32.4mm,14.875mm)(35.2mm,14.875mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.145mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2520.95mil|Location2.Y=2532.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2520.95mil|Location2.Y=2532.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-1(33.768mm,14.28mm) on Top Layer And Track (35.2mm,9.925mm)(35.2mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2470.95mil|Location2.Y=2482.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2470.95mil|Location2.Y=2482.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-2(33.768mm,13.01mm) on Top Layer And Track (35.2mm,9.925mm)(35.2mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2420.95mil|Location2.Y=2432.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2420.95mil|Location2.Y=2432.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-3(33.768mm,11.74mm) on Top Layer And Track (35.2mm,9.925mm)(35.2mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2370.95mil|Location2.Y=2382.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.066mil|Location2.X=3986.316mil|Location1.Y=2370.95mil|Location2.Y=2382.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-4(33.768mm,10.47mm) on Top Layer And Track (35.2mm,9.925mm)(35.2mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2370.95mil|Location2.Y=2382.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2370.95mil|Location2.Y=2382.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-5(39.233mm,10.47mm) on Top Layer And Track (37.8mm,9.925mm)(37.8mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2420.95mil|Location2.Y=2432.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2420.95mil|Location2.Y=2432.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-6(39.233mm,11.74mm) on Top Layer And Track (37.8mm,9.925mm)(37.8mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2470.95mil|Location2.Y=2482.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2470.95mil|Location2.Y=2482.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-7(39.233mm,13.01mm) on Top Layer And Track (37.8mm,9.925mm)(37.8mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2520.95mil|Location2.Y=2532.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4097.7mil|Location2.X=4108.95mil|Location1.Y=2520.95mil|Location2.Y=2532.2mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.215mm &lt; 0.254mm) Between Pad U2-8(39.233mm,14.28mm) on Top Layer And Track (37.8mm,9.925mm)(37.8mm,14.825mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3170.601mil|Location2.X=3181.851mil|Location1.Y=2234.532mil|Location2.Y=2245.782mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3170.601mil|Location2.X=3181.851mil|Location1.Y=2234.532mil|Location2.Y=2245.782mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.175mm &lt; 0.254mm) Between Pad U3-1(15.897mm,7.095mm) on Top Layer And Track (14.272mm,6.694mm)(14.272mm,7.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.175mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3175.623mil|Location2.X=3186.873mil|Location1.Y=2267.507mil|Location2.Y=2278.757mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3175.623mil|Location2.X=3186.873mil|Location1.Y=2267.507mil|Location2.Y=2278.757mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.155mm &lt; 0.254mm) Between Pad U3-1(15.897mm,7.095mm) on Top Layer And Track (14.272mm,7.8mm)(16.572mm,7.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.155mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2230.101mil|Location2.Y=2241.351mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2230.101mil|Location2.Y=2241.351mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.145mm &lt; 0.254mm) Between Pad U3-1(15.897mm,7.095mm) on Top Layer And Track (16.572mm,5.2mm)(16.572mm,6.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.145mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2267.507mil|Location2.Y=2278.757mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2267.507mil|Location2.Y=2278.757mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.155mm &lt; 0.254mm) Between Pad U3-1(15.897mm,7.095mm) on Top Layer And Track (16.572mm,7.8mm)(16.572mm,8.15mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.155mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2127.936mil|Location2.Y=2139.186mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2127.936mil|Location2.Y=2139.186mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.155mm &lt; 0.254mm) Between Pad U3-2(15.897mm,4.505mm) on Top Layer And Track (16.572mm,3.45mm)(16.572mm,3.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.155mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2165.342mil|Location2.Y=2176.592mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3251.804mil|Location2.X=3263.054mil|Location1.Y=2165.342mil|Location2.Y=2176.592mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.145mm &lt; 0.254mm) Between Pad U3-2(15.897mm,4.505mm) on Top Layer And Track (16.572mm,5.2mm)(16.572mm,6.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.145mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2127.936mil|Location2.Y=2139.186mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2127.936mil|Location2.Y=2139.186mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.155mm &lt; 0.254mm) Between Pad U3-3(23.847mm,4.505mm) on Top Layer And Track (23.172mm,3.45mm)(23.172mm,3.8mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.155mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2165.342mil|Location2.Y=2176.592mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2165.342mil|Location2.Y=2176.592mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.145mm &lt; 0.254mm) Between Pad U3-3(23.847mm,4.505mm) on Top Layer And Track (23.172mm,5.2mm)(23.172mm,6.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.145mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2230.101mil|Location2.Y=2241.351mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2230.101mil|Location2.Y=2241.351mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.145mm &lt; 0.254mm) Between Pad U3-4(23.847mm,7.095mm) on Top Layer And Track (23.172mm,5.2mm)(23.172mm,6.4mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.145mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2267.507mil|Location2.Y=2278.757mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3511.647mil|Location2.X=3522.897mil|Location1.Y=2267.507mil|Location2.Y=2278.757mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (0.155mm &lt; 0.254mm) Between Pad U3-4(23.847mm,7.095mm) on Top Layer And Track (23.172mm,7.8mm)(23.172mm,8.15mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.155mm]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDRAC0HEAZ2UZSNQ4XSBADJRPLXLSRHQJZEGCF5EOZBG1CVP3ACZ5M"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk to Silk (Clearance=0.254mm) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2955.49mil|Location2.X=2963.156mil|Location1.Y=2120.758mil|Location2.Y=2128.424mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2955.49mil|Location2.X=2963.156mil|Location1.Y=2120.758mil|Location2.Y=2128.424mil|Absolute=True">Silk To Silk Clearance Constraint: (Collision &lt; 0.254mm) Between Region (0 hole(s)) Top Overlay And Text "RX" (8.4mm,2.6mm) on Top Overlay Silk Text to Silk Clearance [0mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2469.371mil|Location2.Y=2480.621mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2469.371mil|Location2.Y=2480.621mil|Absolute=True">Silk To Silk Clearance Constraint: (0.221mm &lt; 0.254mm) Between Text "0V" (8.3mm,11.7mm) on Top Overlay And Track (7.84mm,2.24mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.221mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3109.189mil|Location2.X=3120.439mil|Location1.Y=2537.885mil|Location2.Y=2549.135mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3109.189mil|Location2.X=3120.439mil|Location1.Y=2537.885mil|Location2.Y=2549.135mil|Absolute=True">Silk To Silk Clearance Constraint: (0.201mm &lt; 0.254mm) Between Text "0V_R" (8.3mm,14.44mm) on Top Overlay And Track (13.2mm,14mm)(13.2mm,15mm) on Top Overlay Silk Text to Silk Clearance [0.201mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3109.189mil|Location2.X=3120.439mil|Location1.Y=2560.713mil|Location2.Y=2571.963mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3109.189mil|Location2.X=3120.439mil|Location1.Y=2560.713mil|Location2.Y=2571.963mil|Absolute=True">Silk To Silk Clearance Constraint: (0.203mm &lt; 0.254mm) Between Text "0V_R" (8.3mm,14.44mm) on Top Overlay And Track (13.2mm,15mm)(16.1mm,15mm) on Top Overlay Silk Text to Silk Clearance [0.203mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2577.243mil|Location2.Y=2588.493mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2577.243mil|Location2.Y=2588.493mil|Absolute=True">Silk To Silk Clearance Constraint: (0.221mm &lt; 0.254mm) Between Text "0V_R" (8.3mm,14.44mm) on Top Overlay And Track (7.84mm,2.24mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.221mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2669.371mil|Location2.Y=2680.621mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2669.371mil|Location2.Y=2680.621mil|Absolute=True">Silk To Silk Clearance Constraint: (0.221mm &lt; 0.254mm) Between Text "3V3" (8.3mm,16.78mm) on Top Overlay And Track (7.84mm,2.24mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.221mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2777.243mil|Location2.Y=2788.493mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2777.243mil|Location2.Y=2788.493mil|Absolute=True">Silk To Silk Clearance Constraint: (0.221mm &lt; 0.254mm) Between Text "3V3_RS" (8.3mm,19.52mm) on Top Overlay And Track (7.84mm,2.24mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.221mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3595.448mil|Location2.X=3606.698mil|Location1.Y=2668.689mil|Location2.Y=2679.939mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3595.448mil|Location2.X=3606.698mil|Location1.Y=2668.689mil|Location2.Y=2679.939mil|Absolute=True">Silk To Silk Clearance Constraint: (0.175mm &lt; 0.254mm) Between Text "C2" (25.1mm,18mm) on Top Overlay And Track (24.565mm,17.525mm)(27.435mm,17.525mm) on Top Overlay Silk Text to Silk Clearance [0.175mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4091.511mil|Location2.X=4102.761mil|Location1.Y=2668.689mil|Location2.Y=2679.939mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4091.511mil|Location2.X=4102.761mil|Location1.Y=2668.689mil|Location2.Y=2679.939mil|Absolute=True">Silk To Silk Clearance Constraint: (0.175mm &lt; 0.254mm) Between Text "C3" (37.7mm,18mm) on Top Overlay And Track (37.265mm,17.525mm)(40.15mm,17.525mm) on Top Overlay Silk Text to Silk Clearance [0.175mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2369.371mil|Location2.Y=2380.621mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2369.371mil|Location2.Y=2380.621mil|Absolute=True">Silk To Silk Clearance Constraint: (0.221mm &lt; 0.254mm) Between Text "CTR" (8.3mm,9.16mm) on Top Overlay And Track (7.84mm,2.24mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.221mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2733.249mil|Location2.X=2744.499mil|Location1.Y=2861.089mil|Location2.Y=2872.339mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2733.249mil|Location2.X=2744.499mil|Location1.Y=2861.089mil|Location2.Y=2872.339mil|Absolute=True">Silk To Silk Clearance Constraint: (0.001mm &lt; 0.254mm) Between Text "JP2" (3.001mm,22.8mm) on Top Overlay And Track (1.744mm,22.56mm)(5.3mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.001mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2843.449mil|Location2.X=2854.699mil|Location1.Y=2861.089mil|Location2.Y=2872.339mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2843.449mil|Location2.X=2854.699mil|Location1.Y=2861.089mil|Location2.Y=2872.339mil|Absolute=True">Silk To Silk Clearance Constraint: (0.001mm &lt; 0.254mm) Between Text "JP2" (3.001mm,22.8mm) on Top Overlay And Track (5.3mm,22.56mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.001mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3748.983mil|Location2.X=3762.152mil|Location1.Y=2511.564mil|Location2.Y=2522.814mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3748.983mil|Location2.X=3762.152mil|Location1.Y=2511.564mil|Location2.Y=2522.814mil|Absolute=True">Silk To Silk Clearance Constraint: (0.199mm &lt; 0.254mm) Between Text "R2" (28.3mm,14mm) on Top Overlay And Track (29.3mm,12.527mm)(29.3mm,13.543mm) on Top Overlay Silk Text to Silk Clearance [0.199mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4588.906mil|Location2.X=4600.156mil|Location1.Y=2510.716mil|Location2.Y=2521.966mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4588.906mil|Location2.X=4600.156mil|Location1.Y=2510.716mil|Location2.Y=2521.966mil|Absolute=True">Silk To Silk Clearance Constraint: (0.148mm &lt; 0.254mm) Between Text "R3" (51.9mm,13mm) on Top Overlay And Track (49.352mm,13.9mm)(50.368mm,13.9mm) on Top Overlay Silk Text to Silk Clearance [0.148mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3087.563mil|Location2.X=3100.86mil|Location1.Y=2116.95mil|Location2.Y=2128.2mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3087.563mil|Location2.X=3100.86mil|Location1.Y=2116.95mil|Location2.Y=2128.2mil|Absolute=True">Silk To Silk Clearance Constraint: (0.236mm &lt; 0.254mm) Between Text "R7" (11.3mm,2.3mm) on Top Overlay And Track (12.3mm,3.997mm)(12.3mm,5.013mm) on Top Overlay Silk Text to Silk Clearance [0.236mm]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2277.243mil|Location2.Y=2288.493mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Module_RS485_UART.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2915.889mil|Location2.X=2927.139mil|Location1.Y=2277.243mil|Location2.Y=2288.493mil|Absolute=True">Silk To Silk Clearance Constraint: (0.221mm &lt; 0.254mm) Between Text "TX" (8.3mm,6.62mm) on Top Overlay And Track (7.84mm,2.24mm)(7.84mm,22.56mm) on Top Overlay Silk Text to Silk Clearance [0.221mm]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

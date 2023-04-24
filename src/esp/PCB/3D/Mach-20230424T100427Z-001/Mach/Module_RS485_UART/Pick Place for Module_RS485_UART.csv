@@ -1,0 +1,29 @@
+Altium Designer Pick and Place Locations
+C:\Users\ACER\Desktop\Mach\Module RS485_UART\Module_RS485_UART\Project Outputs for Module_RS485_UART\Pick Place for Module_RS485_UART.csv
+
+========================================================================================================================
+File Design Information:
+
+Date:       17/09/21
+Time:       09:48
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mil
+
+"Designator","Comment","Layer","Center-X(mil)","Center-Y(mil)","Rotation"
+"C1","1uF/10V","TopLayer","597.441","661.415","0"
+"C2","1uF/10V","TopLayer","1023.622","661.415","0"
+"C3","1uF/10V","TopLayer","1523.622","661.417","180"
+"J1","Jumper","TopLayer","2012.992","385.827","360"
+"JP1","JP3","TopLayer","2200.787","488.189","270"
+"JP2","JP7","TopLayer","208.661","488.189","90"
+"R1","2K2","TopLayer","1708.661","540.748","90"
+"R2","120","TopLayer","1153.543","513.189","180"
+"R3","120","TopLayer","1962.992","547.244","270"
+"R4","120","TopLayer","1153.543","463.189","180"
+"R5","2K2","TopLayer","1708.661","433.662","90"
+"R6","10K","TopLayer","1062.992","228.346","90"
+"R7","330","TopLayer","484.252","177.362","180"
+"U1","ISO7721DR SOIC 8","TopLayer","783.465","488.189","270"
+"U2","SP3485 SOIC8","TopLayer","1437.008","487.205","270"
+"U3","PC817-SOP4","TopLayer","782.350","228.346","360"

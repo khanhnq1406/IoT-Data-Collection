@@ -23,7 +23,7 @@
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
-
+#define IDNODE 2
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
@@ -38,6 +38,12 @@ LoRa_E32 e32ttl(&mySerial1);
 void printParameters(struct Configuration configuration);
 void printModuleInformation(struct ModuleInformation moduleInformation);
 //The setup function is called once at startup of the sketch
+String Mgs_d;
+int ID = 0;
+float Data1 = 0;
+float Data2 = 0;
+float Data3 = 0;
+float Data4 = 0;
 void setup()
 {
 	Serial.begin(9600);
@@ -74,16 +80,24 @@ void setup()
 	Serial.println("Start listening!");
   // e32ttl.setMode(MODE_2_POWER_SAVING);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);// initialize with the I2C addr 0x3C (for the 128x32)(initializing the display)
+  display.setRotation(90);
   display.display();
-      display.setTextSize(2); // Draw 2X-scale text
-    display.setTextColor(WHITE,BLACK);
-    display.setCursor(10, 0);
-    display.println("Start");
-    display.display();      // Show initial text
+  display.setTextSize(2); // Draw 2X-scale text
+  display.setTextColor(WHITE,BLACK);
+  display.setCursor(10, 0);
+  display.println("Start");
+  display.display();      // Show initial text
   delay(500); // Pause for 2 seconds
-
   // Clear the buffer
   display.clearDisplay();
+
+  Mgs_d = String(Data1) + "\n" +String(Data2) + "\n" + String(Data3)+ "\n" + String(Data4);
+  display.setTextSize(2); // Draw 2X-scale text
+  display.setTextColor(WHITE,BLACK);
+  display.setCursor(0, 0);
+  display.println(Mgs_d);
+  display.display();      // Show initial text
+  // delay(500);
 }
 struct Message {
 	    byte ID[4];
@@ -92,28 +106,18 @@ struct Message {
       byte Data3[4];
       byte Data4[4];    
 };
-int ID = 0;
-float Data1 = 0;
-float Data2 = 0;
-float Data3 = 0;
-float Data4 = 0;
+
 // The loop function is called in an endless loop
 void loop()
 {
-  
-    display.setTextSize(2); // Draw 2X-scale text
-    display.setTextColor(WHITE,BLACK);
-    display.setCursor(10, 0);
-    display.println(rand()%5000);
-    display.display();      // Show initial text
-    delay(500);
-  if(ID  != 4)
+  if(ID  == 0)
   {
     if (e32ttl.available()  > 1){
     redData();
+    ID = 1;
     }
   }
-  else if( ID  == 4)
+  else
   {
         struct Message1 {
         byte ID[4];
@@ -122,11 +126,11 @@ void loop()
         byte Data3[4];
         byte Data4[4];   
       } mgs;
-      *(int*)(mgs.ID) =  4;
+      *(int*)(mgs.ID) =  IDNODE;
       *(float*)(mgs.Data1) = 1;
       *(float*)(mgs.Data2) = 2;
       *(float*)(mgs.Data3) = 3;
-      *(float*)(mgs.Data4) = 4;
+      *(float*)(mgs.Data4) = 9;
       ResponseStatus rs = e32ttl.sendFixedMessage(0, 2, 2,&mgs, sizeof(Message1));
       delay(10);
       if(rs.getResponseDescription() == "Success")
@@ -135,12 +139,18 @@ void loop()
         Serial.println("rst");
       }
   }
+    Mgs_d = String(Data1) + "   ID"+ "\n" +String(Data2) + "   "+String(IDNODE) + "\n" + String(Data3)+ "\n" + String(Data4);
+    display.setTextSize(2); // Draw 2X-scale text
+    display.setTextColor(WHITE,BLACK);
+    display.setCursor(0, 0);
+    display.println(Mgs_d);
+    display.display();      // Show initial text[]]
 }
 void redData()
 {
     ResponseStructContainer rsc = e32ttl.receiveMessage(sizeof(Message));
     struct Message message = *(Message*) rsc.data;
-    ID = *(int*)(message.ID);
+    // ID = *(int*)(message.ID);
     Data1 = *(float*)(message.Data1);
     Data2 = *(float*)(message.Data2);
     Data3 = *(float*)(message.Data3);
@@ -150,14 +160,7 @@ void redData()
     Serial.print("Data2 = "); Serial.println(Data2);
     Serial.print("Data3 = "); Serial.println(Data3);
     Serial.print("Data4 = "); Serial.println(Data4);
-
-
-    display.setTextSize(2); // Draw 2X-scale text
-    display.setTextColor(WHITE,BLACK);
-    display.setCursor(10, 0);
-    display.println(Data1);
-    display.display();      // Show initial text
-		rsc.close();
+    rsc.close();
 }
 void printParameters(struct Configuration configuration) {
 	Serial.println("----------------------------------------");

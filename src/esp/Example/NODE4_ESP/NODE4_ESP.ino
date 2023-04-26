@@ -21,9 +21,11 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
+#include <otadrive_esp.h>
+
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define IDNODE 2
+#define IDNODE 3
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
@@ -75,6 +77,10 @@ void setup()
 	e32ttl.setConfiguration(configuration, WRITE_CFG_PWR_DWN_SAVE);
 	printParameters(configuration);
 	c.close();
+
+  // ---------------------------
+  WiFi.begin("iphone55","123789456");
+  OTADRIVE.setInfo("1e3f556b-2923-4c95-94b4-2e18b90bfbd7", "v@1.1.1");
 	// ---------------------------
 	Serial.println();
 	Serial.println("Start listening!");
@@ -110,6 +116,7 @@ struct Message {
 // The loop function is called in an endless loop
 void loop()
 {
+    ota();
   if(ID  == 0)
   {
     if (e32ttl.available()  > 1){
@@ -139,6 +146,12 @@ void loop()
         Serial.println("rst");
       }
   }
+    Mgs_d = String(Data1) + "   ID"+ "\n" +String(Data2) + "   "+String(IDNODE) + "\n" + String(Data3)+ "\n" + String(Data4);
+    display.setTextSize(2); // Draw 2X-scale text
+    display.setTextColor(WHITE,BLACK);
+    display.setCursor(0, 0);
+    display.println(Mgs_d);
+    display.display();      // Show initial text[]]
 }
 void redData()
 {
@@ -154,14 +167,6 @@ void redData()
     Serial.print("Data2 = "); Serial.println(Data2);
     Serial.print("Data3 = "); Serial.println(Data3);
     Serial.print("Data4 = "); Serial.println(Data4);
-
-    Mgs_d = String(Data1) + "\n" +String(Data2) + "\n" + String(Data3)+ "\n" + String(Data4);
-    display.setTextSize(2); // Draw 2X-scale text
-    display.setTextColor(WHITE,BLACK);
-    display.setCursor(0, 0);
-    display.println(Mgs_d);
-    display.display();      // Show initial text[]]
-
     rsc.close();
 }
 void printParameters(struct Configuration configuration) {
@@ -195,4 +200,11 @@ void printModuleInformation(struct ModuleInformation moduleInformation) {
 	Serial.print(F("Features : "));  Serial.println(moduleInformation.features, HEX);
 	Serial.println("----------------------------------------");
 
+}
+void ota()
+{
+  if(OTADRIVE.timeTick(30))
+  {
+    OTADRIVE.updateFirmware();
+  }
 }

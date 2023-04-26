@@ -183,15 +183,17 @@ const Node1 = () => {
   }
 
   // Slider
-  const [sliderValue, setValue] = useState(10);
+  const [sliderValue, setValue] = useState({
+    sliderValue: 10,
+    limitData: 10,
+  });
   function handleOnChange(event) {
-    setValue(event.target.value);
-    console.log("sliderValue: ", sliderValue);
+    setValue({ ...sliderValue, sliderValue: event.target.value });
   }
 
   function handleOnClick(event) {
-    setValue(event.target.value);
-    console.log("sliderValue: ", sliderValue);
+    setValue({ ...sliderValue, sliderValue: event.target.value });
+    setValue({ ...sliderValue, limitData: event.target.value });
     chart.data.datasets[0].data.length = 0;
     chart.data.labels.length = 0;
     const chartData = axios.get(`${apiUrl}/database/getChartData`, {
@@ -203,6 +205,9 @@ const Node1 = () => {
         const timestamp = element.date + " " + element.time;
         updateChart(timestamp, element.value, sliderValue);
       }
+      chart.data.datasets[0].data.slice(0, -1);
+      chart.data.labels.slice(0, -1);
+      chart.update();
     });
   }
 
@@ -275,12 +280,12 @@ const Node1 = () => {
                   <Form.Range
                     min="10"
                     max="100"
-                    value={sliderValue}
+                    value={sliderValue.sliderValue}
                     onChange={handleOnChange}
                     onClick={handleOnClick}
                   />
                   <Form.Text className="text-muted">
-                    Value: {sliderValue}
+                    Value: {sliderValue.sliderValue}
                   </Form.Text>
                 </div>
               </Card.Body>

@@ -56,10 +56,11 @@ class DatabaseController {
   }
 
   async getChartData(req, res) {
-    const range = req.query.sliderValue;
+    const range = req.query.sliderValue.sliderValue;
     const firstTime = req.query.firstTime;
     console.log(range);
     if (firstTime === "true") {
+      console.log("If");
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()

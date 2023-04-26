@@ -27,17 +27,20 @@ struct WifiConfig {
   // Yana Coffee
   const char* yanaSsid = "Yana Coffee Tang1";
   const char* yanaPassword = "184hoangdieu2";
+  //Coder Housr Coffee
+  const char* coderHouseSsid = "CODER HOUSE";
+  const char* coderHousePassword = "88888888";
 };
 struct WifiConfig wifiConfig;
-#define WLAN_SSID       wifiConfig.yanaSsid
-#define WLAN_PASS       wifiConfig.yanaPassword
+#define WLAN_SSID       wifiConfig.coderHouseSsid
+#define WLAN_PASS       wifiConfig.coderHousePassword
 
 /************************* Adafruit.io Setup *********************************/
 
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883                   // use 8883 for SSL
 #define AIO_USERNAME    "khanhnq1406"
-#define AIO_KEY         "aio_KgOf14YMQ4fMr0AuvpFOWmu8OVGB"
+#define AIO_KEY         "aio_BwdR264N6kbek9bGjkHLTyeBu9eP"
 
 /************ Global State (you don't need to change this!) ******************/
 

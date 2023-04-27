@@ -10,13 +10,7 @@ import AlarmModal from "../components/layout/Alarm";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Chart from "chart.js/auto";
-import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://rstdxxyobzxqaggqcjrz.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 let chart;
 const Node1 = () => {
   // Delay function
@@ -199,15 +193,10 @@ const Node1 = () => {
 
   function updateChart(timestamp, value, sliderValue) {
     const labelsLength = chart.data.labels.length;
-    if (timestamp === chart.data.labels[labelsLength - 2]) {
+    if (timestamp === chart.data.labels[labelsLength - 1]) {
       return;
     }
     chart.data.labels.push(timestamp); // add new x-axis label
-    // console.log(
-    //   "chart.data.datasets[0].data.length: ",
-    //   chart.data.datasets[0].data.length
-    // );
-
     while (chart.data.datasets[0].data.length >= sliderValue) {
       chart.data.datasets[0].data.shift();
       chart.data.labels.shift();
@@ -248,28 +237,16 @@ const Node1 = () => {
   //Handle button start, stop, reset click
   async function startClick() {
     const data = axios.get(`${apiUrl}/database/setStart`);
-    // const { data, error } = await supabase
-    //   .from("data_input")
-    //   .update({ value: 1 })
-    //   .eq("id", "9");
     console.log("Start:", data);
   }
 
   async function stopClick() {
     const data = axios.get(`${apiUrl}/database/setStop`);
-    // const { data, error } = await supabase
-    //   .from("data_input")
-    //   .update({ value: 0 })
-    //   .eq("id", "9");
     console.log("Stop: ", data);
   }
 
   async function resetClick() {
     const data = axios.get(`${apiUrl}/database/setReset`);
-    // const { data, error } = await supabase
-    //   .from("data_input")
-    //   .update({ value: 2 })
-    //   .eq("id", "9");
     console.log("Reset: ", data);
   }
   return (

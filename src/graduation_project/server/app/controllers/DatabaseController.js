@@ -66,7 +66,11 @@ class DatabaseController {
         .select()
         .order("id", { ascending: false })
         .limit(range);
-      data_history.reverse();
+      try {
+        data_history.reverse();
+      } catch {
+        console.log("Get chart data error");
+      }
       res.json(data_history);
     } else {
       // console.log("Else");
@@ -75,7 +79,11 @@ class DatabaseController {
         .select()
         .order("id", { ascending: false })
         .limit(1);
-      data_history.reverse();
+      try {
+        data_history.reverse();
+      } catch {
+        console.log("Get chart data error");
+      }
       res.json(data_history);
     }
   }

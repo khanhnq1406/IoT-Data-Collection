@@ -190,3 +190,32 @@ input[type="submit"]:hover {
 .alarm-button.hide {
   opacity: 0;
 }
+
+.control-button {
+  width: 94px;
+  height: 40px;
+  text-align: center;
+  line-height: 28px;
+  border: #e9f4fb;
+}
+
+.btn-start {
+  background-color: #14aa53;
+}
+
+.btn-stop {
+  background-color: #ff6d5b;
+}
+
+.btn-reset {
+  background-color: #ffa30b;
+}
+
+.light-status {
+  font-size: 40px;
+}
+
+.light-image {
+  width: 50px;
+  margin-left: 20px;
+}

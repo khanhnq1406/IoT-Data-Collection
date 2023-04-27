@@ -24,21 +24,32 @@ const Overview = () => {
     data6: "",
     data7: "",
     data8: "",
-    setAlarm: false,
-  });
-  const { data1, data2, data3, data4, data5, data6, data7, data8, setAlarm } =
-    testForm;
-  // Set alarm
-  const [alarmValue, setAlarmData] = useState({
     minData1: "",
     minData2: "",
     minData3: "",
     maxData1: "",
     maxData2: "",
     maxData3: "",
+    setAlarm: false,
   });
-  const { minData1, minData2, minData3, maxData1, maxData2, maxData3 } =
-    alarmValue;
+  const {
+    data1,
+    data2,
+    data3,
+    data4,
+    data5,
+    data6,
+    data7,
+    data8,
+    setAlarm,
+    minData1,
+    minData2,
+    minData3,
+    maxData1,
+    maxData2,
+    maxData3,
+  } = testForm;
+
   useEffect(() => {
     async function makeRequest() {
       await sleep(2000);
@@ -69,20 +80,13 @@ const Overview = () => {
           data6: dataThen.data[5].value,
           data7: dataThen.data[6].value,
           data8: dataThen.data[7].value,
+          minData1: dataThen.data[0].min,
+          minData2: dataThen.data[1].min,
+          minData3: dataThen.data[2].min,
+          maxData1: dataThen.data[0].max,
+          maxData2: dataThen.data[1].max,
+          maxData3: dataThen.data[2].max,
           setAlarm: hasAlarm,
-        });
-      });
-
-      const alarmDataBE = axios.get(`${apiUrl}/database/getAlarmRange`);
-      alarmDataBE.then((alarmDataThen) => {
-        setAlarmData({
-          ...alarmValue,
-          minData1: alarmDataThen.data[0].min,
-          minData2: alarmDataThen.data[1].min,
-          minData3: alarmDataThen.data[2].min,
-          maxData1: alarmDataThen.data[0].max,
-          maxData2: alarmDataThen.data[1].max,
-          maxData3: alarmDataThen.data[2].max,
         });
       });
     }

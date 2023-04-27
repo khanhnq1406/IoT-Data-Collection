@@ -28,9 +28,9 @@ class DatabaseController {
     const key = Object.keys(param);
 
     for (let index = 0; index < value.length; index++) {
-      console.log(key[index]);
-      console.log(value[index]);
-      console.log((index % 3) + 1);
+      // console.log(key[index]);
+      // console.log(value[index]);
+      // console.log((index % 3) + 1);
       if (key[index].includes("min"))
         await supabase
           .from("data_input")
@@ -51,35 +51,67 @@ class DatabaseController {
       .select("min,max")
       .order("id", { ascending: true })
       .not("max", "is", null);
-    console.log(alarm);
+    // console.log(alarm);
     res.json(alarm);
   }
 
   async getChartData(req, res) {
     const range = req.query.sliderValue.sliderValue;
     const firstTime = req.query.firstTime;
-    console.log(range);
+    // console.log(range);
     if (firstTime === "true") {
-      console.log("If");
+      // console.log("If");
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()
         .order("id", { ascending: false })
         .limit(range);
       data_history.reverse();
-      console.log(data_history);
       res.json(data_history);
     } else {
-      console.log("Else");
+      // console.log("Else");
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()
         .order("id", { ascending: false })
         .limit(1);
       data_history.reverse();
-      console.log(data_history);
       res.json(data_history);
     }
+  }
+  async setStart(req, res) {
+    const { data, error } = await supabase
+      .from("data_input")
+      .update({ serverData: "Start" })
+      .eq("id", "9");
+    console.log("Start");
+    res.send("OK");
+  }
+
+  async setStop(req, res) {
+    const { data, error } = await supabase
+      .from("data_input")
+      .update({ serverData: "Stop" })
+      .eq("id", "9");
+    console.log("Stop");
+    res.send("OK");
+  }
+
+  async setReset(req, res) {
+    const { data, error } = await supabase
+      .from("data_input")
+      .update({ serverData: "Reset" })
+      .eq("id", "9");
+    console.log("Reset");
+    res.send("OK");
+  }
+
+  async getLightStatus(req, res) {
+    let { data: control, error } = await supabase
+      .from("control")
+      .select("displayData")
+      .eq("id", "1");
+    res.json(control);
   }
 }
 

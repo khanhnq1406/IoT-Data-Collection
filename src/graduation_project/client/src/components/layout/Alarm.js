@@ -15,7 +15,6 @@ const AlarmModal = (props) => {
       data.then((data) => {
         const alarmData = data.data;
         setalarmInfo(alarmData);
-        console.log(alarmInfo);
       });
     }
     makeRequest();

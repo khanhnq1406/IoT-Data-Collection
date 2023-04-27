@@ -30,7 +30,12 @@ class TestController {
         .from("alarm")
         .select()
         .eq("id", id);
-      const message = alarm[0].text;
+      let message = 0;
+      try {
+        message = alarm[0].text;
+      } catch {
+        message = 0;
+      }
 
       const hasWarning = message != 0;
       if (element.max == null) {

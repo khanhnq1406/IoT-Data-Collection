@@ -22,8 +22,24 @@ class EspController {
     const { data, error } = await supabase
       .from("data_history")
       .insert({ date: param.date, time: param.time, value: param.data1 });
-    console.log(error);
     res.send("OK");
+  }
+  async updateLightStatus(req, res) {
+    const param = req.body;
+    // const value = Object.values(param);
+    console.log(param);
+    const { data, error } = await supabase
+      .from("data_input")
+      .update({ espData: param.espData })
+      .eq("id", 9);
+    res.send("OK");
+  }
+  async getLightStatus(req, res) {
+    let { data: control, error } = await supabase
+      .from("data_input")
+      .select("serverData")
+      .eq("id", "9");
+    res.send(control[0].serverData);
   }
 }
 module.exports = new EspController();

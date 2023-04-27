@@ -168,7 +168,7 @@ void Task1(void* pvParameters){
 */
 
   (void) pvParameters;
-  int IDS=2;// a variable adrress
+  int IDS=1;// a variable adrress
   int run =0;
    for (;;) // A Task shall never return or exit.
    {
@@ -209,7 +209,7 @@ void Task1(void* pvParameters){
      if( flag1== true)
      {
        IDS++;
-       if(IDS == 6) IDS = 2;
+       if(IDS == 6) IDS = 1;
        ID=0;
        flag1 = false;
                  Serial.println("         flag ");

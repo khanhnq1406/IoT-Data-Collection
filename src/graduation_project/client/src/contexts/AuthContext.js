@@ -9,6 +9,7 @@ const AuthContextProvider = ({ children }) => {
     authLoading: true,
     isAuthenticated: false,
     user: null,
+    role: null,
   });
 
   // Authenticate user
@@ -23,7 +24,11 @@ const AuthContextProvider = ({ children }) => {
       if (response.data.success) {
         dispatch({
           type: "SET_AUTH",
-          payload: { isAuthenticated: true, user: response.data.username },
+          payload: {
+            isAuthenticated: true,
+            user: response.data.username,
+            role: response.data.role,
+          },
         });
       }
     } catch (error) {
@@ -32,7 +37,7 @@ const AuthContextProvider = ({ children }) => {
       setAuthToken(null);
       dispatch({
         type: "SET_AUTH",
-        payload: { isAuthenticated: false, user: null },
+        payload: { isAuthenticated: false, user: null, role: null },
       });
     }
   };
@@ -66,7 +71,7 @@ const AuthContextProvider = ({ children }) => {
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
     dispatch({
       type: "SET_AUTH",
-      payload: { isAuthenticated: false, user: null },
+      payload: { isAuthenticated: false, user: null, role: null },
     });
   };
 

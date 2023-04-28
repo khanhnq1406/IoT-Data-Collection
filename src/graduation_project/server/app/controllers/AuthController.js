@@ -13,7 +13,8 @@ class AuthController {
       let { data, error } = await supabase.from("Users").select("*");
       for (let index = 0; index < data.length; index++) {
         if (data[index].username === username) {
-          return res.json({ success: true, username });
+          const role = data[index].role;
+          return res.json({ success: true, username, role });
         }
       }
       return res.json({ success: false, message: "User not found" });

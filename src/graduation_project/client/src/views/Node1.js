@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Chart from "chart.js/auto";
 import { AuthContext } from "../contexts/AuthContext";
-import styled, { keyframes } from "styled-components";
+
 let chart;
 const Node1 = () => {
   // Delay function
@@ -108,16 +108,6 @@ const Node1 = () => {
   });
 
   // Change color depend on value
-  function blinkingEffect() {
-    return keyframes`
-      50% {
-        opacity: 0;
-      }
-    `;
-  }
-  const AnimatedComponent = styled.div`
-    animation: ${blinkingEffect} 1s linear infinite;
-  `;
   const changeColor = (data, min, max) =>
     data <= min || data >= max
       ? { color: "#ffc441" }
@@ -290,69 +280,39 @@ const Node1 = () => {
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
                     <Card.Title style={{ fontSize: "20px" }}>Data 1</Card.Title>
-                    {setAlarm1 ? (
-                      <AnimatedComponent>
-                        <Card.Text
-                          className="data-value"
-                          style={changeColor(data1, minData1, maxData1)}
-                        >
-                          {data1}
-                        </Card.Text>
-                      </AnimatedComponent>
-                    ) : (
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(data1, minData1, maxData1)}
-                      >
-                        {data1}
-                      </Card.Text>
-                    )}
+
+                    <Card.Text
+                      className="data-value"
+                      style={changeColor(data1, minData1, maxData1)}
+                    >
+                      {data1}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
                     <Card.Title style={{ fontSize: "20px" }}>Data 2</Card.Title>
-                    {setAlarm2 ? (
-                      <AnimatedComponent>
-                        <Card.Text
-                          className="data-value"
-                          style={changeColor(data2, minData2, maxData2)}
-                        >
-                          {data2}
-                        </Card.Text>
-                      </AnimatedComponent>
-                    ) : (
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(data2, minData2, maxData2)}
-                      >
-                        {data2}
-                      </Card.Text>
-                    )}
+
+                    <Card.Text
+                      className="data-value"
+                      style={changeColor(data2, minData2, maxData2)}
+                    >
+                      {data2}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
                     <Card.Title style={{ fontSize: "20px" }}>Data 3</Card.Title>
-                    {setAlarm3 ? (
-                      <AnimatedComponent>
-                        <Card.Text
-                          className="data-value"
-                          style={changeColor(data3, minData3, maxData3)}
-                        >
-                          {data3}
-                        </Card.Text>
-                      </AnimatedComponent>
-                    ) : (
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(data3, minData3, maxData3)}
-                      >
-                        {data3}
-                      </Card.Text>
-                    )}
+
+                    <Card.Text
+                      className="data-value"
+                      style={changeColor(data3, minData3, maxData3)}
+                    >
+                      {data3}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
 

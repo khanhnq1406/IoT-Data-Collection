@@ -10,4 +10,6 @@ router.get("/setStart", databaseController.setStart);
 router.get("/setStop", databaseController.setStop);
 router.get("/setReset", databaseController.setReset);
 router.get("/getLightStatus", databaseController.getLightStatus);
+router.post("/setAlarmStatus", databaseController.setAlarmStatus);
+router.get("/getAlarmTable", databaseController.getAlarmTable);
 module.exports = router;

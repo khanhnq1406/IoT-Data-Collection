@@ -121,6 +121,60 @@ class DatabaseController {
       .eq("id", "1");
     res.json(control);
   }
+
+  async setAlarmStatus(req, res) {
+    const id = req.body.id;
+    const status = req.body.status;
+    console.log(status);
+    const text = req.body.text;
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    const dateString = day + "/" + Number(month + 1) + "/" + year;
+    const timeString = hour + ":" + minute + ":" + second;
+    const message = text;
+    await supabase.from("alarm_history").insert({
+      date: dateString,
+      time: timeString,
+      text: message,
+      status: status,
+    });
+    await supabase
+      .from("alarm")
+      .update({
+        date: dateString,
+        time: timeString,
+        text: message,
+        status: status,
+      })
+      .eq("text", text);
+    if (status === "Disable") {
+      await supabase
+        .from("alarm")
+        .update({ date: "", time: "", text: "", status: "" })
+        .eq("text", text);
+    }
+  }
+
+  async getAlarmTable(req, res) {
+    const date = req.query.sortAlarm.date;
+    const time = req.query.sortAlarm.time;
+    const text = req.query.sortAlarm.text;
+    const status = req.query.sortAlarm.status;
+    console.log(req.query.sortAlarm);
+
+    let { data: alarm_history, error } = await supabase
+      .from("alarm_history")
+      .select()
+      .filter("date", "ilike", `%${date}%`)
+      .filter("time", "ilike", `%${time}%`);
+
+    return res.json(alarm_history);
+  }
 }
 
 module.exports = new DatabaseController();

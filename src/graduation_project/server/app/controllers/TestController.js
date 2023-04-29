@@ -56,8 +56,19 @@ class TestController {
         const message = `Data ${index + 1} High Limit`;
         const { data } = await supabase
           .from("alarm")
-          .update({ date: dateString, time: timeString, text: message })
+          .update({
+            date: dateString,
+            time: timeString,
+            text: message,
+            status: "Active",
+          })
           .eq("id", id);
+        await supabase.from("alarm_history").insert({
+          date: dateString,
+          time: timeString,
+          text: message,
+          status: "Active",
+        });
       } else if (
         Number(element.value) <= Number(element.min) &&
         (!hasWarning || message.includes("High"))
@@ -74,16 +85,44 @@ class TestController {
         const message = `Data ${index + 1} Low Limit`;
         const { data } = await supabase
           .from("alarm")
-          .update({ date: dateString, time: timeString, text: message })
+          .update({
+            date: dateString,
+            time: timeString,
+            text: message,
+            status: "Active",
+          })
           .eq("id", id);
+        await supabase.from("alarm_history").insert({
+          date: dateString,
+          time: timeString,
+          text: message,
+          status: "Active",
+        });
       } else if (
         Number(element.value) < Number(element.max) &&
         Number(element.value) > Number(element.min) &&
         hasWarning
       ) {
-        const { data } = await supabase
+        const { data } = await supabase.from("alarm").select().eq("id", id);
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+        const dateString = day + "/" + Number(month + 1) + "/" + year;
+        const timeString = hour + ":" + minute + ":" + second;
+        const message = data[0].text;
+        await supabase.from("alarm_history").insert({
+          date: dateString,
+          time: timeString,
+          text: message,
+          status: "OK",
+        });
+        await supabase
           .from("alarm")
-          .update({ date: "", time: "", text: "" })
+          .update({ date: "", time: "", text: "", status: "" })
           .eq("id", id);
       }
     }

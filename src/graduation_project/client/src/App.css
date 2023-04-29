@@ -219,3 +219,10 @@ input[type="submit"]:hover {
   width: 50px;
   margin-left: 20px;
 }
+
+.header-table {
+  background-color: transparent;
+  border: 0px;
+  color: #000000;
+  font-weight: bold;
+}

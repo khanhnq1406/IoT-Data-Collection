@@ -36,7 +36,7 @@ const NavbarLayout = (attribute) => {
   return (
     <Navbar variant="dark" className="navbar">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img
             alt=""
             src="images/data.png"
@@ -63,6 +63,15 @@ const NavbarLayout = (attribute) => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="link-3">Node 3</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-3">Node 4</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-3">Node 5</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/alarm-table">Alarm</Nav.Link>
           </Nav.Item>
         </Nav>
 

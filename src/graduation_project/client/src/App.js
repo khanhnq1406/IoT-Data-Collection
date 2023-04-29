@@ -6,6 +6,7 @@ import Overview from "./views/Overview";
 import Node1 from "./views/Node1";
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
+import AlarmTable from "./views/AlarmTable";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 function App() {
   return (
@@ -28,6 +29,14 @@ function App() {
             element={
               <ProtectedRoute redirectTo="/login">
                 <Node1 />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alarm-table"
+            element={
+              <ProtectedRoute redirectTo="/login">
+                <AlarmTable />
               </ProtectedRoute>
             }
           />

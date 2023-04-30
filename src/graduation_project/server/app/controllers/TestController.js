@@ -54,6 +54,12 @@ class TestController {
         const dateString = day + "/" + Number(month + 1) + "/" + year;
         const timeString = hour + ":" + minute + ":" + second;
         const message = `Data ${index + 1} High Limit`;
+        const value = await supabase
+          .from("data_input")
+          .select("value, max")
+          .eq("id", id);
+        console.log(value);
+        console.log(value.data[0]);
         const { data } = await supabase
           .from("alarm")
           .update({
@@ -61,6 +67,8 @@ class TestController {
             time: timeString,
             text: message,
             status: "Active",
+            value: value.data[0].value,
+            limit: value.data[0].max,
           })
           .eq("id", id);
         await supabase.from("alarm_history").insert({
@@ -68,6 +76,8 @@ class TestController {
           time: timeString,
           text: message,
           status: "Active",
+          value: value.data[0].value,
+          limit: value.data[0].max,
         });
       } else if (
         Number(element.value) <= Number(element.min) &&
@@ -83,6 +93,11 @@ class TestController {
         const dateString = day + "/" + Number(month + 1) + "/" + year;
         const timeString = hour + ":" + minute + ":" + second;
         const message = `Data ${index + 1} Low Limit`;
+        const value = await supabase
+          .from("data_input")
+          .select("value, min")
+          .eq("id", id);
+        console.log(value);
         const { data } = await supabase
           .from("alarm")
           .update({
@@ -90,6 +105,8 @@ class TestController {
             time: timeString,
             text: message,
             status: "Active",
+            value: value.data[0].value,
+            limit: value.data[0].min,
           })
           .eq("id", id);
         await supabase.from("alarm_history").insert({
@@ -97,6 +114,8 @@ class TestController {
           time: timeString,
           text: message,
           status: "Active",
+          value: value.data[0].value,
+          limit: value.data[0].min,
         });
       } else if (
         Number(element.value) < Number(element.max) &&
@@ -114,15 +133,27 @@ class TestController {
         const dateString = day + "/" + Number(month + 1) + "/" + year;
         const timeString = hour + ":" + minute + ":" + second;
         const message = data[0].text;
+        const value = await supabase
+          .from("data_input")
+          .select("value")
+          .eq("id", id);
         await supabase.from("alarm_history").insert({
           date: dateString,
           time: timeString,
           text: message,
           status: "OK",
+          value: value.data[0].value,
         });
         await supabase
           .from("alarm")
-          .update({ date: "", time: "", text: "", status: "" })
+          .update({
+            date: "",
+            time: "",
+            text: "",
+            status: "",
+            value: null,
+            limit: null,
+          })
           .eq("id", id);
       }
     }

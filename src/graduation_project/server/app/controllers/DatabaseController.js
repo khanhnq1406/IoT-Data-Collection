@@ -125,7 +125,6 @@ class DatabaseController {
   async setAlarmStatus(req, res) {
     const id = req.body.id;
     const status = req.body.status;
-    console.log(status);
     const text = req.body.text;
     const date = new Date();
     const year = date.getFullYear();
@@ -137,11 +136,18 @@ class DatabaseController {
     const dateString = day + "/" + Number(month + 1) + "/" + year;
     const timeString = hour + ":" + minute + ":" + second;
     const message = text;
+    const value = await supabase
+      .from("alarm")
+      .select("value, limit")
+      .eq("text", text);
+    console.log(status);
     await supabase.from("alarm_history").insert({
       date: dateString,
       time: timeString,
       text: message,
       status: status,
+      value: value.data[0].value,
+      limit: value.data[0].limit,
     });
     await supabase
       .from("alarm")
@@ -150,12 +156,21 @@ class DatabaseController {
         time: timeString,
         text: message,
         status: status,
+        value: value.data[0].value,
+        limit: value.data[0].limit,
       })
       .eq("text", text);
     if (status === "Disable") {
       await supabase
         .from("alarm")
-        .update({ date: "", time: "", text: "", status: "" })
+        .update({
+          date: "",
+          time: "",
+          text: "",
+          status: "",
+          value: value.data[0].value,
+          limit: "",
+        })
         .eq("text", text);
     }
   }
@@ -171,9 +186,11 @@ class DatabaseController {
       .from("alarm_history")
       .select()
       .filter("date", "ilike", `%${date}%`)
-      .filter("time", "ilike", `%${time}%`);
+      .filter("time", "ilike", `%${time}%`)
+      .filter("text", "ilike", `%${text}%`)
+      .filter("status", "ilike", `%${status}%`);
 
-    return res.json(alarm_history);
+    res.json(alarm_history);
   }
 }
 

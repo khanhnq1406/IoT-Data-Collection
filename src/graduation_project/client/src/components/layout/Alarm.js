@@ -51,6 +51,8 @@ const AlarmModal = (props) => {
               <th>Time</th>
               <th>Text</th>
               <th>Status</th>
+              <th>Value</th>
+              <th>Limit</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -73,6 +75,9 @@ const AlarmModal = (props) => {
                     <td>{val.time}</td>
                     <td>{val.text}</td>
                     <td>{val.status}</td>
+                    <td>{val.value}</td>
+                    <td>{val.limit}</td>
+
                     <td>
                       <Dropdown>
                         <Dropdown.Toggle

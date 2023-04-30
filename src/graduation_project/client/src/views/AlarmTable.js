@@ -8,6 +8,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import CloseButton from "react-bootstrap/CloseButton";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
 const AlarmTable = () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -66,6 +67,14 @@ const AlarmTable = () => {
       .padStart(2, "0")}:${minutes}${meridian}`;
     console.log(timeString);
     setsortAlarm({ ...sortAlarm, time: timeString });
+  }
+
+  async function setText(event) {
+    const text = event.target.value;
+    setsortAlarm({ ...sortAlarm, text: text });
+  }
+  async function setStatus(status) {
+    setsortAlarm({ ...sortAlarm, status: status });
   }
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
@@ -159,10 +168,42 @@ const AlarmTable = () => {
                 <Dropdown.Toggle className="header-table">Text</Dropdown.Toggle>
                 <Dropdown.Menu>
                   <div>
-                    <Form.Control type="date" onChange={setDate} />
+                    <Form.Control
+                      placeholder="Search values"
+                      style={{ border: "0px" }}
+                      onChange={setText}
+                      value={sortAlarm.text}
+                    />
                   </div>
+                  <Dropdown.Divider></Dropdown.Divider>
+                  <Dropdown.Item onClick={() => (sortAlarm.text = "")}>
+                    Clear Filter
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+              {sortAlarm.text !== "" ? (
+                <Alert
+                  variant="primary"
+                  onClose={() => (sortAlarm.text = "")}
+                  style={{
+                    fontWeight: "normal",
+                    padding: "5px",
+                  }}
+                >
+                  {sortAlarm.text}
+                  <CloseButton
+                    onClick={() => (sortAlarm.text = "")}
+                    style={{
+                      scale: "80%",
+                      marginLeft: "5px",
+                      position: "absolute",
+                      top: "5px",
+                    }}
+                  ></CloseButton>
+                </Alert>
+              ) : (
+                <></>
+              )}
             </th>
             <th>
               <Dropdown>
@@ -170,13 +211,61 @@ const AlarmTable = () => {
                   Status
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <div>
-                    <Form.Control type="date" onChange={setDate} />
-                  </div>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => setStatus("Active")}
+                  >
+                    Active
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => setStatus("Acknowledged")}
+                  >
+                    Acknowledged
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={() => setStatus("OK")}>
+                    OK
+                  </Dropdown.Item>
+                  <Dropdown.Divider></Dropdown.Divider>
+                  <Dropdown.Item onClick={() => (sortAlarm.status = "")}>
+                    Clear Filter
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+              {sortAlarm.status !== "" ? (
+                <Alert
+                  variant="primary"
+                  onClose={() => (sortAlarm.status = "")}
+                  style={{
+                    fontWeight: "normal",
+                    padding: "5px",
+                    width: "160px",
+                  }}
+                >
+                  {sortAlarm.status}
+                  <CloseButton
+                    onClick={() => (sortAlarm.status = "")}
+                    style={{
+                      scale: "80%",
+                      marginLeft: "5px",
+                      position: "absolute",
+                      top: "5px",
+                    }}
+                  ></CloseButton>
+                </Alert>
+              ) : (
+                <></>
+              )}
             </th>
-            <th>Action</th>
+            <th>
+              <div style={{ margin: "6px" }}>Value</div>
+            </th>
+            <th>
+              <div style={{ margin: "6px" }}>Limit</div>
+            </th>
+            <th>
+              <div style={{ margin: "6px" }}>Action</div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -197,6 +286,8 @@ const AlarmTable = () => {
                   <td>{val.time}</td>
                   <td>{val.text}</td>
                   <td>{val.status}</td>
+                  <td>{val.value}</td>
+                  <td>{val.limit}</td>
                   <td>
                     <Dropdown>
                       <Dropdown.Toggle
@@ -212,38 +303,43 @@ const AlarmTable = () => {
                       >
                         <img
                           src="/images/action.png"
-                          style={{ width: "30px" }}
+                          style={{ width: "30px", opacity: "85%" }}
                         />
                       </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item>
-                          <Button
-                            style={{
-                              backgroundColor: "transparent",
-                              border: "0px",
-                              color: "#000000",
-                            }}
-                            onClick={() =>
-                              actionHandle(val.text, "Acknowledged")
-                            }
-                          >
-                            Acknowledge
-                          </Button>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                          <Button
-                            style={{
-                              backgroundColor: "transparent",
-                              border: "0px",
-                              color: "#000000",
-                            }}
-                            onClick={() => actionHandle(val.text, "Disable")}
-                          >
-                            Disable
-                          </Button>
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
+                      {key == 0 ? (
+                        <Dropdown.Menu>
+                          <Dropdown.Item>
+                            <Button
+                              style={{
+                                backgroundColor: "transparent",
+                                border: "0px",
+                                color: "#000000",
+                              }}
+                              onClick={() =>
+                                actionHandle(val.text, "Acknowledged")
+                              }
+                            >
+                              Acknowledge
+                            </Button>
+                          </Dropdown.Item>
+                          <Dropdown.Item>
+                            <Button
+                              style={{
+                                backgroundColor: "transparent",
+                                border: "0px",
+                                color: "#000000",
+                              }}
+                              onClick={() => actionHandle(val.text, "Disable")}
+                            >
+                              Disable
+                            </Button>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      ) : (
+                        <Dropdown.Menu>
+                          <Dropdown.Item>Remove alarm</Dropdown.Item>
+                        </Dropdown.Menu>
+                      )}
                     </Dropdown>
                   </td>
                 </tr>

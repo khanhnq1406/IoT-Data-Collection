@@ -51,8 +51,20 @@ class TestController {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const second = date.getSeconds();
-        const dateString = day + "/" + Number(month + 1) + "/" + year;
-        const timeString = hour + ":" + minute + ":" + second;
+        const dateString =
+          (String(day).length == 1 ? "0" + day : day) +
+          "/" +
+          (String(Number(month + 1)).length == 1
+            ? "0" + Number(month + 1)
+            : Number(month + 1)) +
+          "/" +
+          year;
+        const timeString =
+          (String(hour).length == 1 ? "0" + hour : hour) +
+          ":" +
+          (String(minute).length == 1 ? "0" + minute : minute) +
+          ":" +
+          (String(second).length == 1 ? "0" + second : second);
         const message = `Data ${index + 1} High Limit`;
         const value = await supabase
           .from("data_input")
@@ -90,8 +102,20 @@ class TestController {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const second = date.getSeconds();
-        const dateString = day + "/" + Number(month + 1) + "/" + year;
-        const timeString = hour + ":" + minute + ":" + second;
+        const dateString =
+          (String(day).length == 1 ? "0" + day : day) +
+          "/" +
+          (String(Number(month + 1)).length == 1
+            ? "0" + Number(month + 1)
+            : Number(month + 1)) +
+          "/" +
+          year;
+        const timeString =
+          (String(hour).length == 1 ? "0" + hour : hour) +
+          ":" +
+          (String(minute).length == 1 ? "0" + minute : minute) +
+          ":" +
+          (String(second).length == 1 ? "0" + second : second);
         const message = `Data ${index + 1} Low Limit`;
         const value = await supabase
           .from("data_input")
@@ -130,8 +154,20 @@ class TestController {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const second = date.getSeconds();
-        const dateString = day + "/" + Number(month + 1) + "/" + year;
-        const timeString = hour + ":" + minute + ":" + second;
+        const dateString =
+          (String(day).length == 1 ? "0" + day : day) +
+          "/" +
+          (String(Number(month + 1)).length == 1
+            ? "0" + Number(month + 1)
+            : Number(month + 1)) +
+          "/" +
+          year;
+        const timeString =
+          (String(hour).length == 1 ? "0" + hour : hour) +
+          ":" +
+          (String(minute).length == 1 ? "0" + minute : minute) +
+          ":" +
+          (String(second).length == 1 ? "0" + second : second);
         const message = data[0].text;
         const value = await supabase
           .from("data_input")

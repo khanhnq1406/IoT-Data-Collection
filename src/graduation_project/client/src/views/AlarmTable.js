@@ -8,11 +8,10 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import CloseButton from "react-bootstrap/CloseButton";
-import DropdownItem from "react-bootstrap/esm/DropdownItem";
+import exportFromJSON from "export-from-json";
 const AlarmTable = () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const [alarmInfo, setalarmInfo] = useState();
   const [sortAlarm, setsortAlarm] = useState({
     date: "",
     time: "",
@@ -20,6 +19,16 @@ const AlarmTable = () => {
     status: "",
   });
 
+  const [currentPageData, setCurrentPage] = useState({
+    totalPages: null,
+    pageData: null,
+    pageNumbers: [],
+    pageSize: 10,
+    currentPage: 1,
+  });
+  const [allData, setAllData] = useState();
+  const { totalPages, pageData, pageNumbers, pageSize, currentPage } =
+    currentPageData;
   useEffect(() => {
     async function makeRequest() {
       await sleep(1000);
@@ -28,7 +37,8 @@ const AlarmTable = () => {
       });
       data.then((data) => {
         const alarmData = data.data;
-        setalarmInfo(alarmData.reverse());
+        setAllData(alarmData.reverse());
+        Pagination(alarmData);
       });
     }
     makeRequest();
@@ -48,7 +58,14 @@ const AlarmTable = () => {
     const year = dateChoose.getFullYear();
     const month = dateChoose.getMonth();
     const day = dateChoose.getDate();
-    const dateString = day + "/" + Number(month + 1) + "/" + year;
+    const dateString =
+      (String(day).length == 1 ? "0" + day : day) +
+      "/" +
+      (String(Number(month + 1)).length == 1
+        ? "0" + Number(month + 1)
+        : Number(month + 1)) +
+      "/" +
+      year;
     setsortAlarm({ ...sortAlarm, date: dateString });
   }
 
@@ -76,10 +93,76 @@ const AlarmTable = () => {
   async function setStatus(status) {
     setsortAlarm({ ...sortAlarm, status: status });
   }
+
+  const Pagination = (data) => {
+    // Calculate the total number of pages
+    const totalPagesValue = Math.ceil(data.length / pageSize);
+    // Calculate the starting and ending index for the current page
+    const startIndex = (Number(currentPage) - 1) * Number(pageSize);
+    const endIndex = Number(startIndex) + Number(pageSize);
+
+    // Get the data for the current page
+    const currentPageValue = data.slice(startIndex, endIndex);
+    setCurrentPage((currentPageData) => ({
+      ...currentPageData,
+      totalPages: totalPagesValue,
+      pageData: currentPageValue,
+    }));
+    renderPageNumbers();
+  };
+
+  function handlePageSize(e) {
+    setCurrentPage((currentPageData) => ({
+      ...currentPageData,
+      currentPage: 1,
+      pageSize: e.target.value,
+    }));
+  }
+
+  // Render the page numbers
+  const renderPageNumbers = () => {
+    const pageNumbersValue = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbersValue.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+
+    setCurrentPage((currentPageData) => ({
+      ...currentPageData,
+      pageNumbers: pageNumbersValue,
+    }));
+  };
+
+  //Export json to excel file
+  const ExportToExcel = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    const dateString = day + "_" + Number(month + 1) + "_" + year;
+    const timeString = hour + "_" + minute + "_" + second;
+    let fileName = "Alarm_" + dateString + "-" + timeString;
+    let exportType = exportFromJSON.types.xls;
+    exportFromJSON({
+      data: allData,
+      fileName: fileName,
+      exportType: exportType,
+    });
+  };
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
       <NavbarLayout defActiveKey="/alarm-table" />
-      <h1>Alarm</h1>
+      <h1 style={{ margin: "5px" }}>Alarm</h1>
+      <div style={{ margin: "5px" }}>
+        <Button onClick={ExportToExcel}>Export to Excel</Button>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -92,6 +175,15 @@ const AlarmTable = () => {
                     onChange={setDate}
                     style={{ border: "0px" }}
                   />
+                  <Dropdown.Divider></Dropdown.Divider>
+                  <Dropdown.Item onClick={() => (sortAlarm.date = "Ascending")}>
+                    Ascending
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => (sortAlarm.date = "Descending")}
+                  >
+                    Descending
+                  </Dropdown.Item>
                   <Dropdown.Divider></Dropdown.Divider>
                   <Dropdown.Item onClick={() => (sortAlarm.date = "")}>
                     Clear Filter
@@ -132,6 +224,15 @@ const AlarmTable = () => {
                     onChange={setTime}
                     style={{ border: "0px" }}
                   />
+                  <Dropdown.Divider></Dropdown.Divider>
+                  <Dropdown.Item onClick={() => (sortAlarm.time = "Ascending")}>
+                    Ascending
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => (sortAlarm.time = "Descending")}
+                  >
+                    Descending
+                  </Dropdown.Item>
                   <Dropdown.Divider></Dropdown.Divider>
                   <Dropdown.Item onClick={() => (sortAlarm.time = "")}>
                     Clear Filter
@@ -269,8 +370,8 @@ const AlarmTable = () => {
           </tr>
         </thead>
         <tbody>
-          {alarmInfo &&
-            alarmInfo.map((val, key) => {
+          {pageData &&
+            pageData.map((val, key) => {
               return (
                 <tr
                   bgcolor={
@@ -289,24 +390,24 @@ const AlarmTable = () => {
                   <td>{val.value}</td>
                   <td>{val.limit}</td>
                   <td>
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        style={{
-                          backgroundColor: "transparent",
-                          border: "0px",
-                          width: "20px",
-                          height: "20px",
-                          position: "absolute",
-                          top: "-9px",
-                          left: "-14px",
-                        }}
-                      >
-                        <img
-                          src="/images/action.png"
-                          style={{ width: "30px", opacity: "85%" }}
-                        />
-                      </Dropdown.Toggle>
-                      {key == 0 ? (
+                    {key == 0 && val.status != "OK" ? (
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          style={{
+                            backgroundColor: "transparent",
+                            border: "0px",
+                            width: "20px",
+                            height: "20px",
+                            position: "absolute",
+                            top: "-9px",
+                            left: "-14px",
+                          }}
+                        >
+                          <img
+                            src="/images/action.png"
+                            style={{ width: "30px", opacity: "85%" }}
+                          />
+                        </Dropdown.Toggle>
                         <Dropdown.Menu>
                           <Dropdown.Item>
                             <Button
@@ -335,18 +436,56 @@ const AlarmTable = () => {
                             </Button>
                           </Dropdown.Item>
                         </Dropdown.Menu>
-                      ) : (
-                        <Dropdown.Menu>
-                          <Dropdown.Item>Remove alarm</Dropdown.Item>
-                        </Dropdown.Menu>
-                      )}
-                    </Dropdown>
+                      </Dropdown>
+                    ) : (
+                      <></>
+                    )}
                   </td>
                 </tr>
               );
             })}
         </tbody>
       </Table>
+      <div>
+        {pageData != null ? (
+          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", position: "absolute", left: "5%" }}>
+              <div>Page</div>
+              <select
+                style={{ marginLeft: "5px", marginRight: "5px" }}
+                value={currentPage}
+                onChange={(e) =>
+                  setCurrentPage((currentPageData) => ({
+                    ...currentPageData,
+                    currentPage: e.target.value,
+                  }))
+                }
+              >
+                {pageNumbers}
+              </select>
+              <div>of {totalPages}</div>
+            </div>
+            <div style={{ display: "flex", position: "absolute", right: "5%" }}>
+              <div>Items per page</div>
+              <select
+                style={{ marginLeft: "5px" }}
+                value={pageSize}
+                onChange={handlePageSize}
+              >
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };

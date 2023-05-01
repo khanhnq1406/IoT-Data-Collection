@@ -133,14 +133,30 @@ class DatabaseController {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const second = date.getSeconds();
-    const dateString = day + "/" + Number(month + 1) + "/" + year;
-    const timeString = hour + ":" + minute + ":" + second;
+    const dateString =
+      (String(day).length == 1 ? "0" + day : day) +
+      "/" +
+      (String(Number(month + 1)).length == 1
+        ? "0" + Number(month + 1)
+        : Number(month + 1)) +
+      "/" +
+      year;
+    const timeString =
+      (String(hour).length == 1 ? "0" + hour : hour) +
+      ":" +
+      (String(minute).length == 1 ? "0" + minute : minute) +
+      ":" +
+      (String(second).length == 1 ? "0" + second : second);
     const message = text;
-    const value = await supabase
-      .from("alarm")
-      .select("value, limit")
-      .eq("text", text);
-    console.log(status);
+    let value;
+    try {
+      value = await supabase
+        .from("alarm")
+        .select("value, limit")
+        .eq("text", text);
+    } catch {
+      console.log("Get value error");
+    }
     await supabase.from("alarm_history").insert({
       date: dateString,
       time: timeString,
@@ -182,15 +198,45 @@ class DatabaseController {
     const status = req.query.sortAlarm.status;
     console.log(req.query.sortAlarm);
 
-    let { data: alarm_history, error } = await supabase
-      .from("alarm_history")
-      .select()
-      .filter("date", "ilike", `%${date}%`)
-      .filter("time", "ilike", `%${time}%`)
-      .filter("text", "ilike", `%${text}%`)
-      .filter("status", "ilike", `%${status}%`);
-
-    res.json(alarm_history);
+    if (time == "Ascending") {
+      console.log("Ascending");
+      let { data: alarm_history, error } = await supabase
+        .from("alarm_history")
+        .select()
+        .order("time", { ascending: true });
+      return res.json(alarm_history);
+    } else if (time == "Descending") {
+      console.log("Descending");
+      let { data: alarm_history, error } = await supabase
+        .from("alarm_history")
+        .select()
+        .order("time", { ascending: false });
+      return res.json(alarm_history);
+    } else if (date == "Ascending") {
+      console.log("Ascending");
+      let { data: alarm_history, error } = await supabase
+        .from("alarm_history")
+        .select()
+        .order("date", { ascending: true });
+      return res.json(alarm_history);
+    } else if (date == "Descending") {
+      console.log("Descending");
+      let { data: alarm_history, error } = await supabase
+        .from("alarm_history")
+        .select()
+        .order("date", { ascending: false });
+      return res.json(alarm_history);
+    } else {
+      console.log("None");
+      let { data: alarm_history, error } = await supabase
+        .from("alarm_history")
+        .select()
+        .filter("date", "ilike", `%${date}%`)
+        .filter("time", "ilike", `%${time}%`)
+        .filter("text", "ilike", `%${text}%`)
+        .filter("status", "ilike", `%${status}%`);
+      return res.json(alarm_history);
+    }
   }
 }
 

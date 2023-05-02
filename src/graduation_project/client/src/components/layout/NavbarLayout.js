@@ -10,7 +10,7 @@ const NavbarLayout = (attribute) => {
   // Logout
   const {
     logoutUser,
-    authState: { user },
+    authState: { user, role },
   } = useContext(AuthContext);
   const logout = () => logoutUser();
   // Get fullname
@@ -81,6 +81,14 @@ const NavbarLayout = (attribute) => {
             id="navbarScrollingDropdown"
             className="navUsername"
           >
+            {role == "admin" ? (
+              <div>
+                <NavDropdown.Item href="admin">Admin page</NavDropdown.Item>
+                <NavDropdown.Divider></NavDropdown.Divider>
+              </div>
+            ) : (
+              <></>
+            )}
             <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
           </NavDropdown>
         </div>

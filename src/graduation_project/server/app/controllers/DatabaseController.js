@@ -238,6 +238,70 @@ class DatabaseController {
       return res.json(alarm_history);
     }
   }
+
+  async getUsers(req, res) {
+    let { data: Users, error } = await supabase.from("Users").select();
+    res.json(Users);
+  }
+
+  async editUsername(req, res) {
+    const { data, error } = await supabase
+      .from("Users")
+      .update({ username: req.body.data })
+      .eq("username", req.body.username);
+    res.json(error);
+  }
+
+  async editPassword(req, res) {
+    const { data, error } = await supabase
+      .from("Users")
+      .update({ password: req.body.data })
+      .eq("username", req.body.username);
+    res.json(error);
+  }
+
+  async editFirstName(req, res) {
+    const { data, error } = await supabase
+      .from("Users")
+      .update({ first_name: req.body.data })
+      .eq("username", req.body.username);
+    res.json(error);
+  }
+
+  async editLastName(req, res) {
+    const { data, error } = await supabase
+      .from("Users")
+      .update({ last_name: req.body.data })
+      .eq("username", req.body.username);
+    res.json(error);
+  }
+
+  async editRole(req, res) {
+    const { data, error } = await supabase
+      .from("Users")
+      .update({ role: req.body.data })
+      .eq("username", req.body.username);
+    res.json(error);
+  }
+
+  async createUser(req, res) {
+    const { data, error } = await supabase.from("Users").insert({
+      first_name: req.body.firstName,
+      last_name: req.body.lastName,
+      username: req.body.username,
+      password: req.body.password,
+      role: req.body.role,
+    });
+    res.json(error);
+  }
+
+  async deleteUser(req, res) {
+    const { data, error } = await supabase
+      .from("Users")
+      .delete()
+      .eq("username", req.body.username);
+    res.json(error);
+  }
 }
 
 module.exports = new DatabaseController();

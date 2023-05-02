@@ -196,7 +196,7 @@ const AlarmTable = () => {
                   onClose={() => (sortAlarm.date = "")}
                   style={{
                     fontWeight: "normal",
-                    width: "120px",
+                    width: "130px",
                     padding: "5px",
                   }}
                 >
@@ -245,7 +245,7 @@ const AlarmTable = () => {
                   onClose={() => (sortAlarm.time = "")}
                   style={{
                     fontWeight: "normal",
-                    width: "80px",
+                    width: "130px",
                     padding: "5px",
                   }}
                 >

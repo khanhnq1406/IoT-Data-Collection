@@ -12,4 +12,13 @@ router.get("/setReset", databaseController.setReset);
 router.get("/getLightStatus", databaseController.getLightStatus);
 router.post("/setAlarmStatus", databaseController.setAlarmStatus);
 router.get("/getAlarmTable", databaseController.getAlarmTable);
+router.get("/getUsers", databaseController.getUsers);
+router.post("/editUsername", databaseController.editUsername);
+router.post("/editPassword", databaseController.editPassword);
+router.post("/editFirstName", databaseController.editFirstName);
+router.post("/editLastName", databaseController.editLastName);
+router.post("/editRole", databaseController.editRole);
+router.post("/createUser", databaseController.createUser);
+router.post("/deleteUser", databaseController.deleteUser);
+
 module.exports = router;

@@ -17,6 +17,8 @@ const AlarmTable = () => {
     time: "",
     text: "",
     status: "",
+    node: "",
+    name: "",
   });
 
   const [currentPageData, setCurrentPage] = useState({
@@ -36,9 +38,12 @@ const AlarmTable = () => {
         params: { sortAlarm },
       });
       data.then((data) => {
-        const alarmData = data.data;
-        setAllData(alarmData.reverse());
-        Pagination(alarmData);
+        let alarmData = data.data.data;
+        var filtered = alarmData.filter(function (value, index, arr) {
+          return value.data_table != null;
+        });
+        setAllData(filtered.reverse());
+        Pagination(filtered);
       });
     }
     makeRequest();
@@ -93,7 +98,13 @@ const AlarmTable = () => {
   async function setStatus(status) {
     setsortAlarm({ ...sortAlarm, status: status });
   }
-
+  async function setNode(node) {
+    setsortAlarm({ ...sortAlarm, node: node });
+  }
+  async function setName(event) {
+    const name = event.target.value;
+    setsortAlarm({ ...sortAlarm, name: name });
+  }
   const Pagination = (data) => {
     // Calculate the total number of pages
     const totalPagesValue = Math.ceil(data.length / pageSize);
@@ -166,6 +177,98 @@ const AlarmTable = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>
+              <Dropdown>
+                <Dropdown.Toggle className="header-table">Node</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as="button" onClick={() => setNode("Node 1")}>
+                    Node 1
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={() => setNode("Node 2")}>
+                    Node 2
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={() => setNode("Node 3")}>
+                    Node 3
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={() => setNode("Node 4")}>
+                    Node 4
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={() => setNode("Node 5")}>
+                    Node 5
+                  </Dropdown.Item>
+                  <Dropdown.Divider></Dropdown.Divider>
+                  <Dropdown.Item onClick={() => (sortAlarm.node = "")}>
+                    Clear Filter
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              {sortAlarm.node !== "" ? (
+                <Alert
+                  variant="primary"
+                  onClose={() => (sortAlarm.node = "")}
+                  style={{
+                    fontWeight: "normal",
+                    width: "130px",
+                    padding: "5px",
+                  }}
+                >
+                  {sortAlarm.node}
+                  <CloseButton
+                    onClick={() => (sortAlarm.node = "")}
+                    style={{
+                      scale: "80%",
+                      marginLeft: "5px",
+                      position: "absolute",
+                      top: "5px",
+                    }}
+                  ></CloseButton>
+                </Alert>
+              ) : (
+                <></>
+              )}
+            </th>
+            <th>
+              <Dropdown>
+                <Dropdown.Toggle className="header-table">Name</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <div>
+                    <Form.Control
+                      type="input"
+                      onChange={setName}
+                      style={{ border: "0px" }}
+                      placeholder="Search values"
+                    />
+                  </div>
+                  <Dropdown.Divider></Dropdown.Divider>
+                  <Dropdown.Item onClick={() => (sortAlarm.name = "")}>
+                    Clear Filter
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              {sortAlarm.name !== "" ? (
+                <Alert
+                  variant="primary"
+                  onClose={() => (sortAlarm.name = "")}
+                  style={{
+                    fontWeight: "normal",
+                    padding: "5px",
+                  }}
+                >
+                  {sortAlarm.name}
+                  <CloseButton
+                    onClick={() => (sortAlarm.name = "")}
+                    style={{
+                      scale: "80%",
+                      marginLeft: "5px",
+                      position: "absolute",
+                      top: "5px",
+                    }}
+                  ></CloseButton>
+                </Alert>
+              ) : (
+                <></>
+              )}
+            </th>
             <th>
               <Dropdown>
                 <Dropdown.Toggle className="header-table">Date</Dropdown.Toggle>
@@ -383,6 +486,16 @@ const AlarmTable = () => {
                   }
                   key={key}
                 >
+                  {val.data_table != null ? (
+                    <td>{val.data_table.node}</td>
+                  ) : (
+                    <td>Null</td>
+                  )}
+                  {val.data_table != null ? (
+                    <td>{val.data_table.name}</td>
+                  ) : (
+                    <td>Null</td>
+                  )}
                   <td>{val.date}</td>
                   <td>{val.time}</td>
                   <td>{val.text}</td>
@@ -390,7 +503,10 @@ const AlarmTable = () => {
                   <td>{val.value}</td>
                   <td>{val.limit}</td>
                   <td>
-                    {key == 0 && val.status != "OK" ? (
+                    {key == 0 &&
+                    currentPage == 1 &&
+                    val.status != "OK" &&
+                    val.status != "" ? (
                       <Dropdown>
                         <Dropdown.Toggle
                           style={{

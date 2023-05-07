@@ -33,12 +33,12 @@ class DatabaseController {
       // console.log((index % 3) + 1);
       if (key[index].includes("min"))
         await supabase
-          .from("data_input")
+          .from("data_table")
           .update({ min: value[index] })
           .eq("id", (index % 3) + 1);
       if (key[index].includes("max"))
         await supabase
-          .from("data_input")
+          .from("data_table")
           .update({ max: value[index] })
           .eq("id", (index % 3) + 1);
     }
@@ -47,7 +47,7 @@ class DatabaseController {
 
   async getAlarmRange(req, res) {
     let { data: alarm, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .select("min,max")
       .order("id", { ascending: true })
       .not("max", "is", null);
@@ -64,6 +64,7 @@ class DatabaseController {
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()
+        .eq("data_id", 1)
         .order("id", { ascending: false })
         .limit(range);
       try {
@@ -89,7 +90,7 @@ class DatabaseController {
   }
   async setStart(req, res) {
     const { data, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .update({ serverData: "Start" })
       .eq("id", "9");
     console.log("Start");
@@ -98,7 +99,7 @@ class DatabaseController {
 
   async setStop(req, res) {
     const { data, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .update({ serverData: "Stop" })
       .eq("id", "9");
     console.log("Stop");
@@ -107,7 +108,7 @@ class DatabaseController {
 
   async setReset(req, res) {
     const { data, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .update({ serverData: "Reset" })
       .eq("id", "9");
     console.log("Reset");
@@ -164,6 +165,7 @@ class DatabaseController {
       status: status,
       value: value.data[0].value,
       limit: value.data[0].limit,
+      data_id: id,
     });
     await supabase
       .from("alarm")
@@ -196,6 +198,9 @@ class DatabaseController {
     const time = req.query.sortAlarm.time;
     const text = req.query.sortAlarm.text;
     const status = req.query.sortAlarm.status;
+    const node = req.query.sortAlarm.node;
+    const name = req.query.sortAlarm.name;
+
     console.log(req.query.sortAlarm);
 
     if (time == "Ascending") {
@@ -227,14 +232,25 @@ class DatabaseController {
         .order("date", { ascending: false });
       return res.json(alarm_history);
     } else {
-      console.log("None");
-      let { data: alarm_history, error } = await supabase
+      let alarm_history = await supabase
         .from("alarm_history")
-        .select()
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
         .filter("date", "ilike", `%${date}%`)
         .filter("time", "ilike", `%${time}%`)
         .filter("text", "ilike", `%${text}%`)
-        .filter("status", "ilike", `%${status}%`);
+        .filter("status", "ilike", `%${status}%`)
+        .filter("data_table.name", "ilike", `%${name}%`)
+        .filter("data_table.node", "ilike", `%${node}%`)
+        .order("id", { ascending: true });
+
       return res.json(alarm_history);
     }
   }

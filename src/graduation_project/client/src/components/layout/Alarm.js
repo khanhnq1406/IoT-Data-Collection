@@ -26,8 +26,9 @@ const AlarmModal = (props) => {
     }
     makeRequest();
   });
-  async function actionHandle(text, status) {
+  async function actionHandle(text, status, id) {
     axios.post(`${apiUrl}/database/setAlarmStatus`, {
+      id: id,
       text: text,
       status: status,
     });
@@ -119,7 +120,7 @@ const AlarmModal = (props) => {
                                 color: "#000000",
                               }}
                               onClick={() =>
-                                actionHandle(val.text, "Acknowledged")
+                                actionHandle(val.text, "Acknowledged", val.id)
                               }
                             >
                               Acknowledge
@@ -132,7 +133,9 @@ const AlarmModal = (props) => {
                                 border: "0px",
                                 color: "#000000",
                               }}
-                              onClick={() => actionHandle(val.text, "Disable")}
+                              onClick={() =>
+                                actionHandle(val.text, "Disable", val.id)
+                              }
                             >
                               Disable
                             </Button>

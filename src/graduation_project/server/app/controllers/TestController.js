@@ -10,7 +10,7 @@ class TestController {
     const data = Object.values(param);
     for (let index = 0; index < data.length; index++) {
       await supabase
-        .from("data_input")
+        .from("data_table")
         .update({ value: data[index] })
         .eq("id", index + 1);
     }
@@ -19,7 +19,7 @@ class TestController {
 
   async getData(req, res, next) {
     const { data, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .select()
       .order("id", { ascending: true });
 
@@ -67,7 +67,7 @@ class TestController {
           (String(second).length == 1 ? "0" + second : second);
         const message = `Data ${index + 1} High Limit`;
         const value = await supabase
-          .from("data_input")
+          .from("data_table")
           .select("value, max")
           .eq("id", id);
         console.log(value);
@@ -90,6 +90,7 @@ class TestController {
           status: "Active",
           value: value.data[0].value,
           limit: value.data[0].max,
+          data_id: id,
         });
       } else if (
         Number(element.value) <= Number(element.min) &&
@@ -118,7 +119,7 @@ class TestController {
           (String(second).length == 1 ? "0" + second : second);
         const message = `Data ${index + 1} Low Limit`;
         const value = await supabase
-          .from("data_input")
+          .from("data_table")
           .select("value, min")
           .eq("id", id);
         console.log(value);
@@ -131,6 +132,7 @@ class TestController {
             status: "Active",
             value: value.data[0].value,
             limit: value.data[0].min,
+            data_id: id,
           })
           .eq("id", id);
         await supabase.from("alarm_history").insert({
@@ -170,7 +172,7 @@ class TestController {
           (String(second).length == 1 ? "0" + second : second);
         const message = data[0].text;
         const value = await supabase
-          .from("data_input")
+          .from("data_table")
           .select("value")
           .eq("id", id);
         await supabase.from("alarm_history").insert({
@@ -179,6 +181,7 @@ class TestController {
           text: message,
           status: "OK",
           value: value.data[0].value,
+          data_id: id,
         });
         await supabase
           .from("alarm")

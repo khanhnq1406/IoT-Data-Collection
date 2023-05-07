@@ -24,6 +24,7 @@ const Overview = () => {
     data6: "",
     data7: "",
     data8: "",
+    data10: "",
     minData1: "",
     minData2: "",
     minData3: "",
@@ -41,6 +42,7 @@ const Overview = () => {
     data6,
     data7,
     data8,
+    data10,
     setAlarm,
     minData1,
     minData2,
@@ -49,6 +51,11 @@ const Overview = () => {
     maxData2,
     maxData3,
   } = testForm;
+
+  const [lightStatus, setLightStatus] = useState({
+    text: "Start",
+    image: "/images/light-on.png",
+  });
 
   useEffect(() => {
     async function makeRequest() {
@@ -60,7 +67,29 @@ const Overview = () => {
           const element = dataThen.data[index].value;
           const max = dataThen.data[index].max;
           const min = dataThen.data[index].min;
-          console.log(max, min, element);
+          const name = dataThen.data[index].name;
+          if (name != 0) {
+            const espData = dataThen.data[index].espData;
+            if (espData == "Stop") {
+              setLightStatus({
+                ...lightStatus,
+                text: "Stop",
+                image: "/images/light-off.png",
+              });
+            } else if (espData == "Start") {
+              setLightStatus({
+                ...lightStatus,
+                text: "Start",
+                image: "/images/light-on.png",
+              });
+            } else if (espData == "Reset") {
+              setLightStatus({
+                ...lightStatus,
+                text: "Reset",
+                image: "/images/light-reset.gif",
+              });
+            }
+          }
           if (
             (element >= max || element <= min) &&
             max != null &&
@@ -70,6 +99,7 @@ const Overview = () => {
             break;
           }
         }
+        console.log(dataThen.data);
         setTestForm({
           ...testForm,
           data1: dataThen.data[0].value,
@@ -80,6 +110,7 @@ const Overview = () => {
           data6: dataThen.data[5].value,
           data7: dataThen.data[6].value,
           data8: dataThen.data[7].value,
+          data10: dataThen.data[9].value,
           minData1: dataThen.data[0].min,
           minData2: dataThen.data[1].min,
           minData3: dataThen.data[2].min,
@@ -92,7 +123,6 @@ const Overview = () => {
     }
     makeRequest();
   });
-  console.log(setAlarm);
   // User interface handles
   const navigate = useNavigate();
   const onClickToNode1 = () => navigate("/node1");
@@ -159,6 +189,18 @@ const Overview = () => {
                       style={changeColor(data3, minData3, maxData3)}
                     >
                       {data3}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card style={{ width: "17rem" }} className="mb-2">
+                  <Card.Body>
+                    <Card.Title style={{ fontSize: "20px" }}>Light</Card.Title>
+                    <Card.Text className="light-status">
+                      {lightStatus.text}
+                      <img
+                        src={lightStatus.image}
+                        className="light-image"
+                      ></img>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -253,8 +295,16 @@ const Overview = () => {
 
                 <Card style={{ width: "18rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 9</Card.Title>
-                    <Card.Text className="data-value">VALUE</Card.Text>
+                    <Card.Title style={{ fontSize: "20px" }}>
+                      Data 10
+                    </Card.Title>
+
+                    <Card.Text
+                      className="data-value"
+                      style={changeColor(data10)}
+                    >
+                      {data10}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Card.Body>

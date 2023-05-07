@@ -26,7 +26,7 @@ const char* ssid = wifiConfig.homeSsid;
 const char* password = wifiConfig.homePassword;
 
 // Config http
-String apiGetData = "https://rstdxxyobzxqaggqcjrz.supabase.co/rest/v1/data_input?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE";
+String apiGetData = "https://rstdxxyobzxqaggqcjrz.supabase.co/rest/v1/data_table?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE";
 // String serverName = "https://data-collection-system-backend.onrender.com/test/getData";
 String localIp = "https://data-collection-system-backend.onrender.com";
 ;

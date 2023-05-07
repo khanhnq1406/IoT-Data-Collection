@@ -10,7 +10,7 @@ class EspController {
     for (let index = 0; index < value[0].length; index++) {
       const element = value[0][index];
       const { data, error } = await supabase
-        .from("data_input")
+        .from("data_table")
         .update({ value: element })
         .eq("id", index + 1);
     }
@@ -29,14 +29,14 @@ class EspController {
     // const value = Object.values(param);
     console.log(param);
     const { data, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .update({ espData: param.espData })
       .eq("id", 9);
     res.send("OK");
   }
   async getLightStatus(req, res) {
     let { data: control, error } = await supabase
-      .from("data_input")
+      .from("data_table")
       .select("serverData")
       .eq("id", "9");
     res.send(control[0].serverData);

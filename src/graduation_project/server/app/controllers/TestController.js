@@ -132,7 +132,6 @@ class TestController {
             status: "Active",
             value: value.data[0].value,
             limit: value.data[0].min,
-            data_id: id,
           })
           .eq("id", id);
         await supabase.from("alarm_history").insert({
@@ -142,6 +141,7 @@ class TestController {
           status: "Active",
           value: value.data[0].value,
           limit: value.data[0].min,
+          data_id: id,
         });
       } else if (
         Number(element.value) < Number(element.max) &&

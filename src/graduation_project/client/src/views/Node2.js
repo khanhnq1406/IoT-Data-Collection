@@ -13,7 +13,7 @@ import Chart from "chart.js/auto";
 import { AuthContext } from "../contexts/AuthContext";
 
 let chart;
-const Node1 = () => {
+const Node2 = () => {
   // Delay function
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const {
@@ -21,19 +21,19 @@ const Node1 = () => {
   } = useContext(AuthContext);
   // Get data
   const [testForm, setTestForm] = useState({
-    data1: "",
-    data2: "",
-    data3: "",
+    data4: "",
+    data5: "",
+    data6: "",
     setAlarm: false,
-    setAlarm1: false,
-    setAlarm2: false,
-    setAlarm3: false,
+    setAlarm4: false,
+    setAlarm5: false,
+    setAlarm6: false,
   });
   const [lightStatus, setLightStatus] = useState({
     text: "Start",
     image: "/images/light-on.png",
   });
-  const { data1, data2, data3, setAlarm, setAlarm1, setAlarm2, setAlarm3 } =
+  const { data4, data5, data6, setAlarm, setAlarm4, setAlarm5, setAlarm6 } =
     testForm;
   useEffect(() => {
     async function makeRequest() {
@@ -49,7 +49,7 @@ const Node1 = () => {
           const max = dataThen.data[index].max;
           const min = dataThen.data[index].min;
           const name = dataThen.data[index].name;
-          if (name == "Light1") {
+          if (name === "Light2") {
             const espData = dataThen.data[index].espData;
             if (espData == "Stop") {
               setLightStatus({
@@ -82,18 +82,18 @@ const Node1 = () => {
         }
         setTestForm({
           ...testForm,
-          data1: dataThen.data[0].value,
-          data2: dataThen.data[1].value,
-          data3: dataThen.data[2].value,
+          data4: dataThen.data[3].value,
+          data5: dataThen.data[4].value,
+          data6: dataThen.data[5].value,
           setAlarm: hasAlarm,
-          setAlarm1: hasAlarmArr[0],
-          setAlarm2: hasAlarmArr[1],
-          setAlarm3: hasAlarmArr[2],
+          setAlarm4: hasAlarmArr[3],
+          setAlarm5: hasAlarmArr[4],
+          setAlarm6: hasAlarmArr[5],
         });
       });
 
       // Get chart data
-      const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
+      const chartData = axios.get(`${apiUrl}/database/getChartDataNode2`, {
         params: { sliderValue: sliderValue.sliderValue, firstTime: false },
       });
       chartData.then((data) => {
@@ -119,23 +119,23 @@ const Node1 = () => {
 
   // Set alarm
   const [alarmValue, setAlarmData] = useState({
-    minData1: "",
-    minData2: "",
-    minData3: "",
-    maxData1: "",
-    maxData2: "",
-    maxData3: "",
+    mindata4: "",
+    mindata5: "",
+    mindata6: "",
+    maxdata4: "",
+    maxdata5: "",
+    maxdata6: "",
   });
-  const { minData1, minData2, minData3, maxData1, maxData2, maxData3 } =
+  const { mindata4, mindata5, mindata6, maxdata4, maxdata5, maxdata6 } =
     alarmValue;
 
   const onChangeAlarmValue = (event) => {
     setAlarmData({ ...alarmValue, [event.target.name]: event.target.value });
   };
 
-  const setAlarmValueNode1 = async (event) => {
+  const setAlarmValueNode2 = async (event) => {
     event.preventDefault();
-    const res = axios.post(`${apiUrl}/database/setAlarmValueNode1`, alarmValue);
+    const res = axios.post(`${apiUrl}/database/setAlarmValueNode2`, alarmValue);
   };
 
   useEffect(() => {
@@ -143,12 +143,12 @@ const Node1 = () => {
     alarmDataBE.then((alarmDataThen) => {
       setAlarmData({
         ...alarmValue,
-        minData1: alarmDataThen.data[0].min,
-        minData2: alarmDataThen.data[1].min,
-        minData3: alarmDataThen.data[2].min,
-        maxData1: alarmDataThen.data[0].max,
-        maxData2: alarmDataThen.data[1].max,
-        maxData3: alarmDataThen.data[2].max,
+        mindata4: alarmDataThen.data[3].min,
+        mindata5: alarmDataThen.data[4].min,
+        mindata6: alarmDataThen.data[5].min,
+        maxdata4: alarmDataThen.data[3].max,
+        maxdata5: alarmDataThen.data[4].max,
+        maxdata6: alarmDataThen.data[5].max,
       });
     });
   }, []);
@@ -190,7 +190,7 @@ const Node1 = () => {
           },
         },
       });
-      const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
+      const chartData = axios.get(`${apiUrl}/database/getChartDataNode2`, {
         params: { sliderValue: sliderValue.sliderValue, firstTime: true },
       });
       chartData.then((data) => {
@@ -231,7 +231,7 @@ const Node1 = () => {
   function handleOnClick(event) {
     chart.data.datasets[0].data.length = 0;
     chart.data.labels.length = 0;
-    const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
+    const chartData = axios.get(`${apiUrl}/database/getChartDataNode2`, {
       params: { sliderValue: sliderValue.sliderValue, firstTime: true },
     });
     chartData.then((data) => {
@@ -249,27 +249,27 @@ const Node1 = () => {
   //Handle button start, stop, reset click
   async function startClick() {
     const data = axios.get(`${apiUrl}/database/setStart`, {
-      params: { name: "Light1" },
+      params: { name: "Light2" },
     });
     console.log("Start:", data);
   }
 
   async function stopClick() {
     const data = axios.get(`${apiUrl}/database/setStop`, {
-      params: { name: "Light1" },
+      params: { name: "Light2" },
     });
     console.log("Stop: ", data);
   }
 
   async function resetClick() {
     const data = axios.get(`${apiUrl}/database/setReset`, {
-      params: { name: "Light1" },
+      params: { name: "Light2" },
     });
     console.log("Reset: ", data);
   }
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
-      <NavbarLayout defActiveKey="/node1" />
+      <NavbarLayout defActiveKey="/node2" />
 
       <Container>
         <Row>
@@ -280,44 +280,44 @@ const Node1 = () => {
               className="alight-center"
             >
               <Card.Header as="h5" className="card-header-text" href="/node1">
-                Node 1
+                Node 2
               </Card.Header>
               <Card.Body>
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 1</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>Data 4</Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data1, minData1, maxData1)}
+                      style={changeColor(data4, mindata4, maxdata4)}
                     >
-                      {data1}
+                      {data4}
                     </Card.Text>
                   </Card.Body>
                 </Card>
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 2</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>Data 5</Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data2, minData2, maxData2)}
+                      style={changeColor(data5, mindata5, maxdata5)}
                     >
-                      {data2}
+                      {data5}
                     </Card.Text>
                   </Card.Body>
                 </Card>
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 3</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>Data 6</Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data3, minData3, maxData3)}
+                      style={changeColor(data6, mindata6, maxdata6)}
                     >
-                      {data3}
+                      {data6}
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -340,7 +340,7 @@ const Node1 = () => {
           <Col>
             <Card style={{ width: "33.5rem" }} className="alight-center">
               <Card.Header as="h5" className="card-header-text" href="/node1">
-                Chart 1
+                Chart 2
               </Card.Header>
               <Card.Body style={{ height: "550px" }}>
                 <div>
@@ -378,35 +378,35 @@ const Node1 = () => {
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data1</Col>
-                        <Col style={{ textAlign: "center" }}>Data2</Col>
-                        <Col style={{ textAlign: "center" }}>Data3</Col>
+                        <Col style={{ textAlign: "center" }}>Data 4</Col>
+                        <Col style={{ textAlign: "center" }}>Data 5</Col>
+                        <Col style={{ textAlign: "center" }}>Data 6</Col>
                       </Row>
-                      <Form onSubmit={setAlarmValueNode1}>
+                      <Form onSubmit={setAlarmValueNode2}>
                         <Row>
                           <Col className="col-2">Min</Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData1"
-                              value={minData1}
+                              name="mindata4"
+                              value={mindata4}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData2"
-                              value={minData2}
+                              name="mindata5"
+                              value={mindata5}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData3"
-                              value={minData3}
+                              name="mindata6"
+                              value={mindata6}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -418,24 +418,24 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData1"
-                              value={maxData1}
+                              name="maxdata4"
+                              value={maxdata4}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData2"
-                              value={maxData2}
+                              name="maxdata5"
+                              value={maxdata5}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData3"
-                              value={maxData3}
+                              name="maxdata6"
+                              value={maxdata6}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -499,19 +499,19 @@ const Node1 = () => {
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data1</Col>
-                        <Col style={{ textAlign: "center" }}>Data2</Col>
-                        <Col style={{ textAlign: "center" }}>Data3</Col>
+                        <Col style={{ textAlign: "center" }}>Data 4</Col>
+                        <Col style={{ textAlign: "center" }}>Data 5</Col>
+                        <Col style={{ textAlign: "center" }}>Data 6</Col>
                       </Row>
-                      <Form onSubmit={setAlarmValueNode1}>
+                      <Form onSubmit={setAlarmValueNode2}>
                         <Row>
                           <Col className="col-2">Min</Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData1"
-                              value={minData1}
+                              name="mindata4"
+                              value={mindata4}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -519,8 +519,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData2"
-                              value={minData2}
+                              name="mindata5"
+                              value={mindata5}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -528,8 +528,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData3"
-                              value={minData3}
+                              name="mindata6"
+                              value={mindata6}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -542,8 +542,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData1"
-                              value={maxData1}
+                              name="maxdata4"
+                              value={maxdata4}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -551,8 +551,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData2"
-                              value={maxData2}
+                              name="maxdata5"
+                              value={maxdata5}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -560,8 +560,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData3"
-                              value={maxData3}
+                              name="maxdata6"
+                              value={maxdata6}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -638,4 +638,4 @@ const Node1 = () => {
   );
 };
 
-export default Node1;
+export default Node2;

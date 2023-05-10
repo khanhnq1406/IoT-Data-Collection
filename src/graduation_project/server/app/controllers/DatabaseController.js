@@ -22,15 +22,15 @@ class DatabaseController {
     return res.json(alarm);
   }
 
-  async setAlarmValue(req, res) {
+  async setAlarmValueNode1(req, res) {
     const param = req.body;
     const value = Object.values(param);
     const key = Object.keys(param);
 
     for (let index = 0; index < value.length; index++) {
-      // console.log(key[index]);
-      // console.log(value[index]);
-      // console.log((index % 3) + 1);
+      console.log(key[index]);
+      console.log(value[index]);
+      console.log((index % 3) + 1);
       if (key[index].includes("min"))
         await supabase
           .from("data_table")
@@ -45,6 +45,26 @@ class DatabaseController {
     res.send(param);
   }
 
+  async setAlarmValueNode2(req, res) {
+    const param = req.body;
+    const value = Object.values(param);
+    const key = Object.keys(param);
+
+    for (let index = 0; index < value.length; index++) {
+      if (key[index].includes("min"))
+        await supabase
+          .from("data_table")
+          .update({ min: value[index] })
+          .eq("id", (index % 3) + 4);
+      if (key[index].includes("max"))
+        await supabase
+          .from("data_table")
+          .update({ max: value[index] })
+          .eq("id", (index % 3) + 4);
+    }
+    res.send(param);
+  }
+
   async getAlarmRange(req, res) {
     let { data: alarm, error } = await supabase
       .from("data_table")
@@ -55,7 +75,7 @@ class DatabaseController {
     res.json(alarm);
   }
 
-  async getChartData(req, res) {
+  async getChartDataNode1(req, res) {
     const range = req.query.sliderValue.sliderValue;
     const firstTime = req.query.firstTime;
     // console.log(range);
@@ -78,6 +98,7 @@ class DatabaseController {
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()
+        .eq("data_id", 1)
         .order("id", { ascending: false })
         .limit(1);
       try {
@@ -88,29 +109,68 @@ class DatabaseController {
       res.json(data_history);
     }
   }
+
+  async getChartDataNode2(req, res) {
+    const range = req.query.sliderValue.sliderValue;
+    const firstTime = req.query.firstTime;
+    // console.log(range);
+    if (firstTime === "true") {
+      // console.log("If");
+      let { data: data_history, error } = await supabase
+        .from("data_history")
+        .select()
+        .eq("data_id", 2)
+        .order("id", { ascending: false })
+        .limit(range);
+      try {
+        data_history.reverse();
+      } catch {
+        console.log("Get chart data error");
+      }
+      res.json(data_history);
+    } else {
+      // console.log("Else");
+      let { data: data_history, error } = await supabase
+        .from("data_history")
+        .select()
+        .eq("data_id", 2)
+        .order("id", { ascending: false })
+        .limit(1);
+      try {
+        data_history.reverse();
+      } catch {
+        console.log("Get chart data error");
+      }
+      res.json(data_history);
+    }
+  }
+
   async setStart(req, res) {
+    const name = req.query.name;
     const { data, error } = await supabase
       .from("data_table")
       .update({ serverData: "Start" })
-      .eq("id", "9");
+      .eq("name", name);
     console.log("Start");
     res.send("OK");
   }
 
   async setStop(req, res) {
+    const name = req.query.name;
     const { data, error } = await supabase
       .from("data_table")
       .update({ serverData: "Stop" })
-      .eq("id", "9");
+      .eq("name", name);
     console.log("Stop");
     res.send("OK");
   }
 
   async setReset(req, res) {
+    const name = req.query.name;
     const { data, error } = await supabase
       .from("data_table")
       .update({ serverData: "Reset" })
-      .eq("id", "9");
+      .eq("name", name);
     console.log("Reset");
     res.send("OK");
   }
@@ -158,15 +218,19 @@ class DatabaseController {
     } catch {
       console.log("Get value error");
     }
-    await supabase.from("alarm_history").insert({
-      date: dateString,
-      time: timeString,
-      text: message,
-      status: status,
-      value: value.data[0].value,
-      limit: value.data[0].limit,
-      data_id: id,
-    });
+    try {
+      await supabase.from("alarm_history").insert({
+        date: dateString,
+        time: timeString,
+        text: message,
+        status: status,
+        value: value.data[0].value,
+        limit: value.data[0].limit,
+        data_id: id,
+      });
+    } catch {
+      console.log("Cannot get alarm history");
+    }
     await supabase
       .from("alarm")
       .update({

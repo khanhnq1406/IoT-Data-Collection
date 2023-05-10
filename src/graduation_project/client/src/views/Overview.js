@@ -53,7 +53,6 @@ const Overview = () => {
           const max = dataThen.data[index].max;
           const min = dataThen.data[index].min;
           const name = dataThen.data[index].name;
-          console.log(name);
           if (name.includes("Light")) {
             const espData = dataThen.data[index].espData;
             if (espData == "Stop") {
@@ -82,7 +81,6 @@ const Overview = () => {
               });
             }
           }
-          console.log(lightStatus);
           if (
             (element >= max || element <= min) &&
             max != null &&
@@ -92,13 +90,11 @@ const Overview = () => {
           }
           testForm[dataThen.data[index].name] = dataThen.data[index];
         }
-        console.log(testForm);
         setTestForm({
           ...testForm,
           setAlarm: hasAlarm,
         });
       });
-      console.log(testForm);
     }
     makeRequest();
   });

@@ -6,6 +6,8 @@ import Overview from "./views/Overview";
 import Node1 from "./views/Node1";
 import Node2 from "./views/Node2";
 import Node3 from "./views/Node3";
+import Node4 from "./views/Node4";
+import Node5 from "./views/Node5";
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
 import AlarmTable from "./views/AlarmTable";
@@ -48,6 +50,22 @@ function App() {
             element={
               <ProtectedRoute redirectTo="/login">
                 <Node3 />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/node4"
+            element={
+              <ProtectedRoute redirectTo="/login">
+                <Node4 />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/node5"
+            element={
+              <ProtectedRoute redirectTo="/login">
+                <Node5 />
               </ProtectedRoute>
             }
           />

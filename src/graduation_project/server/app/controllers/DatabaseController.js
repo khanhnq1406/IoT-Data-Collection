@@ -22,45 +22,23 @@ class DatabaseController {
     return res.json(alarm);
   }
 
-  async setAlarmValueNode1(req, res) {
+  async setAlarmValue(req, res) {
     const param = req.body;
     const value = Object.values(param);
     const key = Object.keys(param);
-
     for (let index = 0; index < value.length; index++) {
-      console.log(key[index]);
-      console.log(value[index]);
-      console.log((index % 3) + 1);
+      const name = key[index].substring(key[index].indexOf("_") + 1);
+      console.log(name);
       if (key[index].includes("min"))
         await supabase
           .from("data_table")
           .update({ min: value[index] })
-          .eq("id", (index % 3) + 1);
+          .eq("name", name);
       if (key[index].includes("max"))
         await supabase
           .from("data_table")
           .update({ max: value[index] })
-          .eq("id", (index % 3) + 1);
-    }
-    res.send(param);
-  }
-
-  async setAlarmValueNode2(req, res) {
-    const param = req.body;
-    const value = Object.values(param);
-    const key = Object.keys(param);
-
-    for (let index = 0; index < value.length; index++) {
-      if (key[index].includes("min"))
-        await supabase
-          .from("data_table")
-          .update({ min: value[index] })
-          .eq("id", (index % 3) + 4);
-      if (key[index].includes("max"))
-        await supabase
-          .from("data_table")
-          .update({ max: value[index] })
-          .eq("id", (index % 3) + 4);
+          .eq("name", name);
     }
     res.send(param);
   }
@@ -68,23 +46,24 @@ class DatabaseController {
   async getAlarmRange(req, res) {
     let { data: alarm, error } = await supabase
       .from("data_table")
-      .select("min,max")
+      .select("min,max,id")
       .order("id", { ascending: true })
       .not("max", "is", null);
     // console.log(alarm);
     res.json(alarm);
   }
 
-  async getChartDataNode1(req, res) {
+  async getChartData(req, res) {
     const range = req.query.sliderValue.sliderValue;
     const firstTime = req.query.firstTime;
+    const id = req.query.id;
     // console.log(range);
     if (firstTime === "true") {
       // console.log("If");
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()
-        .eq("data_id", 1)
+        .eq("data_id", id)
         .order("id", { ascending: false })
         .limit(range);
       try {
@@ -98,42 +77,7 @@ class DatabaseController {
       let { data: data_history, error } = await supabase
         .from("data_history")
         .select()
-        .eq("data_id", 1)
-        .order("id", { ascending: false })
-        .limit(1);
-      try {
-        data_history.reverse();
-      } catch {
-        console.log("Get chart data error");
-      }
-      res.json(data_history);
-    }
-  }
-
-  async getChartDataNode2(req, res) {
-    const range = req.query.sliderValue.sliderValue;
-    const firstTime = req.query.firstTime;
-    // console.log(range);
-    if (firstTime === "true") {
-      // console.log("If");
-      let { data: data_history, error } = await supabase
-        .from("data_history")
-        .select()
-        .eq("data_id", 2)
-        .order("id", { ascending: false })
-        .limit(range);
-      try {
-        data_history.reverse();
-      } catch {
-        console.log("Get chart data error");
-      }
-      res.json(data_history);
-    } else {
-      // console.log("Else");
-      let { data: data_history, error } = await supabase
-        .from("data_history")
-        .select()
-        .eq("data_id", 2)
+        .eq("data_id", id)
         .order("id", { ascending: false })
         .limit(1);
       try {

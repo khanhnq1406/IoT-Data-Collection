@@ -93,8 +93,12 @@ const Node1 = () => {
       });
 
       // Get chart data
-      const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
-        params: { sliderValue: sliderValue.sliderValue, firstTime: false },
+      const chartData = axios.get(`${apiUrl}/database/getChartData`, {
+        params: {
+          sliderValue: sliderValue.sliderValue,
+          firstTime: false,
+          id: 1,
+        },
       });
       chartData.then((data) => {
         for (let index = 0; index < data.data.length; index++) {
@@ -119,14 +123,14 @@ const Node1 = () => {
 
   // Set alarm
   const [alarmValue, setAlarmData] = useState({
-    minData1: "",
-    minData2: "",
-    minData3: "",
-    maxData1: "",
-    maxData2: "",
-    maxData3: "",
+    min_Data1: "",
+    min_Data2: "",
+    min_Data3: "",
+    max_Data1: "",
+    max_Data2: "",
+    max_Data3: "",
   });
-  const { minData1, minData2, minData3, maxData1, maxData2, maxData3 } =
+  const { min_Data1, min_Data2, min_Data3, max_Data1, max_Data2, max_Data3 } =
     alarmValue;
 
   const onChangeAlarmValue = (event) => {
@@ -135,7 +139,7 @@ const Node1 = () => {
 
   const setAlarmValueNode1 = async (event) => {
     event.preventDefault();
-    const res = axios.post(`${apiUrl}/database/setAlarmValueNode1`, alarmValue);
+    const res = axios.post(`${apiUrl}/database/setAlarmValue`, alarmValue);
   };
 
   useEffect(() => {
@@ -143,12 +147,12 @@ const Node1 = () => {
     alarmDataBE.then((alarmDataThen) => {
       setAlarmData({
         ...alarmValue,
-        minData1: alarmDataThen.data[0].min,
-        minData2: alarmDataThen.data[1].min,
-        minData3: alarmDataThen.data[2].min,
-        maxData1: alarmDataThen.data[0].max,
-        maxData2: alarmDataThen.data[1].max,
-        maxData3: alarmDataThen.data[2].max,
+        min_Data1: alarmDataThen.data[0].min,
+        min_Data2: alarmDataThen.data[1].min,
+        min_Data3: alarmDataThen.data[2].min,
+        max_Data1: alarmDataThen.data[0].max,
+        max_Data2: alarmDataThen.data[1].max,
+        max_Data3: alarmDataThen.data[2].max,
       });
     });
   }, []);
@@ -190,8 +194,12 @@ const Node1 = () => {
           },
         },
       });
-      const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
-        params: { sliderValue: sliderValue.sliderValue, firstTime: true },
+      const chartData = axios.get(`${apiUrl}/database/getChartData`, {
+        params: {
+          sliderValue: sliderValue.sliderValue,
+          firstTime: true,
+          id: 1,
+        },
       });
       chartData.then((data) => {
         for (let index = 0; index < data.data.length; index++) {
@@ -231,8 +239,8 @@ const Node1 = () => {
   function handleOnClick(event) {
     chart.data.datasets[0].data.length = 0;
     chart.data.labels.length = 0;
-    const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
-      params: { sliderValue: sliderValue.sliderValue, firstTime: true },
+    const chartData = axios.get(`${apiUrl}/database/getChartData`, {
+      params: { sliderValue: sliderValue.sliderValue, firstTime: true, id: 1 },
     });
     chartData.then((data) => {
       for (let index = 0; index < data.data.length; index++) {
@@ -289,7 +297,7 @@ const Node1 = () => {
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data1, minData1, maxData1)}
+                      style={changeColor(data1, min_Data1, max_Data1)}
                     >
                       {data1}
                     </Card.Text>
@@ -302,7 +310,7 @@ const Node1 = () => {
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data2, minData2, maxData2)}
+                      style={changeColor(data2, min_Data2, max_Data2)}
                     >
                       {data2}
                     </Card.Text>
@@ -315,7 +323,7 @@ const Node1 = () => {
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data3, minData3, maxData3)}
+                      style={changeColor(data3, min_Data3, max_Data3)}
                     >
                       {data3}
                     </Card.Text>
@@ -389,24 +397,24 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData1"
-                              value={minData1}
+                              name="min_Data1"
+                              value={min_Data1}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData2"
-                              value={minData2}
+                              name="min_Data2"
+                              value={min_Data2}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData3"
-                              value={minData3}
+                              name="min_Data3"
+                              value={min_Data3}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -418,24 +426,24 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData1"
-                              value={maxData1}
+                              name="max_Data1"
+                              value={max_Data1}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData2"
-                              value={maxData2}
+                              name="max_Data2"
+                              value={max_Data2}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData3"
-                              value={maxData3}
+                              name="max_Data3"
+                              value={max_Data3}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -510,8 +518,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData1"
-                              value={minData1}
+                              name="min_Data1"
+                              value={min_Data1}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -519,8 +527,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData2"
-                              value={minData2}
+                              name="min_Data2"
+                              value={min_Data2}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -528,8 +536,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="minData3"
-                              value={minData3}
+                              name="min_Data3"
+                              value={min_Data3}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -542,8 +550,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData1"
-                              value={maxData1}
+                              name="max_Data1"
+                              value={max_Data1}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -551,8 +559,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData2"
-                              value={maxData2}
+                              name="max_Data2"
+                              value={max_Data2}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -560,8 +568,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="maxData3"
-                              value={maxData3}
+                              name="max_Data3"
+                              value={max_Data3}
                               disabled
                             ></Form.Control>
                           </Col>

@@ -1,5 +1,5 @@
 void getData() {
-  unsigned long start = millis();
+  Serial.println("Start getting data...");
   int httpResponseCode = httpGetData.GET();
   if (httpResponseCode > 0) {
     Serial.print("httpGetData Response code: ");
@@ -36,55 +36,47 @@ void getData() {
       String id = JSON.stringify(myObject[keys[0]]);
       String val = JSON.stringify(myObject[keys[1]]);
       String name = JSON.stringify(myObject["name"]);
-      Serial.print("name: ");
-      Serial.println(name);
-      if (id == "9") {
-        serverLightStatus = JSON.stringify(myObject[keys[5]]);
-        serverLightStatus.remove(0, 1);
-        serverLightStatus.remove(serverLightStatus.length() - 1, 1);
-        if (serverLightStatus != espLightStatus) {
-          espLightStatus = serverLightStatus;
-          Serial.println(espLightStatus);
+      if (id.toInt() == LIGHT1 || id.toInt() == LIGHT2 || 
+          id.toInt() == LIGHT3 || id.toInt() == LIGHT4 || id.toInt() == LIGHT5) {
+        int indexLight;
+        switch (id.toInt()) {
+          case LIGHT1: indexLight = 0; break;
+          case LIGHT2: indexLight = 1; break;
+          case LIGHT3: indexLight = 2; break;
+          case LIGHT4: indexLight = 3; break;
+          case LIGHT5: indexLight = 4; break;
+        }
+        serverLightStatus[indexLight] = JSON.stringify(myObject[keys[5]]);
+        serverLightStatus[indexLight].remove(0, 1);
+        serverLightStatus[indexLight].remove(serverLightStatus[indexLight].length() - 1, 1);
+        if (serverLightStatus[indexLight] != espLightStatus[indexLight]) {
+          espLightStatus[indexLight] = serverLightStatus[indexLight];
+          Serial.println(espLightStatus[indexLight]);
 
           // Send esp-side status
           StaticJsonBuffer<200> jsonBuffer;
           JsonObject& root = jsonBuffer.createObject();
 
           // Add some data to the JSON object
-          root["espData"] = espLightStatus;
-
+          root["espData"] = espLightStatus[indexLight];
+          root["name"] = name;
           // Serialize JSON object to string
           String message;
           root.printTo(message);
           httpUpdateLightStatus.addHeader("Content-Type", "application/json");
-          // int httpResponseCode;
-          // do {
-          //   httpResponseCode = httpUpdateLightStatus.POST(message);
-          // } while (httpResponseCode != 200);
-          // Serial.print("httpResponseCode: ");
-          // Serial.println(httpResponseCode);
+          int httpResponseCode, countRes = 0;
+          do {
+            countRes++;
+            httpResponseCode = httpUpdateLightStatus.POST(message);
+          } while (httpResponseCode != 200 && countRes < 200);
+          Serial.print("httpResponseCode: ");
+          Serial.println(httpResponseCode);
         }
       }
-      // Serial.print("payload: ");
-      // Serial.println(payload);
-      // Serial.print("myObject: ");
-      // Serial.println(myObject);
-      // Serial.print("keys ");
-      // Serial.println(keys);
-      // Serial.print("id: ");
-      // Serial.println(id);
-      // Serial.print("val: ");
-      // Serial.println(val);
-      // int firstComma = payload.indexOf('}');
-      // Serial.print("firstComma: ");
-      // Serial.println(firstComma);
       payload.remove(0, payload.indexOf('}') + 2);
     }
   } else {
-    Serial.print("Error code: ");
+    Serial.print("Error code get data: ");
     Serial.println(httpResponseCode);
   }
-  unsigned long end = millis();
-  unsigned long delta = end - start;
-  // Serial.println(delta);
 }

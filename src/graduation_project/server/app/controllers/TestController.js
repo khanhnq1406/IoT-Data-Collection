@@ -23,7 +23,6 @@ class TestController {
       .select()
       .order("id", { ascending: true });
     if (data !== null) {
-      console.log(data);
       for (let index = 0; index < data.length; index++) {
         const element = data[index];
         const id = index + 1;

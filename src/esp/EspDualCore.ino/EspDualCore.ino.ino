@@ -6,6 +6,7 @@ TaskHandle_t Task2;
 #include "config.h"
 #include "getData.h"
 #include "updateData.h"
+#include "syncTask.h"
 void setup() {
   Serial.begin(115200);
   delay(1000);
@@ -72,7 +73,8 @@ void Task2code(void* pvParameters) {
     TIMERG0.wdt_wprotect = 0;
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
-      // updateData();
+      updateData();
+      syncTask();
       getData();
       previousMillis = currentMillis;
     }

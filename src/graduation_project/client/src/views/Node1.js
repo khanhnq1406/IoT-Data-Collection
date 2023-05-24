@@ -67,7 +67,7 @@ const Node1 = () => {
               setLightStatus({
                 ...lightStatus,
                 text: "Reset",
-                image: "/images/light-reset.gif",
+                image: "/images/light-reset.png",
               });
             }
           }

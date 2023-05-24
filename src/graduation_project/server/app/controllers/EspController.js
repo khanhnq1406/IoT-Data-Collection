@@ -6,13 +6,43 @@ const supabase = createClient(
 class EspController {
   async updateData(req, res) {
     const param = req.body;
-    const value = Object.values(param);
-    for (let index = 0; index < value[0].length; index++) {
-      const element = value[0][index];
-      const { data, error } = await supabase
+    const key = Object.keys(param);
+    // console.log(param["Data1"]);
+    for (let index = 0; index < key.length; index++) {
+      const name = param[key[index]].name;
+      const value = param[key[index]].value;
+      const id = param[key[index]].id;
+      await supabase
         .from("data_table")
-        .update({ value: element })
-        .eq("id", index + 1);
+        .update({ value: value })
+        .eq("name", name);
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds();
+      const dateString =
+        (String(day).length == 1 ? "0" + day : day) +
+        "/" +
+        (String(Number(month + 1)).length == 1
+          ? "0" + Number(month + 1)
+          : Number(month + 1)) +
+        "/" +
+        year;
+      const timeString =
+        (String(hour).length == 1 ? "0" + hour : hour) +
+        ":" +
+        (String(minute).length == 1 ? "0" + minute : minute) +
+        ":" +
+        (String(second).length == 1 ? "0" + second : second);
+      await supabase.from("data_history").insert({
+        date: dateString,
+        time: timeString,
+        value: value,
+        data_id: id,
+      });
     }
     res.send("OK");
   }
@@ -27,11 +57,13 @@ class EspController {
   async updateLightStatus(req, res) {
     const param = req.body;
     // const value = Object.values(param);
-    console.log(param);
+    const name = param.name.replaceAll(`"`, "");
+    const espData = param.espData;
+    console.log(name, ":", espData);
     const { data, error } = await supabase
       .from("data_table")
-      .update({ espData: param.espData })
-      .eq("id", 9);
+      .update({ espData: espData })
+      .eq("name", name);
     res.send("OK");
   }
   async getLightStatus(req, res) {

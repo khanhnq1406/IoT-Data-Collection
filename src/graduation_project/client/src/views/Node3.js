@@ -28,13 +28,22 @@ const Node3 = () => {
     setAlarm7: false,
     setAlarm8: false,
     setAlarm10: false,
+    chartId: "7",
   });
   const [lightStatus, setLightStatus] = useState({
     text: "Start",
     image: "/images/light-on.png",
   });
-  const { data7, data8, data10, setAlarm, setAlarm7, setAlarm8, setAlarm10 } =
-    testForm;
+  const {
+    data7,
+    data8,
+    data10,
+    setAlarm,
+    setAlarm7,
+    setAlarm8,
+    setAlarm10,
+    chartId,
+  } = testForm;
   useEffect(() => {
     async function makeRequest() {
       await sleep(2000);
@@ -81,7 +90,7 @@ const Node3 = () => {
           }
         }
         console.log(dataThen);
-        setTestForm({
+        setTestForm((testForm) => ({
           ...testForm,
           data7: dataThen.data[6].value,
           data8: dataThen.data[7].value,
@@ -90,7 +99,7 @@ const Node3 = () => {
           setAlarm7: hasAlarmArr[6],
           setAlarm8: hasAlarmArr[7],
           setAlarm10: hasAlarmArr[9],
-        });
+        }));
       });
 
       // Get chart data
@@ -98,7 +107,7 @@ const Node3 = () => {
         params: {
           sliderValue: sliderValue.sliderValue,
           firstTime: false,
-          id: 3,
+          id: chartId,
         },
       });
       chartData.then((data) => {
@@ -174,7 +183,7 @@ const Node3 = () => {
           labels: [], // array of x-axis labels
           datasets: [
             {
-              label: "Temperature",
+              label: "Data " + chartId,
               data: [], // array of y-axis values
               backgroundColor: "rgba(255, 99, 132, 0.2)", // fill color
               borderColor: "rgba(255, 99, 132, 1)", // line color
@@ -200,7 +209,7 @@ const Node3 = () => {
         params: {
           sliderValue: sliderValue.sliderValue,
           firstTime: true,
-          id: 3,
+          id: chartId,
         },
       });
       chartData.then((data) => {
@@ -219,6 +228,7 @@ const Node3 = () => {
       return;
     }
     chart.data.labels.push(timestamp); // add new x-axis label
+    chart.data.datasets[0].label = "Data " + chartId;
     while (chart.data.datasets[0].data.length >= sliderValue) {
       chart.data.datasets[0].data.shift();
       chart.data.labels.shift();
@@ -242,7 +252,11 @@ const Node3 = () => {
     chart.data.datasets[0].data.length = 0;
     chart.data.labels.length = 0;
     const chartData = axios.get(`${apiUrl}/database/getChartData`, {
-      params: { sliderValue: sliderValue.sliderValue, firstTime: true, id: 3 },
+      params: {
+        sliderValue: sliderValue.sliderValue,
+        firstTime: true,
+        id: chartId,
+      },
     });
     chartData.then((data) => {
       for (let index = 0; index < data.data.length; index++) {
@@ -277,6 +291,39 @@ const Node3 = () => {
     });
     console.log("Reset: ", data);
   }
+
+  function handleChartId(event) {
+    const dataId = event.target.value;
+    setTestForm((testForm) => ({
+      ...testForm,
+      chartId: dataId,
+    }));
+  }
+  useEffect(() => {
+    // This code will run every time the `stateValue` changes
+    if (chart != undefined) {
+      chart.data.datasets[0].data.length = 0;
+      chart.data.labels.length = 0;
+      const chartData = axios.get(`${apiUrl}/database/getChartData`, {
+        params: {
+          sliderValue: sliderValue.sliderValue,
+          firstTime: true,
+          id: chartId,
+        },
+      });
+      chartData.then((data) => {
+        for (let index = 0; index < data.data.length; index++) {
+          const element = data.data[index];
+          const timestamp = element.date + " " + element.time;
+          updateChart(timestamp, element.value, sliderValue.sliderValue);
+        }
+        chart.data.datasets[0].data.slice(0, -1);
+        chart.data.labels.slice(0, -1);
+        chart.update();
+      });
+    }
+  }, [chartId]);
+
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
       <NavbarLayout defActiveKey="/node3" />
@@ -353,8 +400,23 @@ const Node3 = () => {
           </Col>
           <Col>
             <Card style={{ width: "33.5rem" }} className="alight-center">
-              <Card.Header as="h5" className="card-header-text" href="/node1">
-                Chart 3
+              <Card.Header as="h5" className="card-header-text" href="#">
+                <Form.Select
+                  aria-label="Default select example"
+                  style={{
+                    fontSize: "0.92em",
+                    fontWeight: "unset",
+                    fontFamily: "Poppins, sans-serif",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    // border: "0px",
+                  }}
+                  onChange={handleChartId}
+                >
+                  <option value="7">Chart Data 7</option>
+                  <option value="8">Chart Data 8</option>
+                  <option value="10">Chart Data 10</option>
+                </Form.Select>
               </Card.Header>
               <Card.Body style={{ height: "550px" }}>
                 <div>

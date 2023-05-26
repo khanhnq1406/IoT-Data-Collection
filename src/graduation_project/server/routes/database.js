@@ -20,5 +20,5 @@ router.post("/editLastName", databaseController.editLastName);
 router.post("/editRole", databaseController.editRole);
 router.post("/createUser", databaseController.createUser);
 router.post("/deleteUser", databaseController.deleteUser);
-
+router.get("/getDataTable", databaseController.getDataTable);
 module.exports = router;

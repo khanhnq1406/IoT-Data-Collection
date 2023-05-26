@@ -213,30 +213,62 @@ class DatabaseController {
 
     if (time == "Ascending") {
       console.log("Ascending");
-      let { data: alarm_history, error } = await supabase
+      let alarm_history = await supabase
         .from("alarm_history")
-        .select()
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
         .order("time", { ascending: true });
       return res.json(alarm_history);
     } else if (time == "Descending") {
       console.log("Descending");
-      let { data: alarm_history, error } = await supabase
+      let alarm_history = await supabase
         .from("alarm_history")
-        .select()
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
         .order("time", { ascending: false });
       return res.json(alarm_history);
     } else if (date == "Ascending") {
       console.log("Ascending");
-      let { data: alarm_history, error } = await supabase
+      let alarm_history = await supabase
         .from("alarm_history")
-        .select()
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
         .order("date", { ascending: true });
       return res.json(alarm_history);
     } else if (date == "Descending") {
       console.log("Descending");
-      let { data: alarm_history, error } = await supabase
+      let alarm_history = await supabase
         .from("alarm_history")
-        .select()
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
         .order("date", { ascending: false });
       return res.json(alarm_history);
     } else {
@@ -260,6 +292,92 @@ class DatabaseController {
         .order("id", { ascending: true });
 
       return res.json(alarm_history);
+    }
+  }
+
+  async getDataTable(req, res) {
+    const date = req.query.sortAlarm.date;
+    const time = req.query.sortAlarm.time;
+    const status = req.query.sortAlarm.status;
+    const node = req.query.sortAlarm.node;
+    const name = req.query.sortAlarm.name;
+
+    if (time == "Ascending") {
+      let data_history = await supabase
+        .from("data_history")
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
+        .order("time", { ascending: true });
+      return res.json(data_history);
+    } else if (time == "Descending") {
+      let data_history = await supabase
+        .from("data_history")
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
+        .order("time", { ascending: false });
+      return res.json(data_history);
+    } else if (date == "Ascending") {
+      let data_history = await supabase
+        .from("data_history")
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
+        .order("date", { ascending: true });
+      return res.json(data_history);
+    } else if (date == "Descending") {
+      let data_history = await supabase
+        .from("data_history")
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
+        .order("date", { ascending: false });
+      return res.json(data_history);
+    } else {
+      let data_history = await supabase
+        .from("data_history")
+        .select(
+          `
+          *,
+          data_table (
+            node,
+            name
+          )
+          `
+        )
+        .filter("date", "ilike", `%${date}%`)
+        .filter("time", "ilike", `%${time}%`)
+        .filter("status", "ilike", `%${status}%`)
+        .filter("data_table.name", "ilike", `%${name}`)
+        .filter("data_table.node", "ilike", `%${node}%`)
+        .order("id", { ascending: true });
+
+      return res.json(data_history);
     }
   }
 

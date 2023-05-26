@@ -101,8 +101,10 @@ const Overview = () => {
   // User interface handles
   const navigate = useNavigate();
   const onClickToNode1 = () => navigate("/node1");
-  const onClickToNode2 = () => navigate("#node2");
-  const onClickToNode3 = () => navigate("#node3");
+  const onClickToNode2 = () => navigate("/node2");
+  const onClickToNode3 = () => navigate("/node3");
+  const onClickToNode4 = () => navigate("/node4");
+  const onClickToNode5 = () => navigate("/node5");
 
   // Change color depend on value
   const changeColor = (data, min, max) =>
@@ -371,7 +373,7 @@ const Overview = () => {
             {/* Node 4 */}
             <Col>
               <Card
-                onClick={onClickToNode1}
+                onClick={onClickToNode4}
                 style={{ width: "14.2rem", cursor: "pointer" }}
                 className="alight-center"
               >
@@ -451,7 +453,7 @@ const Overview = () => {
             </Col>
             <Col>
               <Card
-                onClick={onClickToNode1}
+                onClick={onClickToNode5}
                 style={{ width: "14.2rem", cursor: "pointer" }}
                 className="alight-center"
               >

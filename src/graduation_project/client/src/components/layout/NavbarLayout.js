@@ -70,9 +70,14 @@ const NavbarLayout = (attribute) => {
           <Nav.Item>
             <Nav.Link href="/node5">Node 5</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/alarm-table">Alarm</Nav.Link>
-          </Nav.Item>
+          <div>
+            <NavDropdown title="Table">
+              <NavDropdown.Item href="/alarm-table">
+                Alarm Table
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/data-table">Data Table</NavDropdown.Item>
+            </NavDropdown>
+          </div>
         </Nav>
 
         <div>

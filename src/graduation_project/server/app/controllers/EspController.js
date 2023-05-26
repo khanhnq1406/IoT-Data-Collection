@@ -7,7 +7,7 @@ class EspController {
   async updateData(req, res) {
     const param = req.body;
     const key = Object.keys(param);
-    // console.log(param["Data1"]);
+    console.log(param);
     for (let index = 0; index < key.length; index++) {
       const name = param[key[index]].name;
       const value = param[key[index]].value;
@@ -16,6 +16,18 @@ class EspController {
         .from("data_table")
         .update({ value: value })
         .eq("name", name);
+      let { data: data_table, error } = await supabase
+        .from("data_table")
+        .select("min, max")
+        .eq("name", name);
+      console.log(data_table);
+      let status = "Good";
+      if (
+        Number(data_table[0].min) > Number(value) ||
+        Number(data_table[0].max) < Number(value)
+      ) {
+        status = "Warning";
+      }
       const date = new Date();
       const year = date.getFullYear();
       const month = date.getMonth();
@@ -41,6 +53,9 @@ class EspController {
         date: dateString,
         time: timeString,
         value: value,
+        min: data_table[0].min,
+        max: data_table[0].max,
+        status: status,
         data_id: id,
       });
     }

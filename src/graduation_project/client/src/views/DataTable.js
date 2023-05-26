@@ -1,26 +1,23 @@
+import Table from "react-bootstrap/esm/Table";
 import NavbarLayout from "../components/layout/NavbarLayout";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../contexts/constants";
-import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/esm/Button";
 import CloseButton from "react-bootstrap/CloseButton";
 import exportFromJSON from "export-from-json";
-const AlarmTable = () => {
+const Node1DataTable = () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const [sortAlarm, setsortAlarm] = useState({
     date: "",
     time: "",
-    text: "",
     status: "",
     node: "",
     name: "",
   });
-
   const [currentPageData, setCurrentPage] = useState({
     totalPages: null,
     pageData: null,
@@ -34,10 +31,11 @@ const AlarmTable = () => {
   useEffect(() => {
     async function makeRequest() {
       await sleep(1000);
-      const data = axios.get(`${apiUrl}/database/getAlarmTable`, {
+      const data = axios.get(`${apiUrl}/database/getDataTable`, {
         params: { sortAlarm },
       });
       data.then((data) => {
+        console.log(data.data);
         let alarmData = data.data.data;
         var filtered = alarmData.filter(function (value, index, arr) {
           return value.data_table != null;
@@ -48,63 +46,6 @@ const AlarmTable = () => {
     }
     makeRequest();
   });
-
-  async function actionHandle(text, status) {
-    console.log(text);
-    console.log(status);
-    axios.post(`${apiUrl}/database/setAlarmStatus`, {
-      text: text,
-      status: status,
-    });
-  }
-
-  async function setDate(event) {
-    const dateChoose = new Date(event.target.value);
-    const year = dateChoose.getFullYear();
-    const month = dateChoose.getMonth();
-    const day = dateChoose.getDate();
-    const dateString =
-      (String(day).length == 1 ? "0" + day : day) +
-      "/" +
-      (String(Number(month + 1)).length == 1
-        ? "0" + Number(month + 1)
-        : Number(month + 1)) +
-      "/" +
-      year;
-    setsortAlarm({ ...sortAlarm, date: dateString });
-  }
-
-  async function setTime(event) {
-    const timeValue = event.target.value;
-    const hours = parseInt(timeValue.slice(0, 2));
-    let minutes = timeValue.slice(3, 5);
-    const meridian = timeValue.slice(6);
-    if (hours === 12 && meridian === "AM") {
-      hours -= 12;
-    } else if (meridian === "PM" && hours < 12) {
-      hours += 12;
-    }
-    const timeString = `${hours
-      .toString()
-      .padStart(2, "0")}:${minutes}${meridian}`;
-    console.log(timeString);
-    setsortAlarm({ ...sortAlarm, time: timeString });
-  }
-
-  async function setText(event) {
-    const text = event.target.value;
-    setsortAlarm({ ...sortAlarm, text: text });
-  }
-  async function setStatus(status) {
-    setsortAlarm({ ...sortAlarm, status: status });
-  }
-  async function setNode(node) {
-    setsortAlarm({ ...sortAlarm, node: node });
-  }
-  async function setName(event) {
-    const name = event.target.value;
-    setsortAlarm({ ...sortAlarm, name: name });
-  }
   const Pagination = (data) => {
     // Calculate the total number of pages
     const totalPagesValue = Math.ceil(data.length / pageSize);
@@ -148,6 +89,52 @@ const AlarmTable = () => {
     }));
   };
 
+  async function setNode(node) {
+    setsortAlarm({ ...sortAlarm, node: node });
+  }
+
+  async function setName(event) {
+    const name = event.target.value;
+    setsortAlarm({ ...sortAlarm, name: name });
+  }
+
+  async function setDate(event) {
+    const dateChoose = new Date(event.target.value);
+    const year = dateChoose.getFullYear();
+    const month = dateChoose.getMonth();
+    const day = dateChoose.getDate();
+    const dateString =
+      (String(day).length == 1 ? "0" + day : day) +
+      "/" +
+      (String(Number(month + 1)).length == 1
+        ? "0" + Number(month + 1)
+        : Number(month + 1)) +
+      "/" +
+      year;
+    setsortAlarm({ ...sortAlarm, date: dateString });
+  }
+
+  async function setTime(event) {
+    const timeValue = event.target.value;
+    const hours = parseInt(timeValue.slice(0, 2));
+    let minutes = timeValue.slice(3, 5);
+    const meridian = timeValue.slice(6);
+    if (hours === 12 && meridian === "AM") {
+      hours -= 12;
+    } else if (meridian === "PM" && hours < 12) {
+      hours += 12;
+    }
+    const timeString = `${hours
+      .toString()
+      .padStart(2, "0")}:${minutes}${meridian}`;
+    console.log(timeString);
+    setsortAlarm({ ...sortAlarm, time: timeString });
+  }
+
+  async function setStatus(status) {
+    setsortAlarm({ ...sortAlarm, status: status });
+  }
+
   //Export json to excel file
   const ExportToExcel = () => {
     const date = new Date();
@@ -159,7 +146,7 @@ const AlarmTable = () => {
     const second = date.getSeconds();
     const dateString = day + "_" + Number(month + 1) + "_" + year;
     const timeString = hour + "_" + minute + "_" + second;
-    let fileName = "Alarm_" + dateString + "-" + timeString;
+    let fileName = "Data_" + dateString + "-" + timeString;
     let exportType = exportFromJSON.types.xls;
     exportFromJSON({
       data: allData,
@@ -168,9 +155,9 @@ const AlarmTable = () => {
     });
   };
   return (
-    <div style={{ backgroundColor: "#eff2f7", paddingBottom: "60px" }}>
-      <NavbarLayout defActiveKey="/alarm-table" />
-      <h1 style={{ margin: "5px" }}>Alarm</h1>
+    <div style={{ backgroundColor: "#eff2f7", paddingBottom: "80px" }}>
+      <NavbarLayout defActiveKey="/data-table" />
+      <h1 style={{ margin: "5px" }}>Data Table</h1>
       <div style={{ margin: "5px" }}>
         <Button onClick={ExportToExcel}>Export to Excel</Button>
       </div>
@@ -208,7 +195,7 @@ const AlarmTable = () => {
                   onClose={() => (sortAlarm.node = "")}
                   style={{
                     fontWeight: "normal",
-                    width: "130px",
+                    width: "93px",
                     padding: "5px",
                   }}
                 >
@@ -367,69 +354,25 @@ const AlarmTable = () => {
                 <></>
               )}
             </th>
-            <th>
-              <Dropdown>
-                <Dropdown.Toggle className="header-table">Text</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <div>
-                    <Form.Control
-                      placeholder="Search values"
-                      style={{ border: "0px" }}
-                      onChange={setText}
-                      value={sortAlarm.text}
-                    />
-                  </div>
-                  <Dropdown.Divider></Dropdown.Divider>
-                  <Dropdown.Item onClick={() => (sortAlarm.text = "")}>
-                    Clear Filter
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              {sortAlarm.text !== "" ? (
-                <Alert
-                  variant="primary"
-                  onClose={() => (sortAlarm.text = "")}
-                  style={{
-                    fontWeight: "normal",
-                    padding: "5px",
-                  }}
-                >
-                  {sortAlarm.text}
-                  <CloseButton
-                    onClick={() => (sortAlarm.text = "")}
-                    style={{
-                      scale: "80%",
-                      marginLeft: "5px",
-                      position: "absolute",
-                      top: "5px",
-                    }}
-                  ></CloseButton>
-                </Alert>
-              ) : (
-                <></>
-              )}
-            </th>
+            <th style={{ margin: "6px" }}>Value</th>
+            <th style={{ margin: "6px" }}>Min</th>
+            <th style={{ margin: "6px" }}>Max</th>
             <th>
               <Dropdown>
                 <Dropdown.Toggle className="header-table">
                   Status
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item
-                    as="button"
-                    onClick={() => setStatus("Active")}
-                  >
-                    Active
+                  <Dropdown.Item as="button" onClick={() => setStatus("Good")}>
+                    Good
                   </Dropdown.Item>
                   <Dropdown.Item
                     as="button"
-                    onClick={() => setStatus("Acknowledged")}
+                    onClick={() => setStatus("Warning")}
                   >
-                    Acknowledged
+                    Warning
                   </Dropdown.Item>
-                  <Dropdown.Item as="button" onClick={() => setStatus("OK")}>
-                    OK
-                  </Dropdown.Item>
+
                   <Dropdown.Divider></Dropdown.Divider>
                   <Dropdown.Item onClick={() => (sortAlarm.status = "")}>
                     Clear Filter
@@ -461,15 +404,6 @@ const AlarmTable = () => {
                 <></>
               )}
             </th>
-            <th>
-              <div style={{ margin: "6px" }}>Value</div>
-            </th>
-            <th>
-              <div style={{ margin: "6px" }}>Limit</div>
-            </th>
-            <th>
-              <div style={{ margin: "6px" }}>Action</div>
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -477,13 +411,7 @@ const AlarmTable = () => {
             pageData.map((val, key) => {
               return (
                 <tr
-                  bgcolor={
-                    val.status == "Active"
-                      ? "#ff4200"
-                      : val.status == "Acknowledged"
-                      ? "#ffa500"
-                      : "#00f300"
-                  }
+                  bgcolor={val.status == "Good" ? "#00f300" : "#ffa500"}
                   key={key}
                 >
                   {val.data_table != null ? (
@@ -498,65 +426,10 @@ const AlarmTable = () => {
                   )}
                   <td>{val.date}</td>
                   <td>{val.time}</td>
-                  <td>{val.text}</td>
-                  <td>{val.status}</td>
                   <td>{val.value}</td>
-                  <td>{val.limit}</td>
-                  <td>
-                    {key == 0 &&
-                    currentPage == 1 &&
-                    val.status != "OK" &&
-                    val.status != "" ? (
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          style={{
-                            backgroundColor: "transparent",
-                            border: "0px",
-                            width: "20px",
-                            height: "20px",
-                            position: "absolute",
-                            top: "-9px",
-                            left: "-14px",
-                          }}
-                        >
-                          <img
-                            src="/images/action.png"
-                            style={{ width: "30px", opacity: "85%" }}
-                          />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item>
-                            <Button
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "0px",
-                                color: "#000000",
-                              }}
-                              onClick={() =>
-                                actionHandle(val.text, "Acknowledged")
-                              }
-                            >
-                              Acknowledge
-                            </Button>
-                          </Dropdown.Item>
-                          <Dropdown.Item>
-                            <Button
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "0px",
-                                color: "#000000",
-                              }}
-                              onClick={() => actionHandle(val.text, "Disable")}
-                            >
-                              Disable
-                            </Button>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    ) : (
-                      <></>
-                    )}
-                  </td>
+                  <td>{val.min}</td>
+                  <td>{val.max}</td>
+                  <td>{val.status}</td>
                 </tr>
               );
             })}
@@ -605,4 +478,4 @@ const AlarmTable = () => {
     </div>
   );
 };
-export default AlarmTable;
+export default Node1DataTable;

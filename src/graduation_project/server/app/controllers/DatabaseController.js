@@ -3,6 +3,7 @@ const supabase = createClient(
   "https://rstdxxyobzxqaggqcjrz.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE"
 );
+const argon2 = require("argon2");
 class DatabaseController {
   // [GET] /
   async getFullname(req, res, next) {
@@ -395,9 +396,11 @@ class DatabaseController {
   }
 
   async editPassword(req, res) {
+    const password = req.body.data;
+    const hashedPassword = await argon2.hash(password);
     const { data, error } = await supabase
       .from("Users")
-      .update({ password: req.body.data })
+      .update({ password: hashedPassword })
       .eq("username", req.body.username);
     res.json(error);
   }
@@ -427,11 +430,13 @@ class DatabaseController {
   }
 
   async createUser(req, res) {
+    const password = req.body.password;
+    const hashedPassword = await argon2.hash(password);
     const { data, error } = await supabase.from("Users").insert({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       username: req.body.username,
-      password: req.body.password,
+      password: hashedPassword,
       role: req.body.role,
     });
     res.json(error);

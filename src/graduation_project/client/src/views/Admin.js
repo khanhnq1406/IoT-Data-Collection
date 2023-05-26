@@ -15,7 +15,7 @@ import AlertMessage from "../components/layout/AlertMessage";
 import RegisterForm from "../components/auth/RegisterForm";
 const Admin = () => {
   const {
-    authState: { role },
+    authState: { user, role },
   } = useContext(AuthContext);
   const [currentPageData, setCurrentPage] = useState({
     totalPages: null,
@@ -543,18 +543,22 @@ const Admin = () => {
                             </td>
                             <td>
                               <div>
-                                <Button
-                                  style={{
-                                    backgroundColor: "transparent",
-                                    border: "0px",
-                                  }}
-                                  onClick={() => deleteUser(item.username)}
-                                >
-                                  <img
-                                    src="/images/cancel.png"
-                                    style={{ width: "20px" }}
-                                  ></img>
-                                </Button>
+                                {item.username !== user ? (
+                                  <Button
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      border: "0px",
+                                    }}
+                                    onClick={() => deleteUser(item.username)}
+                                  >
+                                    <img
+                                      src="/images/cancel.png"
+                                      style={{ width: "20px" }}
+                                    ></img>
+                                  </Button>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             </td>
                           </tr>

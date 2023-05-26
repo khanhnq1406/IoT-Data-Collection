@@ -4,6 +4,7 @@ const supabase = createClient(
   "https://rstdxxyobzxqaggqcjrz.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE"
 );
+const argon2 = require("argon2");
 class AuthController {
   // [GET] /
   async index(req, res, next) {
@@ -31,7 +32,11 @@ class AuthController {
     let { data, error } = await supabase.from("Users").select("*");
     for (let index = 0; index < data.length; index++) {
       if (data[index].username === username) {
-        if (data[index].password === password) {
+        const isPasswordValid = await argon2.verify(
+          data[index].password,
+          password
+        );
+        if (isPasswordValid) {
           const accessToken = jwt.sign(
             { userId: username },
             process.env.ACCESS_TOKEN_SECRET

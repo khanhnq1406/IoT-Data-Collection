@@ -63,10 +63,6 @@ const LoginForm = () => {
           </div>
           <div className="pass">Forgot Password?</div>
           <input type="submit" value="Login" />
-          <div className="signup_link">
-            Not a member?
-            <a href="/register">Register</a>
-          </div>
         </form>
       </div>
     </div>

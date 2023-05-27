@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext, useState, useEffect } from "react";
-import { apiUrl } from "../../contexts/constants";
+import { apiUrl, homeUrl } from "../../contexts/constants";
 import axios from "axios";
 const NavbarLayout = (attribute) => {
   // Logout
@@ -94,7 +94,9 @@ const NavbarLayout = (attribute) => {
             ) : (
               <></>
             )}
-            <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={logout} href={homeUrl}>
+              Logout
+            </NavDropdown.Item>
           </NavDropdown>
         </div>
       </Container>

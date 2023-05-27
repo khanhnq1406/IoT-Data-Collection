@@ -18,4 +18,4 @@ This is an IoT Data Collection project using LoRa, NodeJS and Firebase
 ### Client
 
 1. Remove return() in create chart step
-2. Change `apiUrl` in constant.js
+2. Change `apiUrl` and `homeUrl` in constant.js

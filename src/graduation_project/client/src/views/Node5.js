@@ -342,7 +342,7 @@ const Node5 = () => {
               style={{ width: "19.1rem", cursor: "pointer" }}
               className="alight-center"
             >
-              <Card.Header as="h5" className="card-header-text" href="/node1">
+              <Card.Header as="h5" className="card-header-text">
                 Node 5
               </Card.Header>
               <Card.Body>

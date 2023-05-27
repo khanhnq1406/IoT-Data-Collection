@@ -9,9 +9,13 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import CloseButton from "react-bootstrap/CloseButton";
 import exportFromJSON from "export-from-json";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 const AlarmTable = () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+  const {
+    authState: { user, role },
+  } = useContext(AuthContext);
   const [sortAlarm, setsortAlarm] = useState({
     date: "",
     time: "",
@@ -506,7 +510,8 @@ const AlarmTable = () => {
                     {key == 0 &&
                     currentPage == 1 &&
                     val.status != "OK" &&
-                    val.status != "" ? (
+                    val.status != "" &&
+                    role == "admin" ? (
                       <Dropdown>
                         <Dropdown.Toggle
                           style={{

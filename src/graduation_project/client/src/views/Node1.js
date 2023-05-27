@@ -323,9 +323,6 @@ const Node1 = () => {
     }
   }, [chartId]);
 
-  const navigate = useNavigate();
-  const openDataTable = () => navigate("/node1-data-table");
-
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
       <NavbarLayout defActiveKey="/node1" />
@@ -337,13 +334,8 @@ const Node1 = () => {
             <Card
               style={{ width: "19.1rem", cursor: "pointer" }}
               className="alight-center"
-              onClick={openDataTable}
             >
-              <Card.Header
-                as="h5"
-                className="card-header-text"
-                href="/node1-data-table"
-              >
+              <Card.Header as="h5" className="card-header-text">
                 Node 1
               </Card.Header>
               <Card.Body>

@@ -11,7 +11,6 @@ const Auth = ({ authRoute }) => {
   } = useContext(AuthContext);
 
   let body;
-  console.log("authLoading:", authLoading);
   if (authLoading)
     body = (
       <div className="d-flex justify-content-center mt-2">

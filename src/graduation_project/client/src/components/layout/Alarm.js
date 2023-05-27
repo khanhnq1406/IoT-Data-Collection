@@ -80,68 +80,72 @@ const AlarmModal = (props) => {
                     <td>{val.limit}</td>
 
                     <td>
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          style={{
-                            backgroundColor: "transparent",
-                            border: "0px",
-                            width: "20px",
-                            height: "20px",
-                            position: "absolute",
-                            top: "-9px",
-                            left: "-14px",
-                          }}
-                        >
-                          <img
-                            src="/images/action.png"
-                            style={{ width: "30px" }}
-                          />
-                        </Dropdown.Toggle>
+                      {role === "admin" ? (
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            style={{
+                              backgroundColor: "transparent",
+                              border: "0px",
+                              width: "20px",
+                              height: "20px",
+                              position: "absolute",
+                              top: "-9px",
+                              left: "-14px",
+                            }}
+                          >
+                            <img
+                              src="/images/action.png"
+                              style={{ width: "30px" }}
+                            />
+                          </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                          <Dropdown.Item href={`/alarm-table`}>
-                            <Button
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "0px",
-                                color: "#000000",
-                              }}
-                              type="submit"
-                            >
-                              Go to alarm table
-                            </Button>
-                          </Dropdown.Item>
-                          <Dropdown.Divider />
-                          <Dropdown.Item>
-                            <Button
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "0px",
-                                color: "#000000",
-                              }}
-                              onClick={() =>
-                                actionHandle(val.text, "Acknowledged", val.id)
-                              }
-                            >
-                              Acknowledge
-                            </Button>
-                          </Dropdown.Item>
-                          <Dropdown.Item>
-                            <Button
-                              style={{
-                                backgroundColor: "transparent",
-                                border: "0px",
-                                color: "#000000",
-                              }}
-                              onClick={() =>
-                                actionHandle(val.text, "Disable", val.id)
-                              }
-                            >
-                              Disable
-                            </Button>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
+                          <Dropdown.Menu>
+                            <Dropdown.Item href={`/alarm-table`}>
+                              <Button
+                                style={{
+                                  backgroundColor: "transparent",
+                                  border: "0px",
+                                  color: "#000000",
+                                }}
+                                type="submit"
+                              >
+                                Go to alarm table
+                              </Button>
+                            </Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item>
+                              <Button
+                                style={{
+                                  backgroundColor: "transparent",
+                                  border: "0px",
+                                  color: "#000000",
+                                }}
+                                onClick={() =>
+                                  actionHandle(val.text, "Acknowledged", val.id)
+                                }
+                              >
+                                Acknowledge
+                              </Button>
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                              <Button
+                                style={{
+                                  backgroundColor: "transparent",
+                                  border: "0px",
+                                  color: "#000000",
+                                }}
+                                onClick={() =>
+                                  actionHandle(val.text, "Disable", val.id)
+                                }
+                              >
+                                Disable
+                              </Button>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      ) : (
+                        <></>
+                      )}
                     </td>
                   </tr>
                 );

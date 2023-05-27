@@ -336,7 +336,7 @@ const Node3 = () => {
               style={{ width: "19.1rem", cursor: "pointer" }}
               className="alight-center"
             >
-              <Card.Header as="h5" className="card-header-text" href="/node1">
+              <Card.Header as="h5" className="card-header-text">
                 Node 3
               </Card.Header>
               <Card.Body>
@@ -400,7 +400,7 @@ const Node3 = () => {
           </Col>
           <Col>
             <Card style={{ width: "33.5rem" }} className="alight-center">
-              <Card.Header as="h5" className="card-header-text" href="#">
+              <Card.Header as="h5" className="card-header-text">
                 <Form.Select
                   aria-label="Default select example"
                   style={{

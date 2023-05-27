@@ -70,9 +70,7 @@ class TestController {
             .from("data_table")
             .select("value, max")
             .eq("id", id);
-          console.log(value);
-          console.log(value.data[0]);
-          const { data } = await supabase
+          const { data, error } = await supabase
             .from("alarm")
             .update({
               date: dateString,
@@ -92,6 +90,7 @@ class TestController {
             limit: value.data[0].max,
             data_id: id,
           });
+          console.log("Error max:", error, id);
         } else if (
           Number(element.value) <= Number(element.min) &&
           (!hasWarning || message.includes("High"))
@@ -122,7 +121,7 @@ class TestController {
             .from("data_table")
             .select("value, min")
             .eq("id", id);
-          console.log(value);
+          console.log("value ", value);
           const { data } = await supabase
             .from("alarm")
             .update({
@@ -143,6 +142,7 @@ class TestController {
             limit: value.data[0].min,
             data_id: id,
           });
+          console.log("error min", message);
         } else if (
           Number(element.value) < Number(element.max) &&
           Number(element.value) > Number(element.min) &&
@@ -194,6 +194,7 @@ class TestController {
               limit: null,
             })
             .eq("id", id);
+          console.log("Ok");
         }
       }
     }

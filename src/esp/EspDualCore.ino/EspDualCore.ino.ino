@@ -7,6 +7,8 @@ TaskHandle_t Task2;
 #include "getData.h"
 #include "updateData.h"
 #include "syncTask.h"
+#include "getTemperature.h"
+
 void setup() {
   Serial.begin(115200);
   delay(1000);
@@ -35,7 +37,9 @@ void setup() {
 
   // Config LED on board
   pinMode(LED_BUILTIN, OUTPUT);  // set the LED pin mode
-
+  pinMode(MQ_DPIN, INPUT);       // set the LED pin mode
+  pinMode(Buzzer, OUTPUT);       // set the LED pin mode
+  digitalWrite(Buzzer, LOW);
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
     Task1code, /* Task function. */
@@ -58,11 +62,17 @@ void setup() {
     1);        /* pin task to core 1 */
   delay(500);
 }
+
 void Task1code(void* pvParameters) {
   for (;;) {
     TIMERG0.wdt_wprotect = TIMG_WDT_WKEY_VALUE;
     TIMERG0.wdt_feed = 1;
     TIMERG0.wdt_wprotect = 0;
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= interval) {
+      // getTemperature();
+      previousMillis = currentMillis;
+    }
   }
 }
 
@@ -72,11 +82,13 @@ void Task2code(void* pvParameters) {
     TIMERG0.wdt_feed = 1;
     TIMERG0.wdt_wprotect = 0;
     unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval) {
+
+    if (currentMillis - previousMillisUpdate >= intervalUpdate) {
       updateData();
-      syncTask();
+      // syncTask();
+      getTemperature();
       getData();
-      previousMillis = currentMillis;
+      previousMillisUpdate = currentMillis;
     }
   }
 }

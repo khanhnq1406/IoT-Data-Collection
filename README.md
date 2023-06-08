@@ -1,6 +1,52 @@
 # IoT Data Collection
 
-This is an IoT Data Collection project using LoRa, NodeJS and Firebase
+This is an IoT Data Collection project
+
+## Folder structure
+
+```
+├── demo_images
+│   ├── Version 1
+│   │   ├── image.file
+│   ├── Version 2
+│   │   ├── image.file
+├── src
+│   ├── esp (for esp coding)
+│   │   ├── ...
+│   │   ├── Esp Folders
+│   │   ├── ...
+│   ├── website (website for version 1)
+│   │   ├── ...
+│   │   ├── Website Folder Structure
+│   │   ├── ...
+│   ├── graduation_project (website for version 2)
+│   │   ├── client (ReactJS folder)
+│   │   │   ├── ...
+│   │   │   ├── ReactJS Folder Structure
+│   │   │   ├── ...
+│   │   ├── server (NodeJS folder)
+│   │   │   ├── ...
+│   │   │   ├── NodeJS Folder Structure
+│   │   │   ├── ...
+├── .gitignore
+└── README.md
+```
+
+## Technologies in project
+
+### Version 1
+
+- Website: NodeJS, ExpressJS, Express Handlebars, Bootstrap
+- Database: Firebase Realtime Database
+- Deployment: Heroku, Cyclic
+- Protocol: Adafruit IO (MQTT), LoRa
+
+### Version 2
+
+- Website: NodeJS, ReactJS, Bootrstrap
+- Database: PostgreSQL
+- Deployment: Vercel, Render, Supabase
+- Protocol: LoRa, PLC TCP/IP communication
 
 ## How to use repository
 

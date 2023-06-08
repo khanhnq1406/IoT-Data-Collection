@@ -133,15 +133,21 @@ const Node3 = () => {
 
   // Set alarm
   const [alarmValue, setAlarmData] = useState({
-    min_Data7: "",
-    min_Data8: "",
+    min_Temperature: "",
+    min_PPM: "",
     min_Data10: "",
-    max_Data7: "",
-    max_Data8: "",
+    max_Temperature: "",
+    max_PPM: "",
     max_Data10: "",
   });
-  const { min_Data7, min_Data8, min_Data10, max_Data7, max_Data8, max_Data10 } =
-    alarmValue;
+  const {
+    min_Temperature,
+    min_PPM,
+    min_Data10,
+    max_Temperature,
+    max_PPM,
+    max_Data10,
+  } = alarmValue;
 
   const onChangeAlarmValue = (event) => {
     setAlarmData({ ...alarmValue, [event.target.name]: event.target.value });
@@ -158,11 +164,11 @@ const Node3 = () => {
       console.log(alarmDataThen.data);
       setAlarmData({
         ...alarmValue,
-        min_Data7: alarmDataThen.data[6].min,
-        min_Data8: alarmDataThen.data[7].min,
+        min_Temperature: alarmDataThen.data[6].min,
+        min_PPM: alarmDataThen.data[7].min,
         min_Data10: alarmDataThen.data[8].min,
-        max_Data7: alarmDataThen.data[6].max,
-        max_Data8: alarmDataThen.data[7].max,
+        max_Temperature: alarmDataThen.data[6].max,
+        max_PPM: alarmDataThen.data[7].max,
         max_Data10: alarmDataThen.data[8].max,
       });
     });
@@ -183,7 +189,8 @@ const Node3 = () => {
           labels: [], // array of x-axis labels
           datasets: [
             {
-              label: "Data " + chartId,
+              label:
+                chartId == 7 ? "Temperature" : chartId == 8 ? "PPM" : "Data",
               data: [], // array of y-axis values
               backgroundColor: "rgba(255, 99, 132, 0.2)", // fill color
               borderColor: "rgba(255, 99, 132, 1)", // line color
@@ -228,7 +235,8 @@ const Node3 = () => {
       return;
     }
     chart.data.labels.push(timestamp); // add new x-axis label
-    chart.data.datasets[0].label = "Data " + chartId;
+    chart.data.datasets[0].label =
+      chartId == 7 ? "Temperature" : chartId == 8 ? "PPM" : "Data";
     while (chart.data.datasets[0].data.length >= sliderValue) {
       chart.data.datasets[0].data.shift();
       chart.data.labels.shift();
@@ -342,11 +350,17 @@ const Node3 = () => {
               <Card.Body>
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 7</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>
+                      Temperature
+                    </Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data7, min_Data7, max_Data7)}
+                      style={changeColor(
+                        data7,
+                        min_Temperature,
+                        max_Temperature
+                      )}
                     >
                       {data7}
                     </Card.Text>
@@ -355,11 +369,11 @@ const Node3 = () => {
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 8</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>PPM</Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data8, min_Data8, max_Data8)}
+                      style={changeColor(data8, min_PPM, max_PPM)}
                     >
                       {data8}
                     </Card.Text>
@@ -413,8 +427,8 @@ const Node3 = () => {
                   }}
                   onChange={handleChartId}
                 >
-                  <option value="7">Chart Data 7</option>
-                  <option value="8">Chart Data 8</option>
+                  <option value="7">Chart Temperature</option>
+                  <option value="8">Chart PPM</option>
                   <option value="10">Chart Data 10</option>
                 </Form.Select>
               </Card.Header>
@@ -454,8 +468,8 @@ const Node3 = () => {
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data 7</Col>
-                        <Col style={{ textAlign: "center" }}>Data 8</Col>
+                        <Col style={{ textAlign: "center" }}>Temperature</Col>
+                        <Col style={{ textAlign: "center" }}>PPM</Col>
                         <Col style={{ textAlign: "center" }}>Data 10</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode2}>
@@ -465,16 +479,16 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data7"
-                              value={min_Data7}
+                              name="min_Temperature"
+                              value={min_Temperature}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data8"
-                              value={min_Data8}
+                              name="min_PPM"
+                              value={min_PPM}
                             ></Form.Control>
                           </Col>
                           <Col>
@@ -494,16 +508,16 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data7"
-                              value={max_Data7}
+                              name="max_Temperature"
+                              value={max_Temperature}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data8"
-                              value={max_Data8}
+                              name="max_PPM"
+                              value={max_PPM}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
@@ -575,8 +589,8 @@ const Node3 = () => {
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data 7</Col>
-                        <Col style={{ textAlign: "center" }}>Data 8</Col>
+                        <Col style={{ textAlign: "center" }}>Temperature</Col>
+                        <Col style={{ textAlign: "center" }}>PPM</Col>
                         <Col style={{ textAlign: "center" }}>Data 10</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode2}>
@@ -586,8 +600,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data7"
-                              value={min_Data7}
+                              name="min_Temperature"
+                              value={min_Temperature}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -595,8 +609,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data8"
-                              value={min_Data8}
+                              name="min_PPM"
+                              value={min_PPM}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -618,8 +632,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data7"
-                              value={max_Data7}
+                              name="max_Temperature"
+                              value={max_Temperature}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -627,8 +641,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data8"
-                              value={max_Data8}
+                              name="max_PPM"
+                              value={max_PPM}
                               disabled
                             ></Form.Control>
                           </Col>

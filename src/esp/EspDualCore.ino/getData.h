@@ -36,6 +36,16 @@ void getData() {
       String id = JSON.stringify(myObject[keys[0]]);
       String val = JSON.stringify(myObject[keys[1]]);
       String name = JSON.stringify(myObject["name"]);
+      String max = JSON.stringify(myObject["max"]);
+      String min = JSON.stringify(myObject["min"]);
+      if (name.lastIndexOf("Data7")>=0) {
+        node3.maxTemperature = max.toFloat();
+        node3.minTemperature = min.toFloat();
+      }
+      if (name.lastIndexOf("Data8")>=0) {
+        node3.maxGas = max.toFloat();
+        node3.minGas = min.toFloat();
+      }
       if (id.toInt() == LIGHT1 || id.toInt() == LIGHT2 || 
           id.toInt() == LIGHT3 || id.toInt() == LIGHT4 || id.toInt() == LIGHT5) {
         int indexLight;
@@ -49,29 +59,29 @@ void getData() {
         serverLightStatus[indexLight] = JSON.stringify(myObject[keys[5]]);
         serverLightStatus[indexLight].remove(0, 1);
         serverLightStatus[indexLight].remove(serverLightStatus[indexLight].length() - 1, 1);
-        if (serverLightStatus[indexLight] != espLightStatus[indexLight]) {
-          espLightStatus[indexLight] = serverLightStatus[indexLight];
-          Serial.println(espLightStatus[indexLight]);
+        // if (serverLightStatus[indexLight] != espLightStatus[indexLight]) {
+        //   espLightStatus[indexLight] = serverLightStatus[indexLight];
+        //   Serial.println(espLightStatus[indexLight]);
 
-          // Send esp-side status
-          StaticJsonBuffer<200> jsonBuffer;
-          JsonObject& root = jsonBuffer.createObject();
+        //   // Send esp-side status
+        //   StaticJsonBuffer<200> jsonBuffer;
+        //   JsonObject& root = jsonBuffer.createObject();
 
-          // Add some data to the JSON object
-          root["espData"] = espLightStatus[indexLight];
-          root["name"] = name;
-          // Serialize JSON object to string
-          String message;
-          root.printTo(message);
-          httpUpdateLightStatus.addHeader("Content-Type", "application/json");
-          int httpResponseCode, countRes = 0;
-          do {
-            countRes++;
-            httpResponseCode = httpUpdateLightStatus.POST(message);
-          } while (httpResponseCode != 200 && countRes < 200);
-          Serial.print("httpResponseCode: ");
-          Serial.println(httpResponseCode);
-        }
+        //   // Add some data to the JSON object
+        //   root["espData"] = espLightStatus[indexLight];
+        //   root["name"] = name;
+        //   // Serialize JSON object to string
+        //   String message;
+        //   root.printTo(message);
+        //   httpUpdateLightStatus.addHeader("Content-Type", "application/json");
+        //   int httpResponseCode, countRes = 0;
+        //   do {
+        //     countRes++;
+        //     httpResponseCode = httpUpdateLightStatus.POST(message);
+        //   } while (httpResponseCode != 200 && countRes < 200);
+        //   Serial.print("httpResponseCode: ");
+        //   Serial.println(httpResponseCode);
+        // }
       }
       payload.remove(0, payload.indexOf('}') + 2);
     }

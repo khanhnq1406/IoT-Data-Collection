@@ -65,7 +65,7 @@ class TestController {
             (String(minute).length == 1 ? "0" + minute : minute) +
             ":" +
             (String(second).length == 1 ? "0" + second : second);
-          const message = `Data ${index + 1} High Limit`;
+          const message = `${element.name} High Limit`;
           const value = await supabase
             .from("data_table")
             .select("value, max")
@@ -116,7 +116,7 @@ class TestController {
             (String(minute).length == 1 ? "0" + minute : minute) +
             ":" +
             (String(second).length == 1 ? "0" + second : second);
-          const message = `Data ${index + 1} Low Limit`;
+          const message = `${element.name} Low Limit`;
           const value = await supabase
             .from("data_table")
             .select("value, min")

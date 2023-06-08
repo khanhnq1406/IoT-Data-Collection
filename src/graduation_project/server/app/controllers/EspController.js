@@ -12,14 +12,12 @@ class EspController {
       const name = param[key[index]].name;
       const value = param[key[index]].value;
       const id = param[key[index]].id;
-      await supabase
-        .from("data_table")
-        .update({ value: value })
-        .eq("name", name);
+      console.log(name, value, id);
+      await supabase.from("data_table").update({ value: value }).eq("id", id);
       let { data: data_table, error } = await supabase
         .from("data_table")
         .select("min, max")
-        .eq("name", name);
+        .eq("id", id);
       console.log(data_table);
       let status = "Good";
       if (
@@ -74,11 +72,19 @@ class EspController {
     // const value = Object.values(param);
     const name = param.name.replaceAll(`"`, "");
     const espData = param.espData;
+    const serverData = param.serverData;
     console.log(name, ":", espData);
-    const { data, error } = await supabase
-      .from("data_table")
-      .update({ espData: espData })
-      .eq("name", name);
+    if (serverData === undefined) {
+      const { data, error } = await supabase
+        .from("data_table")
+        .update({ espData: espData })
+        .eq("name", name);
+    } else {
+      const { data, error } = await supabase
+        .from("data_table")
+        .update({ espData: espData, serverData: serverData })
+        .eq("name", name);
+    }
     res.send("OK");
   }
   async getLightStatus(req, res) {

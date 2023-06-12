@@ -128,14 +128,14 @@ const Overview = () => {
             <Col>
               <Card
                 onClick={onClickToNode1}
-                style={{ width: "14.2rem", cursor: "pointer" }}
+                style={{ width: "20.1rem", cursor: "pointer" }}
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
                   Node 1
                 </Card.Header>
                 <Card.Body>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 1
@@ -153,7 +153,7 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 2
@@ -171,7 +171,7 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 3
@@ -188,7 +188,7 @@ const Overview = () => {
                       </Card.Text>
                     </Card.Body>
                   </Card>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Light 1
@@ -210,66 +210,64 @@ const Overview = () => {
             <Col>
               <Card
                 onClick={onClickToNode2}
-                style={{ width: "14.2rem", cursor: "pointer" }}
+                style={{ width: "20.1rem", cursor: "pointer" }}
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
                   Node 2
                 </Card.Header>
                 <Card.Body>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Data 4
+                        Water Level
                       </Card.Title>
                       <Card.Text
                         className="data-value"
                         style={changeColor(
-                          testForm.Data4.value,
-                          testForm.Data4.min,
-                          testForm.Data4.max
+                          testForm.WaterLevel.value,
+                          testForm.WaterLevel.min,
+                          testForm.WaterLevel.max
                         )}
                       >
-                        {testForm.Data4.value}
+                        {testForm.WaterLevel.value}
                       </Card.Text>
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Data 5
+                        Error
                       </Card.Title>
                       <Card.Text
                         className="data-value"
                         style={changeColor(
-                          testForm.Data5.value,
-                          testForm.Data5.min,
-                          testForm.Data5.max
+                          testForm.Error.value,
+                          testForm.Error.min,
+                          testForm.Error.max
                         )}
                       >
-                        {testForm.Data5.value}
+                        {testForm.Error.value}
                       </Card.Text>
                     </Card.Body>
                   </Card>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 6
-                      </Card.Title>
+                      <Card.Title style={{ fontSize: "20px" }}>PWM</Card.Title>
                       <Card.Text
                         className="data-value"
                         style={changeColor(
-                          testForm.Data6.value,
-                          testForm.Data6.min,
-                          testForm.Data6.max
+                          testForm.PWM.value,
+                          testForm.PWM.min,
+                          testForm.PWM.max
                         )}
                       >
-                        {testForm.Data6.value}
+                        {testForm.PWM.value}
                       </Card.Text>
                     </Card.Body>
                   </Card>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Light 2
@@ -291,68 +289,66 @@ const Overview = () => {
             <Col>
               <Card
                 onClick={onClickToNode3}
-                style={{ width: "14.2rem", cursor: "pointer" }}
+                style={{ width: "20.1rem", cursor: "pointer" }}
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
                   Node 3
                 </Card.Header>
                 <Card.Body>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Data 7
+                        Temperature
                       </Card.Title>
                       <Card.Text
                         className="data-value"
                         style={changeColor(
-                          testForm.Data7.value,
-                          testForm.Data7.min,
-                          testForm.Data7.max
+                          testForm.Temperature.value,
+                          testForm.Temperature.min,
+                          testForm.Temperature.max
                         )}
                       >
-                        {testForm.Data7.value}
+                        {testForm.Temperature.value}
                       </Card.Text>
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 8
-                      </Card.Title>
+                      <Card.Title style={{ fontSize: "20px" }}>PPM</Card.Title>
                       <Card.Text
                         className="data-value"
                         style={changeColor(
-                          testForm.Data8.value,
-                          testForm.Data8.min,
-                          testForm.Data8.max
+                          testForm.PPM.value,
+                          testForm.PPM.min,
+                          testForm.PPM.max
                         )}
                       >
-                        {testForm.Data8.value}
+                        {testForm.PPM.value}
                       </Card.Text>
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Data 10
+                        Humidity
                       </Card.Title>
 
                       <Card.Text
                         className="data-value"
                         style={changeColor(
-                          testForm.Data10.value,
-                          testForm.Data10.min,
-                          testForm.Data10.max
+                          testForm.Humidity.value,
+                          testForm.Humidity.min,
+                          testForm.Humidity.max
                         )}
                       >
-                        {testForm.Data10.value}
+                        {testForm.Humidity.value}
                       </Card.Text>
                     </Card.Body>
                   </Card>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Light 3
@@ -370,18 +366,18 @@ const Overview = () => {
               </Card>
             </Col>
 
-            {/* Node 4 */}
+            {/* Node 4
             <Col>
               <Card
                 onClick={onClickToNode4}
-                style={{ width: "14.2rem", cursor: "pointer" }}
+                style={{ width: "20.1rem", cursor: "pointer" }}
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
                   Node 4
                 </Card.Header>
                 <Card.Body>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 13
@@ -399,7 +395,7 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 14
@@ -417,7 +413,7 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 15
@@ -434,7 +430,7 @@ const Overview = () => {
                       </Card.Text>
                     </Card.Body>
                   </Card>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Light 4
@@ -454,14 +450,14 @@ const Overview = () => {
             <Col>
               <Card
                 onClick={onClickToNode5}
-                style={{ width: "14.2rem", cursor: "pointer" }}
+                style={{ width: "20.1rem", cursor: "pointer" }}
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
                   Node 5
                 </Card.Header>
                 <Card.Body>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 17
@@ -479,7 +475,7 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 18
@@ -497,7 +493,7 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
 
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Data 19
@@ -514,7 +510,7 @@ const Overview = () => {
                       </Card.Text>
                     </Card.Body>
                   </Card>
-                  <Card style={{ width: "12.1rem" }} className="mb-2">
+                  <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
                         Light 5
@@ -529,8 +525,8 @@ const Overview = () => {
                     </Card.Body>
                   </Card>
                 </Card.Body>
-              </Card>
-            </Col>
+              </Card> */}
+            {/* </Col> */}
           </Row>
         </Container>
       ) : (

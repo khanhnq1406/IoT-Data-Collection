@@ -6,6 +6,7 @@
 #include "time.h"
 #include <otadrive_esp.h>
 #include <dhtESP32-rmt.h>
+#include <PID_v1.h>
 struct WifiConfig {
   //Room
   const char* roomSsid = "Room 302";
@@ -32,19 +33,14 @@ const char* ssid = wifiConfig.roomSsid;
 const char* password = wifiConfig.roomPassword;
 
 // Config http
-// String apiGetData = "https://rstdxxyobzxqaggqcjrz.supabase.co/rest/v1/data_table?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE";
 String localIp = wifiConfig.roomIp;
 String apiGetData = localIp + "/test/getData";
 String apiUploadData = localIp + "/esp/updateData";
-String apiInsertData = localIp + "/esp/insertData";
 String apiUpdateLightStatus = localIp + "/esp/updateLightStatus";
-String apiGetLightStatus = "https://rstdxxyobzxqaggqcjrz.supabase.co/rest/v1/control?select=pressData&id=eq.1&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzdGR4eHlvYnp4cWFnZ3FjanJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNTkzMzEsImV4cCI6MTk5MjczNTMzMX0.2xTXc4xRDI3fO2HaLSRo6YdwEjeigZvIFafnOfH5BtE";
 
 HTTPClient httpGetData;
 HTTPClient httpUploadData;
-HTTPClient httpInsertData;
 HTTPClient httpUpdateLightStatus;
-HTTPClient httpGetLightStatus;
 // Time delay
 unsigned long previousMillis = 0;     // variable to store the previous time
 const long interval = 2000;           // interval at which to blink (in milliseconds)
@@ -85,3 +81,23 @@ struct Node3 node3;
 #define MQ_PIN A0 // Define the analog pin for MQ-2 sensor
 #define MQ_DPIN 5 // Define the analog pin for MQ-2 sensor
 #define Buzzer 18
+
+// struct Node2 {
+
+// };
+// Khai báo các biến liên quan đến cảm biến siêu âm
+const int trigPin = 18;
+const int echoPin = 19;
+
+// Khai báo các biến liên quan đến module điều khiển động cơ L298N
+const int enA = 21;
+const int in1 = 22;
+const int in2 = 23;
+
+// Khai báo các biến PID
+double Setpoint, Input, Output;
+double Kp = 2, Ki = 0.5, Kd = 1;
+PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
+long duration, distance, waterLevel;
+double error;
+

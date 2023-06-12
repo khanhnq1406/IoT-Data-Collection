@@ -132,15 +132,21 @@ const Node2 = () => {
 
   // Set alarm
   const [alarmValue, setAlarmData] = useState({
-    min_Data4: "",
-    min_Data5: "",
-    min_Data6: "",
-    max_Data4: "",
-    max_Data5: "",
-    max_Data6: "",
+    min_WaterLevel: "",
+    min_Error: "",
+    min_PWM: "",
+    max_WaterLevel: "",
+    max_Error: "",
+    max_PWM: "",
   });
-  const { min_Data4, min_Data5, min_Data6, max_Data4, max_Data5, max_Data6 } =
-    alarmValue;
+  const {
+    min_WaterLevel,
+    min_Error,
+    min_PWM,
+    max_WaterLevel,
+    max_Error,
+    max_PWM,
+  } = alarmValue;
 
   const onChangeAlarmValue = (event) => {
     setAlarmData({ ...alarmValue, [event.target.name]: event.target.value });
@@ -156,12 +162,12 @@ const Node2 = () => {
     alarmDataBE.then((alarmDataThen) => {
       setAlarmData({
         ...alarmValue,
-        min_Data4: alarmDataThen.data[3].min,
-        min_Data5: alarmDataThen.data[4].min,
-        min_Data6: alarmDataThen.data[5].min,
-        max_Data4: alarmDataThen.data[3].max,
-        max_Data5: alarmDataThen.data[4].max,
-        max_Data6: alarmDataThen.data[5].max,
+        min_WaterLevel: alarmDataThen.data[3].min,
+        min_Error: alarmDataThen.data[4].min,
+        min_PWM: alarmDataThen.data[5].min,
+        max_WaterLevel: alarmDataThen.data[3].max,
+        max_Error: alarmDataThen.data[4].max,
+        max_PWM: alarmDataThen.data[5].max,
       });
     });
   }, []);
@@ -181,7 +187,8 @@ const Node2 = () => {
           labels: [], // array of x-axis labels
           datasets: [
             {
-              label: "Data " + chartId,
+              label:
+                chartId == 4 ? "Water Level" : chartId == 5 ? "Error" : "PWM",
               data: [], // array of y-axis values
               backgroundColor: "rgba(255, 99, 132, 0.2)", // fill color
               borderColor: "rgba(255, 99, 132, 1)", // line color
@@ -226,7 +233,8 @@ const Node2 = () => {
       return;
     }
     chart.data.labels.push(timestamp); // add new x-axis label
-    chart.data.datasets[0].label = "Data " + chartId;
+    chart.data.datasets[0].label =
+      chartId == 4 ? "Water Level" : chartId == 5 ? "Error" : "PWM";
     while (chart.data.datasets[0].data.length >= sliderValue) {
       chart.data.datasets[0].data.shift();
       chart.data.labels.shift();
@@ -340,11 +348,13 @@ const Node2 = () => {
               <Card.Body>
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 4</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>
+                      Water Level
+                    </Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data4, min_Data4, max_Data4)}
+                      style={changeColor(data4, min_WaterLevel, max_WaterLevel)}
                     >
                       {data4}
                     </Card.Text>
@@ -353,11 +363,11 @@ const Node2 = () => {
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 5</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>Error</Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data5, min_Data5, max_Data5)}
+                      style={changeColor(data5, min_Error, max_Error)}
                     >
                       {data5}
                     </Card.Text>
@@ -366,11 +376,11 @@ const Node2 = () => {
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 6</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>PWM</Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data6, min_Data6, max_Data6)}
+                      style={changeColor(data6, min_PWM, max_PWM)}
                     >
                       {data6}
                     </Card.Text>
@@ -407,9 +417,9 @@ const Node2 = () => {
                   }}
                   onChange={handleChartId}
                 >
-                  <option value="4">Chart Data 4</option>
-                  <option value="5">Chart Data 5</option>
-                  <option value="6">Chart Data 6</option>
+                  <option value="4">Chart Water Level</option>
+                  <option value="5">Chart Error</option>
+                  <option value="6">Chart PWM</option>
                 </Form.Select>
               </Card.Header>
               <Card.Body style={{ height: "550px" }}>
@@ -448,9 +458,9 @@ const Node2 = () => {
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data 4</Col>
-                        <Col style={{ textAlign: "center" }}>Data 5</Col>
-                        <Col style={{ textAlign: "center" }}>Data 6</Col>
+                        <Col style={{ textAlign: "center" }}>Water Level</Col>
+                        <Col style={{ textAlign: "center" }}>Error</Col>
+                        <Col style={{ textAlign: "center" }}>PWM</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode2}>
                         <Row>
@@ -459,24 +469,24 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data4"
-                              value={min_Data4}
+                              name="min_WaterLevel"
+                              value={min_WaterLevel}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data5"
-                              value={min_Data5}
+                              name="min_Error"
+                              value={min_Error}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data6"
-                              value={min_Data6}
+                              name="min_PWM"
+                              value={min_PWM}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -488,24 +498,24 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data4"
-                              value={max_Data4}
+                              name="max_WaterLevel"
+                              value={max_WaterLevel}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data5"
-                              value={max_Data5}
+                              name="max_Error"
+                              value={max_Error}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data6"
-                              value={max_Data6}
+                              name="max_PWM"
+                              value={max_PWM}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -569,9 +579,9 @@ const Node2 = () => {
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data 4</Col>
-                        <Col style={{ textAlign: "center" }}>Data 5</Col>
-                        <Col style={{ textAlign: "center" }}>Data 6</Col>
+                        <Col style={{ textAlign: "center" }}>Water Level</Col>
+                        <Col style={{ textAlign: "center" }}>Error</Col>
+                        <Col style={{ textAlign: "center" }}>PWM</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode2}>
                         <Row>
@@ -580,8 +590,8 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data4"
-                              value={min_Data4}
+                              name="min_WaterLevel"
+                              value={min_WaterLevel}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -589,8 +599,8 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data5"
-                              value={min_Data5}
+                              name="min_Error"
+                              value={min_Error}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -598,8 +608,8 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data6"
-                              value={min_Data6}
+                              name="min_PWM"
+                              value={min_PWM}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -612,8 +622,8 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data4"
-                              value={max_Data4}
+                              name="max_WaterLevel"
+                              value={max_WaterLevel}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -621,8 +631,8 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data5"
-                              value={max_Data5}
+                              name="max_Error"
+                              value={max_Error}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -630,8 +640,8 @@ const Node2 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data6"
-                              value={max_Data6}
+                              name="max_PWM"
+                              value={max_PWM}
                               disabled
                             ></Form.Control>
                           </Col>

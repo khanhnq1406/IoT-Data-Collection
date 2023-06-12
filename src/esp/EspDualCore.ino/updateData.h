@@ -1,27 +1,36 @@
 void updateData() {
   StaticJsonBuffer<2000> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
-  
-  // for (int i = 1; i <= 20; i++) {
-  //   int dataValue = random(40, 51);
-  //   if (i != LIGHT1 && i != LIGHT2 && i != LIGHT3 && i != LIGHT4 && i != LIGHT5) {
-  //     String dataName = "Data" + String(i);
-  //     Serial.println(dataName);
-  //     JsonObject& dataObject = root.createNestedObject(dataName); 
-  //     dataObject["name"] = dataName;
-  //     dataObject["value"] = dataValue;
-  //     dataObject["id"] = i;
-  //   }
-  // }
   JsonObject& dataObject7 = root.createNestedObject("Temperature"); 
   dataObject7["name"] = "Temperature";
   dataObject7["value"] = node3.temperature;
   dataObject7["id"] = 7;
+
   JsonObject& dataObject8 = root.createNestedObject("PPM"); 
   dataObject8["name"] = "PPM";
   dataObject8["value"] = node3.gas;
   dataObject8["id"] = 8;
   
+  JsonObject& dataObject10 = root.createNestedObject("Humidity"); 
+  dataObject10["name"] = "Humidity";
+  dataObject10["value"] = node3.humidity;
+  dataObject10["id"] = 10;
+
+  JsonObject& dataObject4 = root.createNestedObject("WaterLevel"); 
+  dataObject4["name"] = "Water Level";
+  dataObject4["value"] = waterLevel;
+  dataObject4["id"] = 4;
+
+  JsonObject& dataObject5 = root.createNestedObject("Error"); 
+  dataObject5["name"] = "Error";
+  dataObject5["value"] = error;
+  dataObject5["id"] = 5;
+
+  JsonObject& dataObject6 = root.createNestedObject("PWM"); 
+  dataObject6["name"] = "PWM";
+  dataObject6["value"] = Output;
+  dataObject6["id"] = 6;
+
   String postData;
   root.printTo(postData);
   Serial.println(postData);

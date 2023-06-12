@@ -73,7 +73,6 @@ class EspController {
     const name = param.name.replaceAll(`"`, "");
     const espData = param.espData;
     const serverData = param.serverData;
-    console.log(name, ":", espData);
     if (serverData === undefined) {
       const { data, error } = await supabase
         .from("data_table")

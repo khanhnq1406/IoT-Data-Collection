@@ -135,18 +135,18 @@ const Node3 = () => {
   const [alarmValue, setAlarmData] = useState({
     min_Temperature: "",
     min_PPM: "",
-    min_Data10: "",
+    min_Humidity: "",
     max_Temperature: "",
     max_PPM: "",
-    max_Data10: "",
+    max_Humidity: "",
   });
   const {
     min_Temperature,
     min_PPM,
-    min_Data10,
+    min_Humidity,
     max_Temperature,
     max_PPM,
-    max_Data10,
+    max_Humidity,
   } = alarmValue;
 
   const onChangeAlarmValue = (event) => {
@@ -166,10 +166,10 @@ const Node3 = () => {
         ...alarmValue,
         min_Temperature: alarmDataThen.data[6].min,
         min_PPM: alarmDataThen.data[7].min,
-        min_Data10: alarmDataThen.data[8].min,
+        min_Humidity: alarmDataThen.data[8].min,
         max_Temperature: alarmDataThen.data[6].max,
         max_PPM: alarmDataThen.data[7].max,
-        max_Data10: alarmDataThen.data[8].max,
+        max_Humidity: alarmDataThen.data[8].max,
       });
     });
   }, []);
@@ -190,7 +190,11 @@ const Node3 = () => {
           datasets: [
             {
               label:
-                chartId == 7 ? "Temperature" : chartId == 8 ? "PPM" : "Data",
+                chartId == 7
+                  ? "Temperature"
+                  : chartId == 8
+                  ? "PPM"
+                  : "Humidity",
               data: [], // array of y-axis values
               backgroundColor: "rgba(255, 99, 132, 0.2)", // fill color
               borderColor: "rgba(255, 99, 132, 1)", // line color
@@ -236,7 +240,7 @@ const Node3 = () => {
     }
     chart.data.labels.push(timestamp); // add new x-axis label
     chart.data.datasets[0].label =
-      chartId == 7 ? "Temperature" : chartId == 8 ? "PPM" : "Data";
+      chartId == 7 ? "Temperature" : chartId == 8 ? "PPM" : "Humidity";
     while (chart.data.datasets[0].data.length >= sliderValue) {
       chart.data.datasets[0].data.shift();
       chart.data.labels.shift();
@@ -383,12 +387,12 @@ const Node3 = () => {
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
                     <Card.Title style={{ fontSize: "20px" }}>
-                      Data 10
+                      Humidity
                     </Card.Title>
 
                     <Card.Text
                       className="data-value"
-                      style={changeColor(data10, min_Data10, max_Data10)}
+                      style={changeColor(data10, min_Humidity, max_Humidity)}
                     >
                       {data10}
                     </Card.Text>
@@ -429,7 +433,7 @@ const Node3 = () => {
                 >
                   <option value="7">Chart Temperature</option>
                   <option value="8">Chart PPM</option>
-                  <option value="10">Chart Data 10</option>
+                  <option value="10">Chart Humidity</option>
                 </Form.Select>
               </Card.Header>
               <Card.Body style={{ height: "550px" }}>
@@ -470,7 +474,7 @@ const Node3 = () => {
                         <Col className="col-2"></Col>
                         <Col style={{ textAlign: "center" }}>Temperature</Col>
                         <Col style={{ textAlign: "center" }}>PPM</Col>
-                        <Col style={{ textAlign: "center" }}>Data 10</Col>
+                        <Col style={{ textAlign: "center" }}>Humidity</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode2}>
                         <Row>
@@ -495,8 +499,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data10"
-                              value={min_Data10}
+                              name="min_Humidity"
+                              value={min_Humidity}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -524,8 +528,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data10"
-                              value={max_Data10}
+                              name="max_Humidity"
+                              value={max_Humidity}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -539,18 +543,18 @@ const Node3 = () => {
                     <Card>
                       <Card.Body>
                         <Card.Title className="card-header-text">
-                          Button
+                          Motor
                         </Card.Title>
                         <Row>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
-                              className="control-button btn-start"
+                              className="control-button btn-start center-block"
                               onClick={startClick}
                             >
                               Start
                             </Button>
                           </Col>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-stop"
                               onClick={stopClick}
@@ -558,14 +562,14 @@ const Node3 = () => {
                               Stop
                             </Button>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Button
                               className="control-button btn-reset"
                               onClick={resetClick}
                             >
                               Reset
-                            </Button>
-                          </Col>
+                            </Button> */}
+                          {/* </Col> */}
                         </Row>
                       </Card.Body>
                     </Card>
@@ -591,7 +595,7 @@ const Node3 = () => {
                         <Col className="col-2"></Col>
                         <Col style={{ textAlign: "center" }}>Temperature</Col>
                         <Col style={{ textAlign: "center" }}>PPM</Col>
-                        <Col style={{ textAlign: "center" }}>Data 10</Col>
+                        <Col style={{ textAlign: "center" }}>Humidity</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode2}>
                         <Row>
@@ -618,8 +622,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data10"
-                              value={min_Data10}
+                              name="min_Humidity"
+                              value={min_Humidity}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -650,8 +654,8 @@ const Node3 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data10"
-                              value={max_Data10}
+                              name="max_Humidity"
+                              value={max_Humidity}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -666,10 +670,10 @@ const Node3 = () => {
                     <Card>
                       <Card.Body>
                         <Card.Title className="card-header-text">
-                          Button
+                          Motor
                         </Card.Title>
                         <Row>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-start"
                               onClick={startClick}
@@ -678,7 +682,7 @@ const Node3 = () => {
                               Start
                             </Button>
                           </Col>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-stop"
                               onClick={stopClick}
@@ -687,7 +691,7 @@ const Node3 = () => {
                               Stop
                             </Button>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Button
                               className="control-button btn-reset"
                               onClick={resetClick}
@@ -695,7 +699,7 @@ const Node3 = () => {
                             >
                               Reset
                             </Button>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
                     </Card>

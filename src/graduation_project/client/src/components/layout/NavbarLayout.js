@@ -64,12 +64,12 @@ const NavbarLayout = (attribute) => {
           <Nav.Item>
             <Nav.Link href="/node3">Node 3</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          {/* <Nav.Item>
             <Nav.Link href="/node4">Node 4</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link href="/node5">Node 5</Nav.Link>
-          </Nav.Item>
+          </Nav.Item> */}
           <div>
             <NavDropdown title="Table">
               <NavDropdown.Item href="/alarm-table">

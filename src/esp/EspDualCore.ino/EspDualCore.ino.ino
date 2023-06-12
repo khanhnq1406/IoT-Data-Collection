@@ -7,8 +7,8 @@ TaskHandle_t Task2;
 #include "getData.h"
 #include "updateData.h"
 #include "syncTask.h"
-#include "getTemperature.h"
-
+#include "node3Handle.h"
+#include "node2Handle.h"
 void setup() {
   Serial.begin(115200);
   delay(1000);
@@ -31,15 +31,30 @@ void setup() {
   // Create http socket
   httpGetData.begin(apiGetData.c_str());
   httpUploadData.begin(apiUploadData.c_str());
-  httpInsertData.begin(apiInsertData.c_str());
-  httpGetLightStatus.begin(apiGetLightStatus.c_str());
   httpUpdateLightStatus.begin(apiUpdateLightStatus.c_str());
-
   // Config LED on board
   pinMode(LED_BUILTIN, OUTPUT);  // set the LED pin mode
-  pinMode(MQ_DPIN, INPUT);       // set the LED pin mode
-  pinMode(Buzzer, OUTPUT);       // set the LED pin mode
+  pinMode(MQ_DPIN, INPUT);
+  pinMode(Buzzer, OUTPUT);
   digitalWrite(Buzzer, LOW);
+
+  // Config Node 2 pin
+   // Thiết lập chế độ OUTPUT cho các chân kết nối module L298N
+  pinMode(enA, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+
+  // Thiết lập chế độ INPUT/OUTPUT cho các chân kết nối cảm biến siêu âm
+  pinMode(trigPin, OUTPUT); 
+  pinMode(echoPin, INPUT);
+
+  // Đặt mức nước mục tiêu
+  Setpoint = 25; // Ví dụ: đặt mức nước ở độ cao 25cm
+
+  // Thiết lập các tham số PID
+  myPID.SetMode(AUTOMATIC);
+  myPID.SetOutputLimits(0, 255); // Giới hạn tốc độ động cơ từ -255 đến 255
+
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
     Task1code, /* Task function. */
@@ -70,7 +85,7 @@ void Task1code(void* pvParameters) {
     TIMERG0.wdt_wprotect = 0;
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
-      // getTemperature();
+      // node3Handle();
       previousMillis = currentMillis;
     }
   }
@@ -86,9 +101,10 @@ void Task2code(void* pvParameters) {
     if (currentMillis - previousMillisUpdate >= intervalUpdate) {
       updateData();
       // syncTask();
-      getTemperature();
+      // node3Handle();
       getData();
       previousMillisUpdate = currentMillis;
+      node2Handle();
     }
   }
 }

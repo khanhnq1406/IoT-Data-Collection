@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../../.."
+		},
+		{
+			"name": "Ethernet module TcpIP",
+			"path": ".."
+		},
+		{
+			"name": "Modbus RS485",
+			"path": "../../Modbus RS485"
+		}
+	],
+	"settings": {}
+}

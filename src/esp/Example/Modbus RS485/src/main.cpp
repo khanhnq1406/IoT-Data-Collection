@@ -11,14 +11,14 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #include <ModbusRTU.h>
 #include <HardwareSerial.h>
-HardwareSerial SerialPort(2); // use UART2
+// HardwareSerial SerialPort(2); // use UART2
 
 #define REGN1 15
 #define REGN2 15
 #define REGN3 15
 #define REGN4 15
 
-#define SLAVE_ID 15//// 03 readholding register 4x
+#define SLAVE_ID 15
 #define RXTX_PIN 13
 // #define RX_pin 16
 // #define TX_pin 17
@@ -46,10 +46,10 @@ void setup() {
   
   // Add registers
   mb.slave(SLAVE_ID);
-  mb.addCoil(REGN1);//     Tabeb name: Read coils (0x)                   type: Read    
-  mb.addIsts(REGN2);//     Tabeb name: Read discrete input (1x)          type: R/W
-  mb.addIreg(REGN3);//     Tabeb name: Read input registers (3x)         type: R     
-  mb.addHreg(REGN4);//     Tabeb name: Read holding registers (4x)       type: R/W
+  mb.addCoil(REGN1);//     Tabble name: Read coils (0x)                   type: Read    
+  mb.addIsts(REGN2);//     Tabble name: Read discrete input (1x)          type: R/W
+  mb.addIreg(REGN3);//     Tabble name: Read input registers (3x)         type: R     
+  mb.addHreg(REGN4);//     Tabble name: Read holding registers (4x)       type: R/W
 
   // Write registers
   mb.Coil(REGN1, 1);

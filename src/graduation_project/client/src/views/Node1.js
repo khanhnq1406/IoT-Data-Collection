@@ -25,6 +25,9 @@ const Node1 = () => {
     data1: "",
     data2: "",
     data3: "",
+    data13: "",
+    data14: "",
+    data15: "",
     setAlarm: false,
     setAlarm1: false,
     setAlarm2: false,
@@ -39,6 +42,9 @@ const Node1 = () => {
     data1,
     data2,
     data3,
+    data13,
+    data14,
+    data15,
     setAlarm,
     setAlarm1,
     setAlarm2,
@@ -95,6 +101,9 @@ const Node1 = () => {
           data1: dataThen.data[0].value,
           data2: dataThen.data[1].value,
           data3: dataThen.data[2].value,
+          data13: dataThen.data[12].value,
+          data14: dataThen.data[13].value,
+          data15: dataThen.data[14].value,
           setAlarm: hasAlarm,
           setAlarm1: hasAlarmArr[0],
           setAlarm2: hasAlarmArr[1],
@@ -133,15 +142,33 @@ const Node1 = () => {
 
   // Set alarm
   const [alarmValue, setAlarmData] = useState({
-    min_Data1: "",
-    min_Data2: "",
-    min_Data3: "",
-    max_Data1: "",
-    max_Data2: "",
-    max_Data3: "",
+    min_Product1: "",
+    min_Product2: "",
+    min_Product3: "",
+    min_FaultyProduct: "",
+    min_Running: "",
+    min_OffHour: "",
+    max_Product1: "",
+    max_Product2: "",
+    max_Product3: "",
+    max_FaultyProduct: "",
+    max_Running: "",
+    max_OffHour: "",
   });
-  const { min_Data1, min_Data2, min_Data3, max_Data1, max_Data2, max_Data3 } =
-    alarmValue;
+  const {
+    min_Product1,
+    min_Product2,
+    min_Product3,
+    min_FaultyProduct,
+    min_Running,
+    min_OffHour,
+    max_Product1,
+    max_Product2,
+    max_Product3,
+    max_FaultyProduct,
+    max_Running,
+    max_OffHour,
+  } = alarmValue;
 
   const onChangeAlarmValue = (event) => {
     setAlarmData({ ...alarmValue, [event.target.name]: event.target.value });
@@ -157,12 +184,18 @@ const Node1 = () => {
     alarmDataBE.then((alarmDataThen) => {
       setAlarmData({
         ...alarmValue,
-        min_Data1: alarmDataThen.data[0].min,
-        min_Data2: alarmDataThen.data[1].min,
-        min_Data3: alarmDataThen.data[2].min,
-        max_Data1: alarmDataThen.data[0].max,
-        max_Data2: alarmDataThen.data[1].max,
-        max_Data3: alarmDataThen.data[2].max,
+        min_Product1: alarmDataThen.data[0].min,
+        min_Product2: alarmDataThen.data[1].min,
+        min_Product3: alarmDataThen.data[2].min,
+        min_FaultyProduct: alarmDataThen.data[12].min,
+        min_Running: alarmDataThen.data[13].min,
+        min_OffHour: alarmDataThen.data[14].min,
+        max_Product1: alarmDataThen.data[0].max,
+        max_Product2: alarmDataThen.data[1].max,
+        max_Product3: alarmDataThen.data[2].max,
+        max_FaultyProduct: alarmDataThen.data[12].max,
+        max_Running: alarmDataThen.data[13].max,
+        max_OffHour: alarmDataThen.data[14].max,
       });
     });
   }, []);
@@ -330,71 +363,141 @@ const Node1 = () => {
       <Container>
         <Row>
           {/* Node 1 */}
+
           <Col className="col-3">
             <Card
-              style={{ width: "19.1rem", cursor: "pointer" }}
+              style={{ width: "20.1rem", cursor: "pointer" }}
               className="alight-center"
             >
               <Card.Header as="h5" className="card-header-text">
                 Node 1
               </Card.Header>
               <Card.Body>
-                <Card style={{ width: "17rem" }} className="mb-2">
-                  <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 1</Card.Title>
+                <Row>
+                  <Col>
+                    <Card style={{}} className="mb-2">
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Product 1
+                        </Card.Title>
 
-                    <Card.Text
-                      className="data-value"
-                      style={changeColor(data1, min_Data1, max_Data1)}
-                    >
-                      {data1}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                        <Card.Text
+                          className="data-value"
+                          style={changeColor(data1, min_Product1, max_Product1)}
+                        >
+                          {data1}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
 
-                <Card style={{ width: "17rem" }} className="mb-2">
-                  <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 2</Card.Title>
+                    <Card style={{}} className="mb-2">
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Product 2
+                        </Card.Title>
 
-                    <Card.Text
-                      className="data-value"
-                      style={changeColor(data2, min_Data2, max_Data2)}
-                    >
-                      {data2}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                        <Card.Text
+                          className="data-value"
+                          style={changeColor(data2, min_Product2, max_Product2)}
+                        >
+                          {data2}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
 
-                <Card style={{ width: "17rem" }} className="mb-2">
-                  <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Data 3</Card.Title>
+                    <Card style={{}} className="mb-2">
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Product 3
+                        </Card.Title>
 
-                    <Card.Text
-                      className="data-value"
-                      style={changeColor(data3, min_Data3, max_Data3)}
-                    >
-                      {data3}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                        <Card.Text
+                          className="data-value"
+                          style={changeColor(data3, min_Product3, max_Product3)}
+                        >
+                          {data3}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col>
+                    <Card style={{}} className="mb-2">
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Faulty
+                        </Card.Title>
 
-                <Card style={{ width: "17rem" }} className="mb-2">
-                  <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Light</Card.Title>
-                    <Card.Text className="light-status">
-                      {lightStatus.text}
-                      <img
-                        src={lightStatus.image}
-                        className="light-image"
-                      ></img>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                        <Card.Text
+                          className="data-value"
+                          style={changeColor(
+                            data13,
+                            min_FaultyProduct,
+                            max_FaultyProduct
+                          )}
+                        >
+                          {data13}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+
+                    <Card style={{}} className="mb-2">
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Running
+                        </Card.Title>
+
+                        <Card.Text
+                          className="data-value"
+                          style={changeColor(data14, min_Running, max_Running)}
+                        >
+                          {data14}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+
+                    <Card style={{}} className="mb-2">
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Off
+                        </Card.Title>
+
+                        <Card.Text
+                          className="data-value"
+                          style={changeColor(data15, min_OffHour, max_OffHour)}
+                        >
+                          {data15}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+                <Row>
+                  <Card
+                    style={{ width: "18rem", marginLeft: "12px" }}
+                    className="mb-2"
+                  >
+                    <Card.Body>
+                      <Card.Title style={{ fontSize: "20px" }}>
+                        Motor Status
+                      </Card.Title>
+                      <Card.Text className="light-status">
+                        {lightStatus.text}
+                        <img
+                          src={lightStatus.image}
+                          className="light-image"
+                        ></img>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Row>
               </Card.Body>
             </Card>
           </Col>
           <Col>
-            <Card style={{ width: "33.5rem" }} className="alight-center">
+            <Card
+              style={{ width: "33.5rem", marginLeft: "6px" }}
+              className="alight-center"
+            >
               <Card.Header as="h5" className="card-header-text" href="#">
                 <Form.Select
                   aria-label="Default select example"
@@ -444,14 +547,14 @@ const Node1 = () => {
                   <Card>
                     <Card.Body>
                       <Card.Title className="card-header-text">
-                        Setting Value
+                        Product Limit
                       </Card.Title>
 
                       <Row>
                         <Col className="col-2"></Col>
-                        <Col style={{ textAlign: "center" }}>Data1</Col>
-                        <Col style={{ textAlign: "center" }}>Data2</Col>
-                        <Col style={{ textAlign: "center" }}>Data3</Col>
+                        <Col style={{ textAlign: "center" }}>Product1</Col>
+                        <Col style={{ textAlign: "center" }}>Product2</Col>
+                        <Col style={{ textAlign: "center" }}>Product3</Col>
                       </Row>
                       <Form onSubmit={setAlarmValueNode1}>
                         <Row>
@@ -460,24 +563,24 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data1"
-                              value={min_Data1}
+                              name="min_Product1"
+                              value={min_Product1}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data2"
-                              value={min_Data2}
+                              name="min_Product2"
+                              value={min_Product2}
                             ></Form.Control>
                           </Col>
                           <Col>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data3"
-                              value={min_Data3}
+                              name="min_Product3"
+                              value={min_Product3}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -489,24 +592,24 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data1"
-                              value={max_Data1}
+                              name="max_Product1"
+                              value={max_Product1}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data2"
-                              value={max_Data2}
+                              name="max_Product2"
+                              value={max_Product2}
                             ></Form.Control>
                           </Col>
                           <Col style={{ paddingTop: "10px" }}>
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data3"
-                              value={max_Data3}
+                              name="max_Product3"
+                              value={max_Product3}
                             ></Form.Control>
                           </Col>
                         </Row>
@@ -516,11 +619,88 @@ const Node1 = () => {
                         ></Button>
                       </Form>
                     </Card.Body>
-
                     <Card>
                       <Card.Body>
                         <Card.Title className="card-header-text">
-                          Button
+                          Another Limit
+                        </Card.Title>
+                        <Row>
+                          <Col className="col-2"></Col>
+                          <Col style={{ textAlign: "center" }}>Faulty</Col>
+                          <Col style={{ textAlign: "center" }}>Running</Col>
+                          <Col style={{ textAlign: "center" }}>Off Hour</Col>
+                        </Row>
+                        <Form onSubmit={setAlarmValueNode1}>
+                          <Row>
+                            <Col className="col-2">Min</Col>
+                            <Col>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="min_FaultyProduct"
+                                value={min_FaultyProduct}
+                              ></Form.Control>
+                            </Col>
+                            <Col>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="min_Running"
+                                value={min_Running}
+                              ></Form.Control>
+                            </Col>
+                            <Col>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="min_OffHour"
+                                value={min_OffHour}
+                              ></Form.Control>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              className="col-2"
+                              style={{ paddingTop: "10px" }}
+                            >
+                              Max
+                            </Col>
+                            <Col style={{ paddingTop: "10px" }}>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="max_FaultyProduct"
+                                value={max_FaultyProduct}
+                              ></Form.Control>
+                            </Col>
+                            <Col style={{ paddingTop: "10px" }}>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="max_Running"
+                                value={max_Running}
+                              ></Form.Control>
+                            </Col>
+                            <Col style={{ paddingTop: "10px" }}>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="max_OffHour"
+                                value={max_OffHour}
+                              ></Form.Control>
+                            </Col>
+                          </Row>
+                          <Button
+                            style={{ display: "none" }}
+                            type="submit"
+                          ></Button>
+                        </Form>
+                      </Card.Body>
+                    </Card>
+                    <Card>
+                      <Card.Body>
+                        <Card.Title className="card-header-text">
+                          Motor
                         </Card.Title>
                         <Row>
                           <Col>
@@ -581,8 +761,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data1"
-                              value={min_Data1}
+                              name="min_Product1"
+                              value={min_Product1}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -590,8 +770,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data2"
-                              value={min_Data2}
+                              name="min_Product2"
+                              value={min_Product2}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -599,8 +779,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="min_Data3"
-                              value={min_Data3}
+                              name="min_Product3"
+                              value={min_Product3}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -613,8 +793,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data1"
-                              value={max_Data1}
+                              name="max_Product1"
+                              value={max_Product1}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -622,8 +802,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data2"
-                              value={max_Data2}
+                              name="max_Product2"
+                              value={max_Product2}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -631,8 +811,8 @@ const Node1 = () => {
                             <Form.Control
                               style={{ height: "30px" }}
                               onChange={onChangeAlarmValue}
-                              name="max_Data3"
-                              value={max_Data3}
+                              name="max_Product3"
+                              value={max_Product3}
                               disabled
                             ></Form.Control>
                           </Col>
@@ -643,11 +823,94 @@ const Node1 = () => {
                         ></Button>
                       </Form>
                     </Card.Body>
-
                     <Card>
                       <Card.Body>
                         <Card.Title className="card-header-text">
-                          Button
+                          Another Limit
+                        </Card.Title>
+                        <Row>
+                          <Col className="col-2"></Col>
+                          <Col style={{ textAlign: "center" }}>Faulty</Col>
+                          <Col style={{ textAlign: "center" }}>Running</Col>
+                          <Col style={{ textAlign: "center" }}>Off Hour</Col>
+                        </Row>
+                        <Form onSubmit={setAlarmValueNode1}>
+                          <Row>
+                            <Col className="col-2">Min</Col>
+                            <Col>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="min_FaultyProduct"
+                                value={min_FaultyProduct}
+                                disabled
+                              ></Form.Control>
+                            </Col>
+                            <Col>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="min_Running"
+                                value={min_Running}
+                                disabled
+                              ></Form.Control>
+                            </Col>
+                            <Col>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="min_OffHour"
+                                value={min_OffHour}
+                                disabled
+                              ></Form.Control>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              className="col-2"
+                              style={{ paddingTop: "10px" }}
+                            >
+                              Max
+                            </Col>
+                            <Col style={{ paddingTop: "10px" }}>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="max_FaultyProduct"
+                                value={max_FaultyProduct}
+                                disabled
+                              ></Form.Control>
+                            </Col>
+                            <Col style={{ paddingTop: "10px" }}>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                disabled
+                                name="max_Running"
+                                value={max_Running}
+                              ></Form.Control>
+                            </Col>
+                            <Col style={{ paddingTop: "10px" }}>
+                              <Form.Control
+                                style={{ height: "30px" }}
+                                onChange={onChangeAlarmValue}
+                                name="max_OffHour"
+                                value={max_OffHour}
+                                disabled
+                              ></Form.Control>
+                            </Col>
+                          </Row>
+                          <Button
+                            style={{ display: "none" }}
+                            type="submit"
+                          ></Button>
+                        </Form>
+                      </Card.Body>
+                    </Card>
+                    <Card>
+                      <Card.Body>
+                        <Card.Title className="card-header-text">
+                          Motor
                         </Card.Title>
                         <Row>
                           <Col>

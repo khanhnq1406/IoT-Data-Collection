@@ -94,6 +94,7 @@ const Overview = () => {
           ...testForm,
           setAlarm: hasAlarm,
         });
+        console.log(testForm);
       });
     }
     makeRequest();
@@ -121,7 +122,7 @@ const Overview = () => {
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
       <NavbarLayout defActiveKey="/overview" />
-      {testForm.Data1 != undefined ? (
+      {testForm.Product1 != undefined ? (
         <Container>
           <Row>
             {/* Node 1 */}
@@ -135,73 +136,138 @@ const Overview = () => {
                   Node 1
                 </Card.Header>
                 <Card.Body>
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 1
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data1.value,
-                          testForm.Data1.min,
-                          testForm.Data1.max
-                        )}
-                      >
-                        {testForm.Data1.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                  <Row>
+                    <Col>
+                      <Card style={{}} className="mb-2">
+                        <Card.Body>
+                          <Card.Title style={{ fontSize: "20px" }}>
+                            Product 1
+                          </Card.Title>
 
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 2
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data2.value,
-                          testForm.Data2.min,
-                          testForm.Data2.max
-                        )}
-                      >
-                        {testForm.Data2.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                          <Card.Text
+                            className="data-value"
+                            style={changeColor(
+                              testForm.Product1.value,
+                              testForm.Product1.min,
+                              testForm.Product1.max
+                            )}
+                          >
+                            {testForm.Product1.value}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
 
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 3
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data3.value,
-                          testForm.Data3.min,
-                          testForm.Data3.max
-                        )}
-                      >
-                        {testForm.Data3.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Light 1
-                      </Card.Title>
-                      <Card.Text className="light-status">
-                        {lightStatus.Light1.text}
-                        <img
-                          src={lightStatus.Light1.image}
-                          className="light-image"
-                        ></img>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                      <Card style={{}} className="mb-2">
+                        <Card.Body>
+                          <Card.Title style={{ fontSize: "20px" }}>
+                            Product 2
+                          </Card.Title>
+                          <Card.Text
+                            className="data-value"
+                            style={changeColor(
+                              testForm.Product2.value,
+                              testForm.Product2.min,
+                              testForm.Product2.max
+                            )}
+                          >
+                            {testForm.Product2.value}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+
+                      <Card style={{}} className="mb-2">
+                        <Card.Body>
+                          <Card.Title style={{ fontSize: "20px" }}>
+                            Product 3
+                          </Card.Title>
+                          <Card.Text
+                            className="data-value"
+                            style={changeColor(
+                              testForm.Product3.value,
+                              testForm.Product3.min,
+                              testForm.Product3.max
+                            )}
+                          >
+                            {testForm.Product3.value}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col>
+                      <Card style={{}} className="mb-2">
+                        <Card.Body>
+                          <Card.Title style={{ fontSize: "20px" }}>
+                            Faulty
+                          </Card.Title>
+                          <Card.Text
+                            className="data-value"
+                            style={changeColor(
+                              testForm.FaultyProduct.value,
+                              testForm.FaultyProduct.min,
+                              testForm.FaultyProduct.max
+                            )}
+                          >
+                            {testForm.FaultyProduct.value}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+
+                      <Card style={{}} className="mb-2">
+                        <Card.Body>
+                          <Card.Title style={{ fontSize: "20px" }}>
+                            Running
+                          </Card.Title>
+                          <Card.Text
+                            className="data-value"
+                            style={changeColor(
+                              testForm.Running.value,
+                              testForm.Running.min,
+                              testForm.Running.max
+                            )}
+                          >
+                            {testForm.Running.value}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+
+                      <Card style={{}} className="mb-2">
+                        <Card.Body>
+                          <Card.Title style={{ fontSize: "20px" }}>
+                            Off
+                          </Card.Title>
+                          <Card.Text
+                            className="data-value"
+                            style={changeColor(
+                              testForm.OffHour.value,
+                              testForm.OffHour.min,
+                              testForm.OffHour.max
+                            )}
+                          >
+                            {testForm.OffHour.value}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Card
+                      style={{ width: "18rem", marginLeft: "12px" }}
+                      className="mb-2"
+                    >
+                      <Card.Body>
+                        <Card.Title style={{ fontSize: "20px" }}>
+                          Motor Status
+                        </Card.Title>
+                        <Card.Text className="light-status">
+                          {lightStatus.Light1.text}
+                          <img
+                            src={lightStatus.Light1.image}
+                            className="light-image"
+                          ></img>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Row>
                 </Card.Body>
               </Card>
             </Col>
@@ -270,7 +336,7 @@ const Overview = () => {
                   <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Light 2
+                        Motor Status
                       </Card.Title>
                       <Card.Text className="light-status">
                         {lightStatus.Light2.text}
@@ -351,7 +417,7 @@ const Overview = () => {
                   <Card style={{ width: "18rem" }} className="mb-2">
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Light 3
+                        Motor Status
                       </Card.Title>
                       <Card.Text className="light-status">
                         {lightStatus.Light3.text}
@@ -365,168 +431,6 @@ const Overview = () => {
                 </Card.Body>
               </Card>
             </Col>
-
-            {/* Node 4
-            <Col>
-              <Card
-                onClick={onClickToNode4}
-                style={{ width: "20.1rem", cursor: "pointer" }}
-                className="alight-center"
-              >
-                <Card.Header as="h5" className="card-header-text" href="/node1">
-                  Node 4
-                </Card.Header>
-                <Card.Body>
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 13
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data13.value,
-                          testForm.Data13.min,
-                          testForm.Data13.max
-                        )}
-                      >
-                        {testForm.Data13.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 14
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data14.value,
-                          testForm.Data14.min,
-                          testForm.Data14.max
-                        )}
-                      >
-                        {testForm.Data14.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 15
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data15.value,
-                          testForm.Data15.min,
-                          testForm.Data15.max
-                        )}
-                      >
-                        {testForm.Data15.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Light 4
-                      </Card.Title>
-                      <Card.Text className="light-status">
-                        {lightStatus.Light4.text}
-                        <img
-                          src={lightStatus.Light4.image}
-                          className="light-image"
-                        ></img>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col>
-              <Card
-                onClick={onClickToNode5}
-                style={{ width: "20.1rem", cursor: "pointer" }}
-                className="alight-center"
-              >
-                <Card.Header as="h5" className="card-header-text" href="/node1">
-                  Node 5
-                </Card.Header>
-                <Card.Body>
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 17
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data17.value,
-                          testForm.Data17.min,
-                          testForm.Data17.max
-                        )}
-                      >
-                        {testForm.Data17.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 18
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data18.value,
-                          testForm.Data18.min,
-                          testForm.Data18.max
-                        )}
-                      >
-                        {testForm.Data18.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Data 19
-                      </Card.Title>
-                      <Card.Text
-                        className="data-value"
-                        style={changeColor(
-                          testForm.Data19.value,
-                          testForm.Data19.min,
-                          testForm.Data19.max
-                        )}
-                      >
-                        {testForm.Data19.value}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                  <Card style={{ width: "18rem" }} className="mb-2">
-                    <Card.Body>
-                      <Card.Title style={{ fontSize: "20px" }}>
-                        Light 5
-                      </Card.Title>
-                      <Card.Text className="light-status">
-                        {lightStatus.Light5.text}
-                        <img
-                          src={lightStatus.Light5.image}
-                          className="light-image"
-                        ></img>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Card.Body>
-              </Card> */}
-            {/* </Col> */}
           </Row>
         </Container>
       ) : (

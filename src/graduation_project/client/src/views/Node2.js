@@ -532,7 +532,7 @@ const Node2 = () => {
                           Button
                         </Card.Title>
                         <Row>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-start"
                               onClick={startClick}
@@ -540,7 +540,7 @@ const Node2 = () => {
                               Start
                             </Button>
                           </Col>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-stop"
                               onClick={stopClick}
@@ -548,14 +548,14 @@ const Node2 = () => {
                               Stop
                             </Button>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Button
                               className="control-button btn-reset"
                               onClick={resetClick}
                             >
                               Reset
                             </Button>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
                     </Card>
@@ -659,7 +659,7 @@ const Node2 = () => {
                           Button
                         </Card.Title>
                         <Row>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-start"
                               onClick={startClick}
@@ -668,7 +668,7 @@ const Node2 = () => {
                               Start
                             </Button>
                           </Col>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-stop"
                               onClick={stopClick}
@@ -677,7 +677,7 @@ const Node2 = () => {
                               Stop
                             </Button>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Button
                               className="control-button btn-reset"
                               onClick={resetClick}
@@ -685,7 +685,7 @@ const Node2 = () => {
                             >
                               Reset
                             </Button>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
                     </Card>

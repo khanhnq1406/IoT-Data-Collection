@@ -378,9 +378,6 @@ const Admin = () => {
                                           <Form.Control
                                             placeholder="Confirm password"
                                             type="password"
-                                            style={{
-                                              width: "180px",
-                                            }}
                                             name="confirmPassword"
                                           ></Form.Control>
                                         </div>

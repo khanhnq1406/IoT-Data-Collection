@@ -31,6 +31,36 @@ void updateData() {
   dataObject6["value"] = Output;
   dataObject6["id"] = 6;
 
+  JsonObject& dataObject1 = root.createNestedObject("Product1"); 
+  dataObject1["name"] = "Product1";
+  dataObject1["value"] = random(100);
+  dataObject1["id"] = 1;
+
+  JsonObject& dataObject2 = root.createNestedObject("Product2"); 
+  dataObject2["name"] = "Product2";
+  dataObject2["value"] = random(100);
+  dataObject2["id"] = 2;
+
+  JsonObject& dataObject3 = root.createNestedObject("Product3"); 
+  dataObject3["name"] = "Product3";
+  dataObject3["value"] = random(100);
+  dataObject3["id"] = 3;
+
+  JsonObject& dataObject13 = root.createNestedObject("FaultyProduct"); 
+  dataObject13["name"] = "FaultyProduct";
+  dataObject13["value"] = random(100);
+  dataObject13["id"] = 13;
+
+  JsonObject& dataObject14 = root.createNestedObject("Running"); 
+  dataObject14["name"] = "Running";
+  dataObject14["value"] = random(100);
+  dataObject14["id"] = 14;
+
+  JsonObject& dataObject15 = root.createNestedObject("OffHour"); 
+  dataObject15["name"] = "OffHour";
+  dataObject15["value"] = random(100);
+  dataObject15["id"] = 15;
+
   String postData;
   root.printTo(postData);
   Serial.println(postData);

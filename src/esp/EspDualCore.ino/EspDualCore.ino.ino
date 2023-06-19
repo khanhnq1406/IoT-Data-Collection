@@ -49,12 +49,12 @@ void setup() {
   pinMode(echoPin, INPUT);
 
   // Đặt mức nước mục tiêu
-  Setpoint = 25; // Ví dụ: đặt mức nước ở độ cao 25cm
+  Setpoint = 20; // Ví dụ: đặt mức nước ở độ cao 25cm
 
   // Thiết lập các tham số PID
   myPID.SetMode(AUTOMATIC);
+  myPID.SetSampleTime(1);
   myPID.SetOutputLimits(0, 255); // Giới hạn tốc độ động cơ từ -255 đến 255
-
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
     Task1code, /* Task function. */
@@ -85,7 +85,6 @@ void Task1code(void* pvParameters) {
     TIMERG0.wdt_wprotect = 0;
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
-      // node3Handle();
       previousMillis = currentMillis;
     }
   }
@@ -103,8 +102,9 @@ void Task2code(void* pvParameters) {
       // syncTask();
       // node3Handle();
       getData();
+      updateLightStatus();
       previousMillisUpdate = currentMillis;
-      node2Handle();
+      // node2Handle();
     }
   }
 }

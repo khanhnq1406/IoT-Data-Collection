@@ -172,7 +172,7 @@ const AlarmTable = () => {
     });
   };
   return (
-    <div style={{ backgroundColor: "#eff2f7", paddingBottom: "60px" }}>
+    <div style={{ backgroundColor: "#eff2f7", paddingBottom: "110px" }}>
       <NavbarLayout defActiveKey="/alarm-table" />
       <h1 style={{ margin: "5px" }}>Alarm</h1>
       <div style={{ margin: "5px" }}>

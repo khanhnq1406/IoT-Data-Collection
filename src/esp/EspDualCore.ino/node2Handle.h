@@ -18,22 +18,21 @@ void node2Handle() {
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
+  /*Ta biết thời gian âm thanh truyền trong không khí ở 20°C là 344 m/s.
+  Bằng quy tắc tam suất đơn giản ta có thể dễ dàng tính được sóng âm di chuyển 1 cm trong không khí sẽ mất 1000 / 344 * 100 ~= 29.1 ms. 
+  Do thời gian được tính từ lúc phát tín hiệu tới khi sóng âm phản xạ lại, vì vậy ta chia đôi sẽ ra được quãng đường mà sóng âm đã đi.
+  */
   distance = (duration / 2) / 29.1;
-  waterLevel = 50 - distance;
+  waterLevel = 40 - distance;
   // Lấy giá trị đo được để tính tỷ lệ lỗi so với mức nước mong muốn
-  error = Setpoint - waterLevel;
+  error = Setpoint - distance;
 
   // Đưa giá trị lỗi vào PID để tính toán đầu ra
-  Input = error;
+  Input = distance;
   myPID.Compute();
-  updateLightStatus();
   if (espLightStatus[1] == "Start") {
     // Điều khiển tốc độ động cơ bơm nước theo giá trị đầu ra của PID
-    if (Output > 0) {
-      digitalWrite(in1, HIGH);
-      digitalWrite(in2, LOW);
-      analogWrite(enA, Output);
-    } else if (Output < 0) {
+    if (Output > 100) {
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH);
       analogWrite(enA, abs(Output));
@@ -42,12 +41,18 @@ void node2Handle() {
       digitalWrite(in2, LOW);
       analogWrite(enA, 0);
     }
+    Serial.println("---------------------");
     Serial.print("Setpoint: ");
     Serial.println(Setpoint);
     Serial.print("distance: ");
     Serial.println(distance);
+    Serial.print("waterLevel: ");
+    Serial.println(waterLevel);
     Serial.print("Output: ");
     Serial.println(Output);
+    Serial.print("error: ");
+    Serial.println(error);
+    Serial.println("---------------------");
   } else {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);

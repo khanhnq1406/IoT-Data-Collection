@@ -11,7 +11,7 @@ struct WifiConfig {
   //Room
   const char* roomSsid = "Room 302";
   const char* roomPassword = "0964237887";
-  String roomIp = "http://192.168.3.101:5000";
+  String roomIp = "http://192.168.3.100:5000";
   // Home
   const char* homeSsid = "Moc My";
   const char* homePassword = "123456789";
@@ -95,9 +95,9 @@ const int in1 = 22;
 const int in2 = 23;
 
 // Khai báo các biến PID
-double Setpoint, Input, Output;
-double Kp = 2, Ki = 0.5, Kd = 1;
-PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
+double Setpoint=0, Input=0, Output=0;
+double Kp = 20, Ki = 0, Kd = 0.1;
+PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, REVERSE);
 long duration, distance, waterLevel;
 double error;
 

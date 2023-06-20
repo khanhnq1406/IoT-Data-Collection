@@ -90,6 +90,15 @@ class DatabaseController {
     }
   }
 
+  async getChartDataNode1(req, res) {
+    let { data: data_history, error } = await supabase
+      .from("data_history")
+      .select()
+      .in("data_id", [1, 2, 3, 13])
+      .limit(4);
+    console.log(data_history);
+    res.json(data_history);
+  }
   async setStart(req, res) {
     const name = req.query.name;
     const { data, error } = await supabase

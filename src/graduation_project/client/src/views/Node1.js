@@ -112,7 +112,7 @@ const Node1 = () => {
       });
 
       // Get chart data
-      const chartData = axios.get(`${apiUrl}/database/getChartData`, {
+      const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
         params: {
           sliderValue: sliderValue.sliderValue,
           firstTime: false,
@@ -120,11 +120,7 @@ const Node1 = () => {
         },
       });
       chartData.then((data) => {
-        for (let index = 0; index < data.data.length; index++) {
-          const element = data.data[index];
-          const timestamp = element.date + " " + element.time;
-          updateChart(timestamp, element.value, sliderValue.sliderValue);
-        }
+        updateChart(data.data);
       });
     }
     makeRequest();
@@ -210,34 +206,28 @@ const Node1 = () => {
       }
       const ctx = document.getElementById("myChart").getContext("2d");
       chart = new Chart(ctx, {
-        type: "line",
+        type: "pie",
         data: {
-          labels: [], // array of x-axis labels
+          labels: ["Product 1", "Product 2", "Product 3", "Faulty Product"], // array of x-axis labels
           datasets: [
             {
-              label: "Data " + chartId,
-              data: [], // array of y-axis values
-              backgroundColor: "rgba(255, 99, 132, 0.2)", // fill color
-              borderColor: "rgba(255, 99, 132, 1)", // line color
-              borderWidth: 1,
+              label: "Time",
+              data: [10, 20, 30, 40], // array of y-axis values
+              backgroundColor: [
+                "rgb(24, 208, 101)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+                "rgb(255, 99, 132)",
+              ],
             },
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
-              },
-            ],
-          },
         },
       });
-      const chartData = axios.get(`${apiUrl}/database/getChartData`, {
+      const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
         params: {
           sliderValue: sliderValue.sliderValue,
           firstTime: true,
@@ -245,30 +235,43 @@ const Node1 = () => {
         },
       });
       chartData.then((data) => {
-        for (let index = 0; index < data.data.length; index++) {
-          const element = data.data[index];
-          const timestamp = element.date + " " + element.time;
-          updateChart(timestamp, element.value, sliderValue.sliderValue);
-        }
+        updateChart(data.data);
       });
     };
   }, []);
 
-  function updateChart(timestamp, value, sliderValue) {
-    const labelsLength = chart.data.labels.length;
-    if (timestamp === chart.data.labels[labelsLength - 1]) {
-      return;
+  function updateChart(data) {
+    if (data.length === 4) {
+      console.log(data);
+      chart.data.labels = [
+        "Product 1",
+        "Product 2",
+        "Product 3",
+        "Faulty Product",
+      ];
+      chart.data.datasets[0].label = data[0].time;
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        chart.data.datasets[0].data[index] = element.value;
+      }
+      chart.update();
     }
-    chart.data.labels.push(timestamp); // add new x-axis label
-    chart.data.datasets[0].label = "Data " + chartId;
-    while (chart.data.datasets[0].data.length >= sliderValue) {
-      chart.data.datasets[0].data.shift();
-      chart.data.labels.shift();
-    }
-    chart.data.datasets.forEach((dataset) => {
-      dataset.data.push(value); // add new y-axis value
-    });
-    chart.update(); // redraw chart
+
+    // chart.data.labels.push()
+    // const labelsLength = chart.data.labels.length;
+    // if (timestamp === chart.data.labels[labelsLength - 1]) {
+    //   return;
+    // }
+    // chart.data.labels.push(timestamp); // add new x-axis label
+    // chart.data.datasets[0].label = "Data " + chartId;
+    // while (chart.data.datasets[0].data.length >= sliderValue) {
+    //   chart.data.datasets[0].data.shift();
+    //   chart.data.labels.shift();
+    // }
+    // chart.data.datasets.forEach((dataset) => {
+    //   dataset.data.push(value); // add new y-axis value
+    // });
+    // chart.update(); // redraw chart
   }
 
   // Slider
@@ -281,25 +284,25 @@ const Node1 = () => {
   }
 
   function handleOnClick(event) {
-    chart.data.datasets[0].data.length = 0;
-    chart.data.labels.length = 0;
-    const chartData = axios.get(`${apiUrl}/database/getChartData`, {
-      params: {
-        sliderValue: sliderValue.sliderValue,
-        firstTime: true,
-        id: chartId,
-      },
-    });
-    chartData.then((data) => {
-      for (let index = 0; index < data.data.length; index++) {
-        const element = data.data[index];
-        const timestamp = element.date + " " + element.time;
-        updateChart(timestamp, element.value, sliderValue.sliderValue);
-      }
-      chart.data.datasets[0].data.slice(0, -1);
-      chart.data.labels.slice(0, -1);
-      chart.update();
-    });
+    // chart.data.datasets[0].data.length = 0;
+    // chart.data.labels.length = 0;
+    // const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
+    //   params: {
+    //     sliderValue: sliderValue.sliderValue,
+    //     firstTime: true,
+    //     id: chartId,
+    //   },
+    // });
+    // chartData.then((data) => {
+    //   for (let index = 0; index < data.data.length; index++) {
+    //     const element = data.data[index];
+    //     const timestamp = element.date + " " + element.time;
+    //     updateChart(timestamp, element.value, sliderValue.sliderValue);
+    //   }
+    //   chart.data.datasets[0].data.slice(0, -1);
+    //   chart.data.labels.slice(0, -1);
+    //   chart.update();
+    // });
   }
 
   //Handle button start, stop, reset click
@@ -331,30 +334,30 @@ const Node1 = () => {
       chartId: dataId,
     }));
   }
-  useEffect(() => {
-    // This code will run every time the `stateValue` changes
-    if (chart != undefined) {
-      chart.data.datasets[0].data.length = 0;
-      chart.data.labels.length = 0;
-      const chartData = axios.get(`${apiUrl}/database/getChartData`, {
-        params: {
-          sliderValue: sliderValue.sliderValue,
-          firstTime: true,
-          id: chartId,
-        },
-      });
-      chartData.then((data) => {
-        for (let index = 0; index < data.data.length; index++) {
-          const element = data.data[index];
-          const timestamp = element.date + " " + element.time;
-          updateChart(timestamp, element.value, sliderValue.sliderValue);
-        }
-        chart.data.datasets[0].data.slice(0, -1);
-        chart.data.labels.slice(0, -1);
-        chart.update();
-      });
-    }
-  }, [chartId]);
+  // useEffect(() => {
+  //   // This code will run every time the `stateValue` changes
+  //   if (chart != undefined) {
+  //     chart.data.datasets[0].data.length = 0;
+  //     chart.data.labels.length = 0;
+  //     const chartData = axios.get(`${apiUrl}/database/getChartDataNode1`, {
+  //       params: {
+  //         sliderValue: sliderValue.sliderValue,
+  //         firstTime: true,
+  //         id: chartId,
+  //       },
+  //     });
+  //     chartData.then((data) => {
+  //       for (let index = 0; index < data.data.length; index++) {
+  //         const element = data.data[index];
+  //         const timestamp = element.date + " " + element.time;
+  //         updateChart(timestamp, element.value, sliderValue.sliderValue);
+  //       }
+  //       chart.data.datasets[0].data.slice(0, -1);
+  //       chart.data.labels.slice(0, -1);
+  //       chart.update();
+  //     });
+  //   }
+  // }, [chartId]);
 
   return (
     <div style={{ backgroundColor: "#eff2f7", paddingBottom: "152px" }}>
@@ -499,7 +502,7 @@ const Node1 = () => {
               className="alight-center"
             >
               <Card.Header as="h5" className="card-header-text" href="#">
-                <Form.Select
+                {/* <Form.Select
                   aria-label="Default select example"
                   style={{
                     fontSize: "0.92em",
@@ -511,16 +514,17 @@ const Node1 = () => {
                   }}
                   onChange={handleChartId}
                 >
-                  <option value="1">Chart Data 1</option>
+                  <option value="1">Pie Charts</option>
                   <option value="2">Chart Data 2</option>
                   <option value="3">Chart Data 3</option>
-                </Form.Select>
+                </Form.Select> */}
+                Product Proportion
               </Card.Header>
               <Card.Body style={{ height: "550px" }}>
-                <div>
-                  <canvas id="myChart" width="40" height="430px"></canvas>
+                <div style={{ margin: "5px" }}>
+                  <canvas id="myChart" width="40" height="500px"></canvas>
                 </div>
-                <Form>
+                {/* <Form>
                   <Form.Label>Data Display</Form.Label>
                   <Form.Range
                     min="10"
@@ -532,7 +536,7 @@ const Node1 = () => {
                   <Form.Text className="text-muted">
                     Value: {sliderValue.sliderValue}
                   </Form.Text>
-                </Form>
+                </Form> */}
               </Card.Body>
             </Card>
           </Col>

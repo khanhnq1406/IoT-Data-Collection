@@ -6,6 +6,7 @@ router.get("/getWarning", databaseController.getWarning);
 router.get("/getAlarmRange", databaseController.getAlarmRange);
 router.post("/setAlarmValue", databaseController.setAlarmValue);
 router.get("/getChartData", databaseController.getChartData);
+router.get("/getChartDataNode1", databaseController.getChartDataNode1);
 router.get("/setStart", databaseController.setStart);
 router.get("/setStop", databaseController.setStop);
 router.get("/setReset", databaseController.setReset);

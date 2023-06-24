@@ -70,7 +70,11 @@ class EspController {
   async updateLightStatus(req, res) {
     const param = req.body;
     // const value = Object.values(param);
-    const name = param.name.replaceAll(`"`, "");
+    const name = param.name
+    // Removing the first character
+    name.slice(1);
+    // Removing the last character
+    name.slice(0, name.length - 1);
     const espData = param.espData;
     const serverData = param.serverData;
     if (serverData === undefined) {

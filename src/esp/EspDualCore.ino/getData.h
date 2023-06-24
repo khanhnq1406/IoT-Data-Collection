@@ -39,12 +39,12 @@ void getData() {
       String max = JSON.stringify(myObject["max"]);
       String min = JSON.stringify(myObject["min"]);
       if (name.lastIndexOf("Temperature")>=0) {
-        node3.maxTemperature = max.toFloat();
-        node3.minTemperature = min.toFloat();
+        node3.maxTemperature = max.toInt();
+        node3.minTemperature = min.toInt();
       }
       if (name.lastIndexOf("PPM")>=0) {
-        node3.maxGas = max.toFloat();
-        node3.minGas = min.toFloat();
+        node3.maxGas = max.toInt();
+        node3.minGas = min.toInt();
       }
       if (name.lastIndexOf("WaterLevel")>=0) {
         Setpoint = max.toDouble();

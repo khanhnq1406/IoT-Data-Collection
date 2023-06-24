@@ -9,6 +9,7 @@ TaskHandle_t Task2;
 #include "syncTask.h"
 #include "node3Handle.h"
 #include "node2Handle.h"
+#include "loraHandle.h"
 void setup() {
   Serial.begin(115200);
   delay(1000);
@@ -34,27 +35,26 @@ void setup() {
   httpUpdateLightStatus.begin(apiUpdateLightStatus.c_str());
   // Config LED on board
   pinMode(LED_BUILTIN, OUTPUT);  // set the LED pin mode
-  pinMode(MQ_DPIN, INPUT);
-  pinMode(Buzzer, OUTPUT);
-  digitalWrite(Buzzer, LOW);
+
 
   // Config Node 2 pin
-   // Thiết lập chế độ OUTPUT cho các chân kết nối module L298N
+  // Thiết lập chế độ OUTPUT cho các chân kết nối module L298N
   pinMode(enA, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
 
   // Thiết lập chế độ INPUT/OUTPUT cho các chân kết nối cảm biến siêu âm
-  pinMode(trigPin, OUTPUT); 
+  pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
   // Đặt mức nước mục tiêu
-  Setpoint = 20; // Ví dụ: đặt mức nước ở độ cao 25cm
+  Setpoint = 20;  // Ví dụ: đặt mức nước ở độ cao 25cm
 
+  setupLora();
   // Thiết lập các tham số PID
   myPID.SetMode(AUTOMATIC);
   myPID.SetSampleTime(1);
-  myPID.SetOutputLimits(0, 255); // Giới hạn tốc độ động cơ từ -255 đến 255
+  myPID.SetOutputLimits(0, 255);  // Giới hạn tốc độ động cơ từ -255 đến 255
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
     Task1code, /* Task function. */
@@ -83,10 +83,7 @@ void Task1code(void* pvParameters) {
     TIMERG0.wdt_wprotect = TIMG_WDT_WKEY_VALUE;
     TIMERG0.wdt_feed = 1;
     TIMERG0.wdt_wprotect = 0;
-    unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval) {
-      previousMillis = currentMillis;
-    }
+    sendData();
   }
 }
 
@@ -98,11 +95,11 @@ void Task2code(void* pvParameters) {
     unsigned long currentMillis = millis();
 
     if (currentMillis - previousMillisUpdate >= intervalUpdate) {
-      updateData();
+      // updateData();
       // syncTask();
-      // node3Handle();
+      node3Handle();
       getData();
-      updateLightStatus();
+      // updateLightStatus();
       previousMillisUpdate = currentMillis;
       // node2Handle();
     }

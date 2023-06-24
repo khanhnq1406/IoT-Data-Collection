@@ -27,13 +27,18 @@ struct WifiConfig {
   // others
   const char* someWhereSsid = "Yancoffee & Tea";
   const char* someWherePassword = "Cherrytea";
+  //
+  const char* AnSsid = "TOTOLINK_A720R";
+  const char* AnPassword = "";
 };
 struct WifiConfig wifiConfig;
-const char* ssid = wifiConfig.roomSsid;
-const char* password = wifiConfig.roomPassword;
+const char* ssid = wifiConfig.AnSsid;
+const char* password = wifiConfig.AnPassword;
 
+// URL
+String backendURL = "https://data-collection-system-backend.onrender.com";
 // Config http
-String localIp = wifiConfig.roomIp;
+String localIp = backendURL;
 String apiGetData = localIp + "/test/getData";
 String apiUploadData = localIp + "/esp/updateData";
 String apiUpdateLightStatus = localIp + "/esp/updateLightStatus";
@@ -67,20 +72,27 @@ struct Node3 {
   float temperature = 0.0; // Data 7
   float humidity = 0.0; 
   int gas = 0; // Data 8
-  float maxTemperature = 0.0;
-  float minTemperature = 0.0;
-  float maxGas = 0.0;
-  float minGas = 0.0;
+  int maxTemperature = 0.0;
+  int minTemperature = 0.0;
+  int maxGas = 0.0;
+  int minGas = 0.0;
   int maxSpeedMotor = 0;
   int minSpeedMotor = 0;
   int acceptRunMotor = 0;
   bool hasAlarm = false;
+  int serverStatus = 0;
+  int espStatus = 0;
 };
+struct Node3MasterSend {
+  int maxTemperature = 0;
+  int minTemperature = 0;
+  int maxGas = 0;
+  int minGas = 0;
+  int serverStatus = 0;
+  int espStatus = 0;
+} node3MasterSend;
 struct Node3 node3;
-#define DHT11PIN 4
-#define MQ_PIN A0 // Define the analog pin for MQ-2 sensor
-#define MQ_DPIN 5 // Define the analog pin for MQ-2 sensor
-#define Buzzer 18
+
 
 // struct Node2 {
 
@@ -101,3 +113,39 @@ PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, REVERSE);
 long duration, distance, waterLevel;
 double error;
 
+// LoRa configure
+#include "LoRa_E32.h"
+#define RXD1 32
+#define TXD1 33
+
+// SERIAL 2 PINS
+#define RXD2 16
+#define TXD2 17
+
+LoRa_E32 e32ttl1(RXD1, TXD1, &Serial1, UART_BPS_RATE_9600 ,SERIAL_8N1);
+LoRa_E32 e32ttl2(RXD2, TXD2, &Serial2, UART_BPS_RATE_9600 ,SERIAL_8N1);
+
+// #define 
+#define TotalID  10
+float Temp=0;
+struct Message1 {
+    int ID;
+    int Data1;
+    int Data2;
+    int Data3;
+    int Data4;                 
+};
+int ID = 2;
+int Data1_R[TotalID];
+int Data2_R[TotalID];
+int Data3_R[TotalID];
+int Data4_R[TotalID];
+
+int temp =0;
+int Data1_S[TotalID];
+int Data2_S[TotalID];
+int Data3_S[TotalID];
+int Data4_S[TotalID];
+bool flag1 = false;
+int IDS=4;// a variable adrress
+int run =0;

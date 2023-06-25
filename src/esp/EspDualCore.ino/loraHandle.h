@@ -1,6 +1,7 @@
 
 void printParameters(struct Configuration configuration);
 void printModuleInformation(struct ModuleInformation moduleInformation);
+void assignData();
 void recvData();
 void setupLora() {
   e32ttl1.begin();
@@ -46,15 +47,25 @@ void setupLora() {
 }
 
 void sendData() {
-  Serial.println("Start send");
-  ResponseStatus rs;
-  rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node3MasterSend, sizeof(Node3MasterSend));
-
-  Serial.println("End send");
+  if ((unsigned long)(millis() - time_) > period) {
+    ResponseStatus rs;
+    // Serial.println(IDS);
+    switch (IDS) {
+      case 4:
+        // Serial.println("Send to node 3");
+        rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node3MasterSend, sizeof(Node3MasterSend));
+        break;
+      case 5:
+        // Serial.println("Send to node 2");
+        rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node2MasterSend, sizeof(Node2MasterSend));
+        break;
+    }
+    time_ = millis();
+  }
   if (flag1 == true) {
     IDS++;
     delay(500);
-    if (IDS == 5) IDS = 4;
+    if (IDS > 4) IDS = 4;
     flag1 = false;
     Serial.println("         flag ");
   }
@@ -62,38 +73,55 @@ void sendData() {
 }
 
 void recvData() {
-  Serial.println("Start recvData function");
   if (e32ttl2.available() > 1) {
-  Serial.println("Start receive");
     ResponseStructContainer rsc = e32ttl2.receiveMessage(sizeof(Message1));
+    // delay(100);
     struct Message1 mge = *(Message1*)rsc.data;
-    ;
-    ID = (int)mge.ID;
-    Data1_R[ID] = (int)mge.Data1;
-    Data2_R[ID] = (int)mge.Data2;
-    Data3_R[ID] = (int)mge.Data3;
-    Data4_R[ID] = (int)mge.Data4;
+    // ID = (int)mge.ID;
+    // Data1_R[ID] = (int)mge.Data1;
+    // Data2_R[ID] = (int)mge.Data2;
+    // Data3_R[ID] = (int)mge.Data3;
+    // Data4_R[ID] = (int)mge.Data4;
     Serial.print("                  ID = ");
-    Serial.println(ID);
+    Serial.println(mge.ID);
     Serial.print("                  Data1[");
-    Serial.print(ID);
+    Serial.print(mge.ID);
     Serial.print("] = ");
-    Serial.println(Data1_R[ID]);
+    Serial.println(mge.Data1);
     Serial.print("                  Data2[");
-    Serial.print(ID);
+    Serial.print(mge.ID);
     Serial.print("] = ");
-    Serial.println(Data2_R[ID]);
+    Serial.println(mge.Data2);
     Serial.print("                  Data3[");
-    Serial.print(ID);
+    Serial.print(mge.ID);
     Serial.print("] = ");
-    Serial.println(Data3_R[ID]);
+    Serial.println(mge.Data3);
     Serial.print("                  Data4[");
-    Serial.print(ID);
+    Serial.print(mge.ID);
     Serial.print("] = ");
-    Serial.println(Data4_R[ID]);
+    Serial.println(mge.Data4);
+    Serial.print("                  Data4[");
+    Serial.print(mge.ID);
+    Serial.print("] = ");
+    Serial.println(mge.Data5);
+    Serial.print("                  Data4[");
+    Serial.print(mge.ID);
+    Serial.print("] = ");
+    Serial.println(mge.Data6);
+    if (mge.ID == 4) {
+      node3.temperature = mge.Data1;
+      node3.humidity = mge.Data2;
+      node3.gas = mge.Data3;
+      Serial.println(String(node3.temperature) + "\t" + String(node3.humidity) + "\t" + String(node3.gas));
+    }
+    if (mge.ID == 5) {
+      node2Recv.waterLevel = mge.Data1;
+      node2Recv.error = mge.Data2;
+      node2Recv.Output = mge.Data3;
+      Serial.println(String(node2Recv.waterLevel) + "\t" + String(node2Recv.error) + "\t" + String(node2Recv.Output));
+    }
     flag1 = true;
   }
-  Serial.println("End");
 }
 void printParameters(struct Configuration configuration) {
   Serial.println("----------------------------------------");
@@ -167,4 +195,12 @@ void printModuleInformation(struct ModuleInformation moduleInformation) {
   Serial.println(moduleInformation.features, HEX);
   // Serial.print(F("MODE        : "));Serial.println(e32ttl.getMode());
   Serial.println("----------------------------------------");
+}
+void assignData() {
+  if (ID == 4) {
+    node3.temperature = Data1_R[4];
+    node3.humidity = Data2_R[4];
+    node3.gas = Data3_R[4];
+    Serial.println(String(node3.temperature) + "\t" + String(node3.humidity) + "\t" + String(node3.gas));
+  }
 }

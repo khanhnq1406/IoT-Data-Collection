@@ -47,7 +47,7 @@ void getData() {
         node3.minGas = min.toInt();
       }
       if (name.lastIndexOf("WaterLevel")>=0) {
-        Setpoint = max.toDouble();
+        node2MasterSend.setpointSend = max.toInt();
         // Setpoint = 20;
       }
       if (id.toInt() == LIGHT1 || id.toInt() == LIGHT2 || 

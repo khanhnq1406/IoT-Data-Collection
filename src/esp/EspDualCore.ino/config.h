@@ -48,7 +48,7 @@ HTTPClient httpUploadData;
 HTTPClient httpUpdateLightStatus;
 // Time delay
 unsigned long previousMillis = 0;     // variable to store the previous time
-const long interval = 2000;           // interval at which to blink (in milliseconds)
+const long interval = 200;           // interval at which to blink (in milliseconds)
 unsigned long previousMillisLed = 0;  // variable to store the last time the LED was updated
 const long intervalLed = 200;         // interval at which to blink (milliseconds)
 unsigned long previousMillisUpdate = 0;
@@ -93,26 +93,17 @@ struct Node3MasterSend {
 } node3MasterSend;
 struct Node3 node3;
 
+struct Node2MasterSend {
+  int setpointSend;
+  int motorStatus;
+} node2MasterSend;
 
-// struct Node2 {
-
-// };
-// Khai báo các biến liên quan đến cảm biến siêu âm
-const int trigPin = 18;
-const int echoPin = 19;
-
-// Khai báo các biến liên quan đến module điều khiển động cơ L298N
-const int enA = 21;
-const int in1 = 22;
-const int in2 = 23;
-
-// Khai báo các biến PID
-double Setpoint=0, Input=0, Output=0;
-double Kp = 20, Ki = 0, Kd = 0.1;
-PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, REVERSE);
-long duration, distance, waterLevel;
-double error;
-
+struct Node2Recv {
+  int waterLevel;
+  int error;
+  int Output;
+} node2Recv;
+// int Setpoint;
 // LoRa configure
 #include "LoRa_E32.h"
 #define RXD1 32
@@ -133,7 +124,9 @@ struct Message1 {
     int Data1;
     int Data2;
     int Data3;
-    int Data4;                 
+    int Data4;
+    int Data5;                 
+    int Data6;                 
 };
 int ID = 2;
 int Data1_R[TotalID];
@@ -142,10 +135,9 @@ int Data3_R[TotalID];
 int Data4_R[TotalID];
 
 int temp =0;
-int Data1_S[TotalID];
-int Data2_S[TotalID];
-int Data3_S[TotalID];
-int Data4_S[TotalID];
 bool flag1 = false;
 int IDS=4;// a variable adrress
 int run =0;
+
+const long period = 750;
+unsigned long time_;

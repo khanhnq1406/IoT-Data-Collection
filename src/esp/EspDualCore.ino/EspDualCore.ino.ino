@@ -34,27 +34,10 @@ void setup() {
   httpUploadData.begin(apiUploadData.c_str());
   httpUpdateLightStatus.begin(apiUpdateLightStatus.c_str());
   // Config LED on board
-  pinMode(LED_BUILTIN, OUTPUT);  // set the LED pin mode
-
-
-  // Config Node 2 pin
-  // Thiết lập chế độ OUTPUT cho các chân kết nối module L298N
-  pinMode(enA, OUTPUT);
-  pinMode(in1, OUTPUT);
-  pinMode(in2, OUTPUT);
-
-  // Thiết lập chế độ INPUT/OUTPUT cho các chân kết nối cảm biến siêu âm
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-
-  // Đặt mức nước mục tiêu
-  Setpoint = 20;  // Ví dụ: đặt mức nước ở độ cao 25cm
+  // pinMode(LED_BUILTIN, OUTPUT);  // set the LED pin mode
 
   setupLora();
-  // Thiết lập các tham số PID
-  myPID.SetMode(AUTOMATIC);
-  myPID.SetSampleTime(1);
-  myPID.SetOutputLimits(0, 255);  // Giới hạn tốc độ động cơ từ -255 đến 255
+
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
     Task1code, /* Task function. */
@@ -100,8 +83,8 @@ void Task2code(void* pvParameters) {
       node3Handle();
       getData();
       // updateLightStatus();
-      previousMillisUpdate = currentMillis;
       // node2Handle();
+      previousMillisUpdate = currentMillis;
     }
   }
 }

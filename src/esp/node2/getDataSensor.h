@@ -34,21 +34,25 @@ void getDataSensor() {
   // Đưa giá trị lỗi vào PID để tính toán đầu ra
   Input = distance;
   myPID.Compute();
+  String buzzerMotor = "";
   if (node2Recv.motorStatus == 1) {
     // Điều khiển tốc độ động cơ bơm nước theo giá trị đầu ra của PID
     if (Output > 100) {
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH);
       analogWrite(enA, abs(Output));
+      buzzerMotor = "Motor ON";
     } else {
       digitalWrite(in1, LOW);
       digitalWrite(in2, LOW);
       analogWrite(enA, 0);
+      buzzerMotor = "Motor ON";
     }
   } else {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);
     analogWrite(enA, 0);
+    buzzerMotor = "Motor OFF";
   }
   // Serial.println("---------------------");
   //   Serial.print("Setpoint: ");
@@ -62,11 +66,12 @@ void getDataSensor() {
   //   Serial.print("error: ");
   //   Serial.println(error);
   //   Serial.println("---------------------");
+
         Mgs_d = String("WL: ") + String (waterLevel) + "\n" + 
                 String("ERR: ") + String (error) + "\n" + 
-                String("PWM: ") + String (Output) + "\n" + 
+                buzzerMotor + "\n" + 
                 String("SP: ") + String (Setpoint) + "\n";
-    //         + "\n" + String(node3Recv.maxTemperature);
+    display.clearDisplay();
     display.setTextSize(2); // Draw 2X-scale text
     display.setTextColor(WHITE,BLACK);
     display.setCursor(0, 0);

@@ -49,7 +49,7 @@ void setupLora() {
 void sendData() {
   if ((unsigned long)(millis() - time_) > period) {
     ResponseStatus rs;
-    // Serial.println(IDS);
+    Serial.println(String("ID: ") + String(IDS));
     switch (IDS) {
       case 4:
         // Serial.println("Send to node 3");
@@ -65,7 +65,8 @@ void sendData() {
   if (flag1 == true) {
     IDS++;
     delay(500);
-    if (IDS > 4) IDS = 4;
+    // Serial.println(String("ID: ") + String(IDS));
+    if (IDS > 5) IDS = 4;
     flag1 = false;
     Serial.println("         flag ");
   }

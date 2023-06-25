@@ -111,7 +111,7 @@ void setup() {
   // Clear the buffer
   display.clearDisplay();
 
-  Mgs_d = String(Data1) + "\n" +String(Data2) + "\n" + String(Data3)+ "\n" + String(Data4);
+  Mgs_d = "Welcome to Node 3";
   display.setTextSize(2); // Draw 2X-scale text
   display.setTextColor(WHITE,BLACK);
   display.setCursor(0, 0);

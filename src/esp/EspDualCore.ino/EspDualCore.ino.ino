@@ -9,6 +9,7 @@ TaskHandle_t Task2;
 #include "syncTask.h"
 #include "node3Handle.h"
 #include "node2Handle.h"
+#include "node1Handle.h"
 #include "loraHandle.h"
 void setup() {
   Serial.begin(115200);
@@ -77,15 +78,16 @@ void Task2code(void* pvParameters) {
     TIMERG0.wdt_wprotect = 0;
     unsigned long currentMillis = millis();
 
-    if (currentMillis - previousMillisUpdate >= intervalUpdate) {
+    // if (currentMillis - previousMillisUpdate >= intervalUpdate) {
       updateData();
       // syncTask();
-      node2Handle();
-      node3Handle();
+      // node2Handle();
+      // node3Handle();
+      node1Handle();
       getData();
       // updateLightStatus();
-      previousMillisUpdate = currentMillis;
-    }
+    //   previousMillisUpdate = currentMillis;
+    // }
   }
 }
 

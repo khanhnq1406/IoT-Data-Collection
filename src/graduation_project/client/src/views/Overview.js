@@ -47,6 +47,7 @@ const Overview = () => {
       // await sleep(1000);
       const dataBE = axios.get(`${apiUrl}/test/getData`);
       dataBE.then((dataThen) => {
+        console.log(dataThen.data);
         let hasAlarm = false;
         for (let index = 0; index < dataThen.data.length; index++) {
           const element = dataThen.data[index].value;
@@ -233,7 +234,7 @@ const Overview = () => {
                       <Card style={{}} className="mb-2">
                         <Card.Body>
                           <Card.Title style={{ fontSize: "20px" }}>
-                            Off
+                            Total
                           </Card.Title>
                           <Card.Text
                             className="data-value"
@@ -256,7 +257,7 @@ const Overview = () => {
                     >
                       <Card.Body>
                         <Card.Title style={{ fontSize: "20px" }}>
-                          Motor Status
+                          System Status
                         </Card.Title>
                         <Card.Text className="light-status">
                           {lightStatus.Light1.text}

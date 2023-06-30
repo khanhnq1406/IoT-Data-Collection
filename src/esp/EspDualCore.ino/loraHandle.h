@@ -52,21 +52,25 @@ void sendData() {
     Serial.println(String("ID: ") + String(IDS));
     switch (IDS) {
       case 4:
-        // Serial.println("Send to node 3");
-        rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node3MasterSend, sizeof(Node3MasterSend));
+        Serial.println("Send to node 1");
+        rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node1MasterSend, sizeof(Node1MasterSend));
         break;
       case 5:
-        // Serial.println("Send to node 2");
+        Serial.println("Send to node 2");
         rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node2MasterSend, sizeof(Node2MasterSend));
+        break;
+      case 6:
+        Serial.println("Send to node 3");
+        rs = e32ttl1.sendFixedMessage(0, IDS, 4, &node3MasterSend, sizeof(Node3MasterSend));
         break;
     }
     time_ = millis();
   }
   if (flag1 == true) {
     IDS++;
-    delay(500);
+    // delay(500);
     // Serial.println(String("ID: ") + String(IDS));
-    if (IDS > 5) IDS = 4;
+    if (IDS > 4) IDS = 4;
     flag1 = false;
     Serial.println("         flag ");
   }
@@ -101,25 +105,34 @@ void recvData() {
     Serial.print(mge.ID);
     Serial.print("] = ");
     Serial.println(mge.Data4);
-    Serial.print("                  Data4[");
+    Serial.print("                  Data5[");
     Serial.print(mge.ID);
     Serial.print("] = ");
     Serial.println(mge.Data5);
-    Serial.print("                  Data4[");
+    Serial.print("                  Data6[");
     Serial.print(mge.ID);
     Serial.print("] = ");
     Serial.println(mge.Data6);
-    if (mge.ID == 4) {
+    if (mge.ID == 6) {
       node3.temperature = mge.Data1;
       node3.humidity = mge.Data2;
       node3.gas = mge.Data3;
       Serial.println(String(node3.temperature) + "\t" + String(node3.humidity) + "\t" + String(node3.gas));
     }
     if (mge.ID == 5) {
-      node2Recv.waterLevel = mge.Data1;
-      node2Recv.error = mge.Data2;
-      node2Recv.Output = mge.Data3;
+      node2Recv.waterLevel = (int)mge.Data1;
+      node2Recv.error = (int)mge.Data2;
+      node2Recv.Output = (int)mge.Data3;
       Serial.println(String(node2Recv.waterLevel) + "\t" + String(node2Recv.error) + "\t" + String(node2Recv.Output));
+    }
+    if (mge.ID == 4) {
+      node1Recv.product1 = mge.Data1;
+      node1Recv.product2 = mge.Data2;
+      node1Recv.product3 = mge.Data3;
+      node1Recv.faultyProduct = mge.Data4;
+      node1Recv.hourWorking = mge.Data5;
+      node1Recv.offHour = mge.Data6;
+      Serial.println(String(node1Recv.product1) + "\t" + String(node1Recv.product2) + "\t" + String(node1Recv.product3) + String("\n") + String("node 1"));
     }
     flag1 = true;
   }

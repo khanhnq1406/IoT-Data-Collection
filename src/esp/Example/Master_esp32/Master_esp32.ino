@@ -70,7 +70,7 @@ float Data2_S[TotalID];
 float Data3_S[TotalID];
 float Data4_S[TotalID];
 bool flag1 = false;
-int IDS=2;// a variable adrress
+int IDS=5;// a variable adrress
 int run =0;
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -163,7 +163,7 @@ void loop()
      {
        IDS++;
        delay(500);
-       if(IDS == 6) IDS = 2;
+       if(IDS > 5) IDS = 5;
        flag1 = false;
         Serial.println("         flag ");
 

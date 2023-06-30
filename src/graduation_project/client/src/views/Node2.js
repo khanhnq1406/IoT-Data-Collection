@@ -46,8 +46,7 @@ const Node2 = () => {
   } = testForm;
   useEffect(() => {
     async function makeRequest() {
-      await sleep(2000);
-
+      // await sleep(2000);
       // Get number data
       const dataBE = axios.get(`${apiUrl}/test/getData`);
       dataBE.then((dataThen) => {
@@ -389,7 +388,9 @@ const Node2 = () => {
 
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
-                    <Card.Title style={{ fontSize: "20px" }}>Light</Card.Title>
+                    <Card.Title style={{ fontSize: "20px" }}>
+                      Motor Status
+                    </Card.Title>
                     <Card.Text className="light-status">
                       {lightStatus.text}
                       <img
@@ -529,7 +530,7 @@ const Node2 = () => {
                     <Card>
                       <Card.Body>
                         <Card.Title className="card-header-text">
-                          Button
+                          Motor
                         </Card.Title>
                         <Row>
                           <Col style={{ textAlign: "center" }}>
@@ -656,7 +657,7 @@ const Node2 = () => {
                     <Card>
                       <Card.Body>
                         <Card.Title className="card-header-text">
-                          Button
+                          Motor
                         </Card.Title>
                         <Row>
                           <Col style={{ textAlign: "center" }}>

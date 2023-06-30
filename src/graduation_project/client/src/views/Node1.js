@@ -102,7 +102,7 @@ const Node1 = () => {
           data2: dataThen.data[1].value,
           data3: dataThen.data[2].value,
           data13: dataThen.data[12].value,
-          data14: dataThen.data[13].value,
+          data14: Math.round((dataThen.data[13].value / 3600) * 10) / 10,
           data15: dataThen.data[14].value,
           setAlarm: hasAlarm,
           setAlarm1: hasAlarmArr[0],
@@ -208,7 +208,7 @@ const Node1 = () => {
       chart = new Chart(ctx, {
         type: "pie",
         data: {
-          labels: ["Product 1", "Product 2", "Product 3", "Faulty Product"], // array of x-axis labels
+          labels: ["Faulty Product", "Product 3", "Product 2", "Product 1"], // array of x-axis labels
           datasets: [
             {
               label: "Time",
@@ -244,10 +244,10 @@ const Node1 = () => {
     if (data.length === 4) {
       console.log(data);
       chart.data.labels = [
-        "Product 1",
-        "Product 2",
-        "Product 3",
         "Faulty Product",
+        "Product 3",
+        "Product 2",
+        "Product 1",
       ];
       chart.data.datasets[0].label = data[0].time;
       for (let index = 0; index < data.length; index++) {
@@ -461,7 +461,7 @@ const Node1 = () => {
                     <Card style={{}} className="mb-2">
                       <Card.Body>
                         <Card.Title style={{ fontSize: "20px" }}>
-                          Off
+                          Total
                         </Card.Title>
 
                         <Card.Text
@@ -481,7 +481,7 @@ const Node1 = () => {
                   >
                     <Card.Body>
                       <Card.Title style={{ fontSize: "20px" }}>
-                        Motor Status
+                        System Status
                       </Card.Title>
                       <Card.Text className="light-status">
                         {lightStatus.text}
@@ -520,7 +520,7 @@ const Node1 = () => {
                 </Form.Select> */}
                 Product Proportion
               </Card.Header>
-              <Card.Body style={{ height: "550px" }}>
+              <Card.Body style={{ height: "565px" }}>
                 <div style={{ margin: "5px" }}>
                   <canvas id="myChart" width="40" height="500px"></canvas>
                 </div>
@@ -632,7 +632,9 @@ const Node1 = () => {
                           <Col className="col-2"></Col>
                           <Col style={{ textAlign: "center" }}>Faulty</Col>
                           <Col style={{ textAlign: "center" }}>Running</Col>
-                          <Col style={{ textAlign: "center" }}>Off Hour</Col>
+                          <Col style={{ textAlign: "center" }}>
+                            Total Product
+                          </Col>
                         </Row>
                         <Form onSubmit={setAlarmValueNode1}>
                           <Row>
@@ -707,7 +709,7 @@ const Node1 = () => {
                           Motor
                         </Card.Title>
                         <Row>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-start"
                               onClick={startClick}
@@ -715,7 +717,7 @@ const Node1 = () => {
                               Start
                             </Button>
                           </Col>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-stop"
                               onClick={stopClick}
@@ -723,14 +725,14 @@ const Node1 = () => {
                               Stop
                             </Button>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Button
                               className="control-button btn-reset"
                               onClick={resetClick}
                             >
                               Reset
                             </Button>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
                     </Card>
@@ -836,7 +838,9 @@ const Node1 = () => {
                           <Col className="col-2"></Col>
                           <Col style={{ textAlign: "center" }}>Faulty</Col>
                           <Col style={{ textAlign: "center" }}>Running</Col>
-                          <Col style={{ textAlign: "center" }}>Off Hour</Col>
+                          <Col style={{ textAlign: "center" }}>
+                            Total Product
+                          </Col>
                         </Row>
                         <Form onSubmit={setAlarmValueNode1}>
                           <Row>
@@ -917,7 +921,7 @@ const Node1 = () => {
                           Motor
                         </Card.Title>
                         <Row>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-start"
                               onClick={startClick}
@@ -926,7 +930,7 @@ const Node1 = () => {
                               Start
                             </Button>
                           </Col>
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Button
                               className="control-button btn-stop"
                               onClick={stopClick}
@@ -935,7 +939,7 @@ const Node1 = () => {
                               Stop
                             </Button>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Button
                               className="control-button btn-reset"
                               onClick={resetClick}
@@ -943,7 +947,7 @@ const Node1 = () => {
                             >
                               Reset
                             </Button>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
                     </Card>

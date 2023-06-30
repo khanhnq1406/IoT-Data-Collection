@@ -402,7 +402,7 @@ const Node3 = () => {
                 <Card style={{ width: "17rem" }} className="mb-2">
                   <Card.Body>
                     <Card.Title style={{ fontSize: "20px" }}>
-                      Light 3
+                      Motor Status
                     </Card.Title>
                     <Card.Text className="light-status">
                       {lightStatus.text}

@@ -30,10 +30,13 @@ struct WifiConfig {
   //
   const char* AnSsid = "TOTOLINK_A720R";
   const char* AnPassword = "";
+
+  const char* AnSsid1 = "iphone55";
+  const char* AnPassword1 = "123789456";
 };
 struct WifiConfig wifiConfig;
-const char* ssid = wifiConfig.AnSsid;
-const char* password = wifiConfig.AnPassword;
+const char* ssid = wifiConfig.AnSsid1;
+const char* password = wifiConfig.AnPassword1;
 
 // URL
 String backendURL = "https://data-collection-system-backend.onrender.com";
@@ -141,3 +144,16 @@ int run =0;
 
 const long period = 750;
 unsigned long time_;
+
+struct Node1Recv {
+  int product1;
+  int product2;
+  int product3;
+  int faultyProduct;
+  int hourWorking;
+  int offHour;
+} node1Recv;
+
+struct Node1MasterSend {
+  int motorStatus = 0;
+} node1MasterSend;

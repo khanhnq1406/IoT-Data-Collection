@@ -12,9 +12,8 @@ void loraHandle() {
   }
   else
   {
-      ResponseStatus rs = e32ttl.sendFixedMessage(MASTERADDH, MASTERADDL, MASTERCH,&messageSend, sizeof(Message));
+      ResponseStatus rs = e32ttl.sendFixedMessage(0, 2, 2,&messageSend, sizeof(Message));
       delay(900);
-      
       if(rs.getResponseDescription() == "Success")
       {
         ID = 0;

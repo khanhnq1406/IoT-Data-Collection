@@ -5,7 +5,7 @@ int count = 0;
 void loraHandle() {
   if(ID  == 0)
   {
-    Serial.println(String("e32ttl: ") + String(e32ttl.available()));
+    // Serial.println(String("e32ttl: ") + String(e32ttl.available()));
     if (e32ttl.available()  > 1){
     readData();
     ID = 1;
@@ -13,7 +13,7 @@ void loraHandle() {
   }
   else
   {
-      ResponseStatus rs = e32ttl.sendFixedMessage(MASTERADDH, MASTERADDL, MASTERCH,&messageSend, sizeof(Message));
+      ResponseStatus rs = e32ttl.sendFixedMessage(0, 2, 2,&messageSend, sizeof(Message));
       delay(900);
       
       if(rs.getResponseDescription() == "Success")

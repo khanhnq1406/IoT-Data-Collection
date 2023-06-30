@@ -95,6 +95,7 @@ class DatabaseController {
       .from("data_history")
       .select()
       .in("data_id", [1, 2, 3, 13])
+      .order("id", { ascending: false })
       .limit(4);
     console.log(data_history);
     res.json(data_history);

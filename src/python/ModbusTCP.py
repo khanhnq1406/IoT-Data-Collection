@@ -1,21 +1,22 @@
 # from pyModbusTCP.client import ModbusClient
+# import serial
+# import time
+# port = serial.Serial(port = 'COM5', baudrate = 9600, timeout=.1)
 
 # client = ModbusClient('192.168.3.10')
 
 # print(client.open())
+# regs = client.read_holding_registers(2,1)
 
-# # regs = client.read_coils(0,10)
-# # regs = client.write_single_coil(0,1)
-# regs = client.read_holding_registers(1,10)
-# print(regs)
-# client.write_single_register(0,2)
-# # regs = client.read_holding_registers(100,1)
-# # print(regs)
+# cmd = "product1 " + str(regs[0])
+# res = port.write(cmd.encode())
 # client.close()
 
 from pymodbus.client.sync import ModbusTcpClient
-
+from time import sleep
 client = ModbusTcpClient('192.168.3.10')
 print(client.connect())
-stt = client.read_coils(0,0)
+stt = client.write_register(0,1)
+# stt = client.read(2,1)
+client.close()
 print(stt)

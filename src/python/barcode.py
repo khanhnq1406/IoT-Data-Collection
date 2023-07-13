@@ -4,7 +4,7 @@ import cv2
 from pyzbar import pyzbar
 camera = cv2.VideoCapture(0)
 from pyModbusTCP.client import ModbusClient
-
+from time import sleep
 client = ModbusClient('192.168.3.10')
 print(client.open())
 # client.write_single_register(100,0)
@@ -21,19 +21,23 @@ while True:
         x,y,w,h = barcode.rect
         barcode_text=barcode.data.decode('utf-8')
         print (barcode_text)
-        print (barcode.type)
+        # print (barcode.type)
         if barcode_text == "8931101199916":
-            print("Xylanh 1")
-            client.write_single_register(0,1)
+            result = client.write_single_register(0,1)
+            print(result)
+            print("code 1")
         elif barcode_text == "8931101199923":
-            print("Xylanh 2")
-            client.write_single_register(0,2)
+            result =client.write_single_register(0,2)
+            print(result)
+            print("code 2")
         elif barcode_text == "8931101199947":
-            print("Xylanh 3")
-            client.write_single_register(0,3)
+            result =client.write_single_register(0,3)
+            print(result)
+            print("code 3")
         else:
-            print("Error")
-            client.write_single_register(0,4)
+            result =client.write_single_register(0,4)
+            print(result)
+            print("error")
         cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
     cv2.imshow('Barcode reader',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'): 

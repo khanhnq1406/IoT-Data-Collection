@@ -121,10 +121,10 @@ void Task2code(void* pvParameters) {
     TIMERG0.wdt_wprotect = 0;
     unsigned long currentMillis = millis();
 
-    // if (currentMillis - previousMillis >= interval) {
+    if (currentMillis - previousMillis >= 300) {
       loopModbus();
-    //   previousMillis = currentMillis;
-    // }
+      previousMillis = currentMillis;
+    }
   }
 }
 void loop() {

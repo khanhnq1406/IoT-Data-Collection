@@ -134,7 +134,7 @@ const Overview = () => {
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
-                  Node 1
+                  Node 1<br></br>Barcode Classification
                 </Card.Header>
                 <Card.Body>
                   <Row>
@@ -226,7 +226,8 @@ const Overview = () => {
                               testForm.Running.max
                             )}
                           >
-                            {testForm.Running.value}
+                            {Math.round((testForm.Running.value / 3600) * 10) /
+                              10}
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -281,7 +282,7 @@ const Overview = () => {
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
-                  Node 2
+                  Node 2<br></br>Water Tank
                 </Card.Header>
                 <Card.Body>
                   <Card style={{ width: "18rem" }} className="mb-2">
@@ -360,7 +361,7 @@ const Overview = () => {
                 className="alight-center"
               >
                 <Card.Header as="h5" className="card-header-text" href="/node1">
-                  Node 3
+                  Node 3<br></br>Automatic Fire Alarm
                 </Card.Header>
                 <Card.Body>
                   <Card style={{ width: "18rem" }} className="mb-2">

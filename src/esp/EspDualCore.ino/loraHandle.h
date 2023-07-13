@@ -70,7 +70,7 @@ void sendData() {
     IDS++;
     // delay(500);
     // Serial.println(String("ID: ") + String(IDS));
-    if (IDS > 4) IDS = 4;
+    if (IDS > 6) IDS = 5;
     flag1 = false;
     Serial.println("         flag ");
   }

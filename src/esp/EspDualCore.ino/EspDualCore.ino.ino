@@ -81,9 +81,9 @@ void Task2code(void* pvParameters) {
     // if (currentMillis - previousMillisUpdate >= intervalUpdate) {
       updateData();
       // syncTask();
-      // node2Handle();
-      // node3Handle();
-      node1Handle();
+      node2Handle();
+      node3Handle();
+      // node1Handle();
       getData();
       // updateLightStatus();
     //   previousMillisUpdate = currentMillis;

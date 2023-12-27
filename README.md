@@ -65,3 +65,16 @@ This is an IoT Data Collection project
 
 1. Remove return() in create chart step
 2. Change `apiUrl` and `homeUrl` in constant.js
+
+## Demo
+<img src="demo_images/Version 2/6-page.png"/>
+
+<img src="demo_images/Version 2/alarm.png"/>
+
+<img src="demo_images/Version 2/filter.png"/>
+
+<img src="demo_images/Version 2/noded3_result.png"/>
+
+<img src="demo_images/Version 2/role.png"/>
+
+<img src="demo_images/Version 2/table.png"/>

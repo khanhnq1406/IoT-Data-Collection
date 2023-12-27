@@ -39,11 +39,17 @@ void getDataSensor() {
   // node2Recv.motorStatus = 1;
   if (node2Recv.motorStatus == 1) {
     // Điều khiển tốc độ động cơ bơm nước theo giá trị đầu ra của PID
+    if (error > 1) {
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH);
       analogWrite(enA, abs(Output));
       buzzerMotor = "Motor ON";
       // Serial.println("Motor ON");
+    } else {
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, LOW);
+      analogWrite(enA, 0);
+    }
   } else {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);

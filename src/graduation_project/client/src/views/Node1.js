@@ -53,7 +53,7 @@ const Node1 = () => {
   } = testForm;
   useEffect(() => {
     async function makeRequest() {
-      await sleep(2000);
+      // await sleep(2000);
 
       // Get number data
       const dataBE = axios.get(`${apiUrl}/test/getData`);
